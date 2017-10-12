@@ -1,0 +1,21 @@
+Written by: Arvis Peralta
+
+* As a competitor, I want to be notified about competitions in my area, so that I can attend or register to competitions in time.
+
+* As a Rubik's cube fanatic, I want to be able to easily purchase a ticket, so that I can attend events with ease.
+
+* As a competition organizer I want to be able to block users, so that these users aren't able to compete or attend my event.
+
+* As a competition organizer, I want to be able to add collaborators to my event, so that they can also send out reminders and notifications regarding the event.
+
+* As an admin, I want to be able to ban the users from using the system, so that I can remove anyone abusing our system or breaking our terms of use.
+
+* As a user, I want to be able to donate money to any event, so that I can support the community of Rubik's enthusiasts.
+
+* As a volunteer, I want to be able to easily register for a competition, so that I can easily be assigned a role to help competition organizers.
+
+* As a competition organizer, I want to be able to easily assign roles to volunteers, so that I can pick and choose who I want helping me with my competition.
+
+* As a vendor, I want to receive exposure in the competition's location and website, so that I can make a profit from these competitions.
+
+* As an admin, I want to be able to review competition organizer applications, so that I can determine how fit an organizer is, and regulate who can profit from the site.

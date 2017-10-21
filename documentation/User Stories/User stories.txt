@@ -1,4 +1,4 @@
-Written by: Arvis Peralta
+Arvis Peralta
 
 * As a competitor, I want to be notified about competitions in my area, so that I can attend or register to competitions in time.
 
@@ -19,3 +19,85 @@ Written by: Arvis Peralta
 * As a vendor, I want to receive exposure in the competition's location and website, so that I can make a profit from these competitions.
 
 * As an admin, I want to be able to review competition organizer applications, so that I can determine how fit an organizer is, and regulate who can profit from the site.
+
+-----------------------------------------------------------------------------------------------
+
+Lenny Gonzalez
+
+1. As a regional delegate of the World Cube Association (WCA) I want to be able to see a
+schedule of approved competitions in my region so that there are no overlaps in
+competitions.
+
+2. As a Rubik’s cube fanatic I want to apply to become a delegate for the WCA Candidate
+Delegate so I can supervise competitions in my region.
+  a. Context there are 3 types of delegates
+    i. WCA Senior Delegate is responsible for managing the Delegates in their
+       area and can also be contacted by the community for regional matters.
+    ii. WCA Delegates are members of the WCA who are responsible for making
+        sure that all WCA competitions are run according to the mission,
+        regulations and spirit of the WCA.
+    iii. New Delegates are at first listed as WCA Candidate Delegates and need to
+         show that they are capable of managing competitions successfully before
+         being listed as WCA Delegates.
+3. As a competition organizer I want to use the website to contact my Senior Delegate so
+that I know if my competition request has been approved.
+
+4. As a user I want to be able to livestream competitions, so that I can watch possible record
+breaking events.
+
+5. As a user I want to use the website to buy WCA approved rubik cubes so that I can
+practice at home.
+
+6. As a Senior Delegate I want to connect with other Senior delegates around the world so
+that we can organize a worldwide competition.
+
+7. As a user I want to be able to sign into this website using my WCA account so that I
+don’t have to create a new account.
+
+8. As a user I want to be able to see my results from competitions I have attended so that I
+can keep track of my awards and solving time.
+
+9. As an admin, I want to actively search for companies that would be interested in
+sponsoring so that less money is spent for each competition.
+
+10. As a Senior delegate I want to have a list of delegates available in my region and their
+availability so that I can properly assign them to competitions.
+
+
+-----------------------------------------------------------------------------------------------
+
+Aanchal Saini
+
+1. As a competitor, I want to be able to easily check in and pay on time so that I don't miss out on any competitions.
+2. As a competitor, I want to have easy access to all the rules/regulations and requirements of events so that I can participate in the ones for which I am eligible.
+3. As a competitor, I want to be able to contact officials involved in competitions so that I can easily let them know if I am unable to attend/participate.
+4. As a competition organizer, I want to have access to all the details about local events, delegates involved, and vendors so that I can easily organize competitions.
+5. As a competition organizer, I want to be able to get in contact with my team so that I can avoid incidents due to miscommunication.
+6. As a volunteer, I want to be able to easily change/switch my assigned role so that I can be a better help to the officials during the competitions.
+7. As a vendor, I want to be able to get in contact with my customers so that I can update them on any changes in services on time.
+8. As a vendor, I want to have access to information about current and future events so that I can help promote and provide marketing expertise.
+9. As a WCA delegate, I want to have easy access to the app so that I can provide real-time updates on results and make any necessary changes in ongoing competitions.
+10. As an admin, I want easy access to all the people attending the event so that I can let them know of important decisions in a timely manner.
+
+-----------------------------------------------------------------------------------------------
+
+Edwin Zhou
+
+1. As a competitor I want to know when the schedule changes so I don't miss any events.
+2. As an organizer I want to see which competitors are eligible for volunteering so I can acquire
+more volunteers.
+3. As an organizer I want to notify competitors of schedule changes so they show up in a timely
+manner.
+4. As an admin I want to block regular users from organizational tools so I can prevent
+unauthorized changes in competitions.
+5. As a spectator I want to watch the fastest competitors perform so I can stay updated with any
+record breaking times.
+6. As a competitor I want to communicate with organizers so I can notify them of any issues.
+7. As an organizer I want to notify competitors that my event is available for registration so I can
+advertise my competition.
+8. As a competitor I want to know when nearby competitions occur so I don't miss the
+registration period.
+9. As a competitor I want to know what puzzles are for sale at the event so I can test and
+purchase these puzzles.
+10. As a competitor I want to be able to be able to notify everyone of a lost item so I can find it
+more easily.

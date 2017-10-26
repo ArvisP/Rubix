@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from models import db, User, Places
-from forms import SignupForm, LoginForm, AddressForm
+from models import db, User#, Places
+from forms import SignupForm, LoginForm#, AddressForm
 
 app = Flask(__name__)
 
@@ -17,13 +17,17 @@ def index():
 def about():
   return render_template("about.html")
 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-  if 'email'in session:
+
+  # Disable access to login page if user is already logged in.
+  if 'email' in session:
     return redirect(url_for('home'))
 
   form = SignupForm()
-
+  # Checks if form fields are filled
+  # if it is, create a new user with provided credentials
   if request.method == 'POST':
     if form.validate() == False:
       return render_template('signup.html', form=form)
@@ -42,37 +46,43 @@ def signup():
 def home():
   if 'email' not in session:
     return redirect(url_for('login'))
+#vvvvvvvvIGNORE THIS(even better delete it)vvvvvvvvvv#
+  # form = AddressForm()
 
-  form = AddressForm()
+  # if request.method == 'POST':
+  #   if form.validate() == False:
+  #     return render_templaye('home.html', form=form)
+  #   else:
+  #     # Retrieve the address
+  #     address = form.address.data
 
-  if request.method == 'POST':
-    if form.validate() == False:
-      return render_templaye('home.html', form=form)
-    else:
-      # Retrieve the address
-      address = form.address.data
-
-      # Query for places around it
-      p = Place()
-      my_coordinates = p.address_to_latlng(address)
-      places = p.query(address)
+  #     # Query for places around it
+  #     p = Place()
+  #     my_coordinates = p.address_to_latlng(address)
+  #     places = p.query(address)
       
-      # Return those results
+  #     # Return those results
 
-  elif request.method == 'GET':
-    return render_template('home.html', form=form)
+  # elif request.method == 'GET':
+  #   return render_template('home.html', form=form)
+#^^^^^^^^^IGNORE THIS(even better delete it)^^^^^^^^^^#
 
-  return render_template('home.html', form=form)
+  return render_template('home.html')
 
+# Route to the Login Page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+  # Disable access to login page if user is already logged in.
   if 'email'in session:
     return redirect(url_for('home'))
 
 
   form = LoginForm()
 
+
   if request.method == 'POST':
+    # Checks if form fields are filled
     if form.validate() == False:
       return render_template('login.html', form=form)
     else:
@@ -80,8 +90,11 @@ def login():
       password = form.password.data
 
       user = User.query.filter_by(email=email).first()
+
+      # If user exists and password is correct
+      # Create new session
       if user is not None and user.check_password(password):
-        session['email'] = form.email.data
+        session['email'] = form.email.data 
         return redirect(url_for('home'))
       else:
         return redirect(url_for('login'))

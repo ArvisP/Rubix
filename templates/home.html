@@ -5,22 +5,7 @@
     <div class="container">
       <h1>Home</h1>
 
-      <form action="/home" method="POST">
-        {{ form.hidden_tag() }}
 
-        <div class="form-group">
-          {% if form.address.errors %}
-            {% for error in form.address.errors %}
-              <p class="error-message">{{ error }}</p>
-            {% endfor %}
-          {% endif %}
-
-          {{ form.address(placeholder="Find a competition near you!") }}
-        </div>
-        {{ form.submit(class="btn btn-primary") }}
-
-        </div>
-      </form>
     </div>
   </main>
 

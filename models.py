@@ -1,6 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug import generate_password_hash, check_password_hash
 
+import geocoder
+import urllib2
+import json
+
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -22,3 +26,23 @@ class User(db.Model):
 
   def check_password(self, password):
     return check_password_hash(self.pwdhash, password)
+
+  class Place(object):
+    def query(self, address):
+      lat, lng = self.address_to_latlng(address)
+      print lat, lng
+
+      query_url = ''
+      g = urllib2.urlopen(query_url)
+      results = g.read()
+      g.close()
+
+      data = json.loads(results)
+      print data
+
+      places = []
+      for place in data['query']['geusearch']:
+        name = place['title']
+        meters = place['dist']
+        lat = place['lat']
+        lng = place['lng']

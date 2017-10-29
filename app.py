@@ -17,6 +17,9 @@ def index():
 def about():
   return render_template("about.html")
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -46,6 +49,8 @@ def signup():
 def home():
   if 'email' not in session:
     return redirect(url_for('login'))
+
+
 #vvvvvvvvIGNORE THIS(even better delete it)vvvvvvvvvv#
   # form = AddressForm()
 
@@ -60,7 +65,7 @@ def home():
   #     p = Place()
   #     my_coordinates = p.address_to_latlng(address)
   #     places = p.query(address)
-      
+
   #     # Return those results
 
   # elif request.method == 'GET':
@@ -94,7 +99,7 @@ def login():
       # If user exists and password is correct
       # Create new session
       if user is not None and user.check_password(password):
-        session['email'] = form.email.data 
+        session['email'] = form.email.data
         return redirect(url_for('home'))
       else:
         return redirect(url_for('login'))

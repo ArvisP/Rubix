@@ -49,29 +49,6 @@ def signup():
 def home():
   if 'email' not in session:
     return redirect(url_for('login'))
-
-
-#vvvvvvvvIGNORE THIS(even better delete it)vvvvvvvvvv#
-  # form = AddressForm()
-
-  # if request.method == 'POST':
-  #   if form.validate() == False:
-  #     return render_templaye('home.html', form=form)
-  #   else:
-  #     # Retrieve the address
-  #     address = form.address.data
-
-  #     # Query for places around it
-  #     p = Place()
-  #     my_coordinates = p.address_to_latlng(address)
-  #     places = p.query(address)
-
-  #     # Return those results
-
-  # elif request.method == 'GET':
-  #   return render_template('home.html', form=form)
-#^^^^^^^^^IGNORE THIS(even better delete it)^^^^^^^^^^#
-
   return render_template('home.html')
 
 # Route to the Login Page

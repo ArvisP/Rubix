@@ -1,8 +1,5 @@
 $(document).ready(function () {
 
-  /*--usable place start--*/
-
-
     $(".switchButtonOuter").bind("click", function () {
         $(this).parents(".loginOrSignupField").toggleClass("signup_ON");
 
@@ -57,7 +54,6 @@ $(document).ready(function () {
 
     });
 
-
     $("#submit").bind("mouseover", function () {
         if ($("#email").val() == "") {
             $("#email")
@@ -97,7 +93,6 @@ $(document).ready(function () {
         }
     });
 
-
     setTimeout(function () {
 
         $(".loginOrSignupField").css({
@@ -111,11 +106,6 @@ $(document).ready(function () {
 
     }, 500);
 
-
-  /*--usable place end--*/
-
-
-
     $(".normal,.mode01,.mode02").on("click", function () {
         if ($(this).is(".normal")) {
             $("body").removeClass("mode01_ON mode02_ON");
@@ -125,13 +115,5 @@ $(document).ready(function () {
             $("body").removeClass("mode01_ON").addClass("mode02_ON");
         }
     });
-
-
-
-
-
-
-
-
 
 });

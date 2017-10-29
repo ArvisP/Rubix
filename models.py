@@ -3,7 +3,7 @@ This is where to create new database tables
 '''
 
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # import geocoder
 # import urllib2
@@ -12,43 +12,45 @@ from werkzeug import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 class User(db.Model):
-  __tablename__ = 'users'
-  uid = db.Column(db.Integer, primary_key = True)
-  firstname = db.Column(db.String(100))
-  lastname = db.Column(db.String(100))
-  email = db.Column(db.String(120))
-  pwdhash = db.Column(db.String(54))
+    __tablename__ = 'users'
+    wca_id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(100))
+    last_name = db.Column(db.String(100))
+    dob = db.Column(db.Date)
+    email = db.Column(db.String(120))
+    password_hash = db.Column(db.String(128))
+    address = db.Column(db.String(100))
+    city = db.Column(db.String(30))
+    state = db.Column(db.String(30))
+    zipcode = db.Column(db.String(10))
 
-  def __init__(self, firstname, lastname, email, password):
-    self.firstname = firstname.title()
-    self.lastname = lastname.title()
-    self.email = email.lower()
-    self.set_password(password)
+    @property
+    def password(self):
+        return AttributeError('Password is not a readable attribute')
 
-  def set_password(self, password):
-    self.pwdhash = generate_password_hash(password)
+    @password.setter
+    def password(self, plaintext):
+        self.password_hash = generate_password_hash(plaintext)
 
-  def check_password(self, password):
-    return check_password_hash(self.pwdhash, password)
+    def verify_password(self, plaintext):
+        return check_password_hash(self.password_hash, plaintext)
+
+    def __repr__(self):
+        return '<User {!r}>'.format(self.wca_id)
 
 
+class Competitions(db.Model):
+    __tablename__ = 'competitions'
+    comp_id = db.Column(db.Integer, primary_key=True)
+    wca_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
+    title = db.Column(db.String(50))
+    date = db.Column(db.Date)
+    address = db.Column(db.String(100))
+    city = db.Column(db.String(30))
+    state = db.Column(db.String(30))
+    zipcode = db.Column(db.String(10))
 
-# class Place(object):
-#   def query(self, address):
-#     lat, lng = self.address_to_latlng(address)
-#     print lat, lng
+    organizerRel = db.relationship('User', backref='competitionRel')
 
-#     query_url = ''
-#     g = urllib2.urlopen(query_url)
-#     results = g.read()
-#     g.close()
-
-#     data = json.loads(results)
-#     print data
-
-#     places = []
-#     for place in data['query']['geusearch']:
-#       name = place['title']
-#       meters = place['dist']
-#       lat = place['lat']
-#       lng = place['lng']
+    def __repr__(self):
+        return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)

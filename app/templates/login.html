@@ -8,12 +8,12 @@
       <form action="/login" method="POST">
         {{ form.hidden_tag() }}
 
-        <div class="form-group">
+        <div>
           {{ form.email.label }}
 
           {% if form.email.errors %}
             {% for error in form.email.errors %}
-              <p class="error-message">{{ error }}</p>
+              {{ error }}
             {% endfor %}
           {% endif %}
 
@@ -21,12 +21,12 @@
         </div>
 
 
-        <div class="form-group">
+        <div>
           {{ form.password.label }}
 
           {% if form.password.errors %}
             {% for error in form.password.errors %}
-              <p class="error-message">{{ error }}</p>
+              {{ error }}
             {% endfor %}
           {% endif %}
           

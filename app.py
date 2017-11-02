@@ -21,6 +21,10 @@ def about():
 def profile():
     return render_template('profile.html')
 
+@app.route('/learnmore')
+def learnmore():
+    return render_template('learnmore.html')
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
 

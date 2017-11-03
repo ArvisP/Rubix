@@ -1,9 +1,9 @@
+/* body tag is optional */
+
 body {
     background: url('http://www.solidbackgrounds.com/images/2560x1600/2560x1600-eggshell-solid-color-background.jpg');
-    padding: 50px;
 }
 
-<<<<<<< HEAD:static/css/header.css
 #login-dp {
     min-width: 250px;
     padding: 14px 14px 0;
@@ -63,8 +63,4 @@ body {
         background-color: inherit;
         border-top: 0 none;
     }
-=======
-.flash {
-  
->>>>>>> upstream/master:app/static/css/header.css
 }

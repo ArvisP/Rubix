@@ -1,0 +1,7 @@
+Testing Flask Applications
+
+Flask provides a way to test your application by exposing the Werkzeug test CLIENT
+and handling the context locals for you. You can then use that with your favorite 
+testing solution. 
+
+The flask documentation will use unittest package

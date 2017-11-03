@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title> Rubix </title>
+    <link rel="icon" href="https://i.imgur.com/E1ipJNW.jpg">
     <link rel="stylesheet" href="/static/css/header.css">
     <link rel="stylesheet" href="/static/css/jquery.cube.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
@@ -14,7 +15,7 @@
 <body>
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span>
@@ -22,10 +23,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-                <a class="navbar-brand" href="#"> Rubik's<sup>3</sup>  </a>
+                <a class="navbar-brand" href="{{ url_for('index') }}"> Rubik's<sup>3</sup>  </a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{{ url_for('learnmore') }}"> Learn More </a></li>
@@ -70,7 +70,7 @@
                                                 <div class="help-block text-right"><a href="">Forget the password ?</a></div>
                                             </div>
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                                <button id="signin" type="submit" class="btn btn-primary btn-block">Sign in</button>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
@@ -80,7 +80,7 @@
                                         </form>
                                     </div>
                                     <div class="bottom text-center">
-                                        New here ? <a href="#"><b>Join Us</b></a>
+                                        New here ? <a href="{{ url_for('signup') }}"><b>Join Us</b></a>
                                     </div>
                                 </div>
                             </li>
@@ -88,11 +88,8 @@
                     </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container-fluid -->
     </nav>
-<<<<<<< HEAD:templates/layout.html
 
     <div class="jumbotron">
 
@@ -103,17 +100,13 @@
 
     </div>
 
-=======
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul class=flashes>
         {% for message in messages %}
-          <li>{{ message }}</li>
+        <li>{{ message }}</li>
         {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
->>>>>>> upstream/master:app/templates/layout.html
+    </ul>
+    {% endif %} {% endwith %}
     <!-- RUBIX CUBE ANIMATION
     <div class="logo">
         <div class="cube">.</div>

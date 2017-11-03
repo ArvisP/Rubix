@@ -74,20 +74,18 @@ def signup():
   return render_template('signup.html', form=form)
 
 
-
-
-
-
-
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
 
 
+@app.route('/learnmore')
+def learnmore():
+  return render_template('learnmore.html')
 
 @app.route('/about')
 def about():
-  return "hellowordl!"
+  return render_template('about.html')
 
 
 

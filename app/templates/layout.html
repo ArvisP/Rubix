@@ -18,11 +18,11 @@
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="{{ url_for('index') }}"> Rubik's<sup>3</sup>  </a>
             </div>
 
@@ -59,7 +59,7 @@
                                             <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
                                         </div>
                                         or
-                                        <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                                        <form class="form" role="form" method="POST" action="{{ url_for('login') }}" accept-charset="UTF-8" id="login-nav">
                                             <div class="form-group">
                                                 <label class="sr-only" for="exampleInputEmail2">Email address</label>
                                                 <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
@@ -70,7 +70,7 @@
                                                 <div class="help-block text-right"><a href="">Forget the password ?</a></div>
                                             </div>
                                             <div class="form-group">
-                                                <button id="signin" type="submit" class="btn btn-primary btn-block" onclick="window.location.href='profile.html';">Sign in</button>
+                                                <button id="signin" type="submit" class="btn btn-primary btn-block" onclick="">Sign in</button>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
@@ -92,12 +92,10 @@
     </nav>
 
     <div class="jumbotron">
-
         <div class="">
             <!-- "col-sm-8 mx-auto" -->
             {% block content %} {% endblock %}
         </div>
-
     </div>
 
     {% with messages = get_flashed_messages() %} {% if messages %}

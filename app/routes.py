@@ -7,8 +7,8 @@ from .models import User
 @app.route('/')
 @app.route('/index')
 def index():
-  number = request.args.get('number')
-  return render_template('index.html',number=number)
+  
+  return render_template('index.html')
   
 @lm.user_loader
 def load_user(id):
@@ -16,11 +16,10 @@ def load_user(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
   # Disable access to login page if user is already logged in.
-  if 'email 'in session:
+  if 'email' in session:
     flash("You are already logged in!")
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
   form = LoginForm()
 
@@ -73,7 +72,6 @@ def signup():
 
   return render_template('signup.html', form=form)
 
-
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
@@ -87,7 +85,12 @@ def learnmore():
 def about():
   return render_template('about.html')
 
-
+#@app.errorhandler(404)
+#def page_not_found(e):
+#  return render_template('404.html'), 404
+@app.route('/404')
+def error():
+  return render_template('404.html')
 
 # @app.route('/signup')
 # def signup():

@@ -106,6 +106,10 @@ $(document).ready(function() {
     LoginModalController.initialize();
 });
 
-document.getElementById("signin").onclick = function() {
-    location.href = "profile.html";
-};
+// get a reference to the element
+// var signinbtn = document.getElementById('signin');
+
+// add event listner
+// signinbtn.addEventListener('click', function(event) {
+//    window.location.href = 'profile.html';
+// });

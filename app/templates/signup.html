@@ -1,63 +1,30 @@
-{% extends 'layout.html' %}
-{% block content %}
-  <main class="container signup-section">
+{% extends 'layout.html' %} {% block content %}
+<main class="container signup-section">
     <div class="section-content">
-      <h2>Log in</h2>
+        <h2>Log in</h2>
 
-      <form action="/signup" method="POST">
-        {{ form.hidden_tag() }}
+        <form action="/signup" method="POST">
+            {{ form.hidden_tag() }}
 
-        <div>
-          {{ form.first_name.label }}
+            <div>
+                {{ form.first_name.label }} {% if form.first_name.errors %} {% for error in form.first_name.errors %} {{ error }} {% endfor %} {% endif %} {{ form.first_name }}
+            </div>
 
-          {% if form.first_name.errors %}
-            {% for error in form.first_name.errors %}
-              {{ error }}
-            {% endfor %}
-          {% endif %}
+            <div>
+                {{ form.last_name.label }} {% if form.last_name.errors %} {% for error in form.last_name.errors %} {{ error }} {% endfor %} {% endif %} {{ form.last_name }}
+            </div>
 
-          {{ form.first_name }}
-        </div>
-
-        <div>
-          {{ form.last_name.label }}
-
-          {% if form.last_name.errors %}
-            {% for error in form.last_name.errors %}
-              {{ error }}
-            {% endfor %}
-          {% endif %}
-
-          {{ form.last_name }}
-        </div>
-
-        <div>
-          {{ form.email.label }}
-
-          {% if form.email.errors %}
-            {% for error in form.email.errors %}
-              {{ error }}
-            {% endfor %}
-          {% endif %}
-
-          {{ form.email }}
-        </div>
+            <div>
+                {{ form.email.label }} {% if form.email.errors %} {% for error in form.email.errors %} {{ error }} {% endfor %} {% endif %} {{ form.email }}
+            </div>
 
 
-        <div>
-          {{ form.password.label }}
+            <div>
+                {{ form.password.label }} {% if form.password.errors %} {% for error in form.password.errors %} {{ error }} {% endfor %} {% endif %} {{ form.password }}
+            </div>
 
-          {% if form.password.errors %}
-            {% for error in form.password.errors %}
-              {{ error }}
-            {% endfor %}
-          {% endif %}
-          
-          {{ form.password }}
-        </div>
-
-        {{ form.submit(class="btn btn-primary") }}
-      </form>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
     </div>
-  </main>
+</main>
 {% endblock %}

@@ -2,6 +2,8 @@
 
 body {
     background: url('http://www.solidbackgrounds.com/images/2560x1600/2560x1600-eggshell-solid-color-background.jpg');
+    margin: 0;
+    padding: 0;
 }
 
 #login-dp {

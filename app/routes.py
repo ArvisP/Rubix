@@ -7,8 +7,8 @@ from .models import User
 @app.route('/')
 @app.route('/index')
 def index():
-
-  return render_template('index.html')
+  number = request.args.get('number')
+  return render_template('index.html',number=number)
   
 @lm.user_loader
 def load_user(id):

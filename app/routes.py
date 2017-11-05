@@ -7,7 +7,6 @@ from .models import User
 @app.route('/')
 @app.route('/index')
 def index():
-  
   return render_template('index.html')
   
 @lm.user_loader
@@ -74,7 +73,7 @@ def signup():
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('profile-layout.html')
 
 
 @app.route('/learnmore')

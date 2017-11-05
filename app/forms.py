@@ -13,6 +13,7 @@ class SignupForm(Form):
   address = StringField('Address', validators=[DataRequired("Please enter an address.")])
   email = StringField('Email', validators=[DataRequired("Please enter your email."), Email("Please enter a valid email.")])
   password = PasswordField('Password', validators=[DataRequired("Please enter a password."), Length(min=6, message="Passwords must be 6 characters or more.")])
+  confirm = PasswordField('Repeat Password')
   submit = SubmitField('Sign up')
 '''
   def __init__(self, *args, **kwargs):

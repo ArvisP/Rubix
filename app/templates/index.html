@@ -1,4 +1,6 @@
-{% extends "layout.html" %} {% block content %}
+{% extends "layout.html" %}
+
+{% block content %}
 <main>
     <div style="margin-left:auto; margin-right: auto" class="cube"></div>
     <div class="row">
@@ -10,7 +12,7 @@
             {% endif %} {% endfor %}
         </ul>
         {% else %}
-        <p> No number specified</p>
+        <p>No number specified</p>
         {% endif %}
     </div>
 </main>

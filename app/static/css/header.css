@@ -1,7 +1,7 @@
 /* body tag is optional */
 
 body {
-    background: url('http://www.solidbackgrounds.com/images/2560x1600/2560x1600-eggshell-solid-color-background.jpg');
+    background-color: #2b2c2d;
     margin: 0;
     padding: 0;
 }

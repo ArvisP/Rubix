@@ -8,8 +8,8 @@ from .models import User
 @app.route('/index')
 def index():
   number = request.args.get('number')
-  return render_template('index.html',number=number)
-  
+  return render_template('index.html', number=number)
+
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -29,11 +29,11 @@ def login():
 
       email = form.email.data
       password = form.password.data
-     
+
       session['remember_me'] = form.remember_me.data
 
       user = User.query.filter_by(email=email).first()
-      
+
       if user is not None and user.verify_password(password):
         login_user(user)
         flash('Logged in')
@@ -87,7 +87,9 @@ def learnmore():
 def about():
   return render_template('about.html')
 
-
+@app.route('/eventselected')
+def eventselected():
+    return render_template('event.html')
 
 # @app.route('/signup')
 # def signup():

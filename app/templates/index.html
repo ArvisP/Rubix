@@ -1,9 +1,19 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<main class="index-page">
-  <div class="container-fluid">
-    <h1> Hello World </h1>
-  </div>
+<main>
+    <div style="margin-left:auto; margin-right: auto" class="cube"></div>
+    <div class="row">
+        {% if number%}
+        <p> Your number is {{ number|int }}</p>
+        <ul>
+            {% for i in range(number|int) %} {% if i is divisibleby 2 %}
+            <li> {{ i }}</li>
+            {% endif %} {% endfor %}
+        </ul>
+        {% else %}
+        <p>No number specified</p>
+        {% endif %}
+    </div>
 </main>
 {% endblock %}

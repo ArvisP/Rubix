@@ -10,7 +10,8 @@ admin.add_view(ModelView(User, db.session))
 @app.route('/')
 @app.route('/index')
 def index():
-  return render_template('index.html')
+  number = request.args.get('number')
+  return render_template('index.html', number=number)
 
 @lm.user_loader
 def load_user(id):
@@ -34,11 +35,11 @@ def login():
 
       email = form.email.data
       password = form.password.data
-     
+
       session['remember_me'] = form.remember_me.data
 
       user = User.query.filter_by(email=email).first()
-      
+
       if user is not None and user.verify_password(password):
         login_user(user)
         flash('Logged in')
@@ -82,23 +83,23 @@ def signup():
 
   return render_template('signup.html', form=form)
 
-
-
-
-
-
 @app.route('/profile')
 @login_required
 def profile():
     return render_template('profile.html')
 
 
+@app.route('/learnmore')
+def learnmore():
+  return render_template('learnmore.html')
 
 @app.route('/about')
 def about():
-  return "hellowordl!"
+  return render_template('about.html')
 
-
+@app.route('/eventselected')
+def eventselected():
+    return render_template('event.html')
 
 # @app.route('/signup')
 # def signup():

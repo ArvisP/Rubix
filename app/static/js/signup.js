@@ -12,7 +12,7 @@ var LoginModalController = {
     activeTab: null,
     tabSelection: 0, // 0 - first, 1 - second
 
-    findElements: function () {
+    findElements: function() {
         var base = this;
 
         base.tabsElement = $(base.tabsElementName);
@@ -23,8 +23,8 @@ var LoginModalController = {
         return base;
     },
 
-    setState: function (state) {
-    	var base = this,
+    setState: function(state) {
+        var base = this,
             elem = null;
 
         if (!state) {
@@ -32,7 +32,7 @@ var LoginModalController = {
         }
 
         if (base.tabsElement) {
-        	elem = $(base.tabsElement[state]);
+            elem = $(base.tabsElement[state]);
             elem.addClass("current");
             $("." + elem.attr("data-tabtar")).addClass("show");
         }
@@ -40,22 +40,22 @@ var LoginModalController = {
         return base;
     },
 
-    getActiveTab: function () {
+    getActiveTab: function() {
         var base = this;
 
-        base.tabsElement.each(function (i, el) {
-           if ($(el).hasClass("current")) {
-               base.activeTab = $(el);
-           }
+        base.tabsElement.each(function(i, el) {
+            if ($(el).hasClass("current")) {
+                base.activeTab = $(el);
+            }
         });
 
         return base;
     },
 
-    addClickEvents: function () {
-    	var base = this;
+    addClickEvents: function() {
+        var base = this;
 
-        base.hidePassword.on("click", function (e) {
+        base.hidePassword.on("click", function(e) {
             var $this = $(this),
                 $pwInput = $this.prev("input");
 
@@ -68,7 +68,7 @@ var LoginModalController = {
             }
         });
 
-        base.tabsElement.on("click", function (e) {
+        base.tabsElement.on("click", function(e) {
             var targetTab = $(this).attr("data-tabtar");
 
             e.preventDefault();
@@ -76,7 +76,7 @@ var LoginModalController = {
             base.activeTab = $(this);
             base.activeTab.addClass("current");
 
-            base.tabElement.each(function (i, el) {
+            base.tabElement.each(function(i, el) {
                 el = $(el);
                 el.removeClass("show");
                 if (el.hasClass(targetTab)) {
@@ -85,9 +85,9 @@ var LoginModalController = {
             });
         });
 
-        base.inputElements.find("label").on("click", function (e) {
-           var $this = $(this),
-               $input = $this.next("input");
+        base.inputElements.find("label").on("click", function(e) {
+            var $this = $(this),
+                $input = $this.next("input");
 
             $input.focus();
         });
@@ -95,7 +95,7 @@ var LoginModalController = {
         return base;
     },
 
-    initialize: function () {
+    initialize: function() {
         var base = this;
 
         base.findElements().setState().getActiveTab().addClickEvents();
@@ -105,3 +105,11 @@ var LoginModalController = {
 $(document).ready(function() {
     LoginModalController.initialize();
 });
+
+// get a reference to the element
+// var signinbtn = document.getElementById('signin');
+
+// add event listner
+// signinbtn.addEventListener('click', function(event) {
+//    window.location.href = 'profile.html';
+// });

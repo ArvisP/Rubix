@@ -1,0 +1,27 @@
+.btn-bar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+}
+
+.btn-bar a {
+    float: left;
+    width: 20%;
+    text-align: center;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 36px;
+}
+
+.btn-bar a:hover {
+    background-color: #000;
+}
+
+.background {
+  background-color: #0d0e0f;
+}
+
+.active {
+    background-color: #4CAF50 !important;
+}

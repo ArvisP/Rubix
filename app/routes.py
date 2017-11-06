@@ -7,20 +7,24 @@ from .models import User
 @app.route('/')
 @app.route('/index')
 def index():
+<<<<<<< HEAD
   number = request.args.get('number')
   return render_template('index.html', number=number)
 
+=======
+  return render_template('index.html')
+  
+>>>>>>> a952715db896cf834b71dd46f3e8cf8210ea471b
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
   # Disable access to login page if user is already logged in.
-  if 'email 'in session:
+  if 'email' in session:
     flash("You are already logged in!")
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
   form = LoginForm()
 
@@ -73,10 +77,9 @@ def signup():
 
   return render_template('signup.html', form=form)
 
-
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('profile-layout.html')
 
 
 @app.route('/learnmore')
@@ -87,9 +90,18 @@ def learnmore():
 def about():
   return render_template('about.html')
 
+<<<<<<< HEAD
 @app.route('/eventselected')
 def eventselected():
     return render_template('event.html')
+=======
+#@app.errorhandler(404)
+#def page_not_found(e):
+#  return render_template('404.html'), 404
+@app.route('/404')
+def error():
+  return render_template('404.html')
+>>>>>>> a952715db896cf834b71dd46f3e8cf8210ea471b
 
 # @app.route('/signup')
 # def signup():

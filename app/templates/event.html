@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<h1> {{ eventName }} </h1>
 <div class="container-fluid" align="center">
   <div class="navbar navbar-inverse btn-group">
     <button class="btn navbar-btn btn-default">Announcements</button>
@@ -8,11 +9,10 @@
     <button class="btn navbar-btn btn-default">Competitors</button>
     <button class="btn navbar-btn btn-default">Volunteers</button>
     <button class="btn navbar-btn btn-default">Staff</button>
-  <!--  <button>Announcements</button>
-    <button>Schedule</button>
-    <button>Competitors</button>
-    <button>Volunteers</button>
-    <button>Staff</button>-->
+    <div>
+    <input type="Text" placeholder="Title..." style="width= 100%"></input>
+    <input type="Text" placeholder="Announcement" width=100%></input>
+  </div>
   </div>
 </div>
 {% endblock %}

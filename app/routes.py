@@ -89,7 +89,7 @@ def about():
 
 @app.route('/eventselected')
 def eventselected():
-    return render_template('event.html')
+    return render_template('event.html', eventName="City College Cube Day")
 
 # @app.route('/signup')
 # def signup():

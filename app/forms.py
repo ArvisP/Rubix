@@ -2,8 +2,9 @@
 Create forms here
 '''
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField, DateField
+from wtforms import widgets, StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired, Email, Length
+from wtforms.fields.html5 import DateField
 '''
 Sign-In / Sign-Up Forms
 '''
@@ -20,11 +21,15 @@ class LoginForm(FlaskForm):
   remember_me = BooleanField('remember_me', default=False)
   submit = SubmitField('Sign in')
 
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
+
 class CompetitionForm(FlaskForm):
   name = StringField('Competition Name', validators=[DataRequired("Please enter a name for your competition")])
-  location = StringField('Location')
-  date = DateField('Date', format='%Y-%m-%d')
-  event = RadioField('Events', choices=[('rubikscube', 'Rubik\'s Cube'),
+  location = TextAreaField('Location')
+  date = DateField('Date')
+  events = MultiCheckboxField('Events', choices=[('rubikscube', 'Rubik\'s Cube'),
                                         ('fourcube', '4x4x4 Cube'),
                                         ('fivecube', '5x5x5 Cube'),
                                         ('sixcube', '6x6x6 Cube'),
@@ -38,9 +43,10 @@ class CompetitionForm(FlaskForm):
                                         ('clock', 'Rubik\'s Clock'),
                                         ('skewb', 'Skewb'),
                                         ('sq1', 'Square-1'),
-                                        ('4bld', '4x4x4 Blindfolded'),
-                                        ('5bld', '5x5x5 Blindfolded'),
-                                        ('mbld', '3x3x3 Multi-Blind'),])
+                                        ('bld4', '4x4x4 Blindfolded'),
+                                        ('bld5', '5x5x5 Blindfolded'),
+                                        ('mbld', '3x3x3 Multi-Blind')])
+  submit = SubmitField('Create competition')
 
 
 '''

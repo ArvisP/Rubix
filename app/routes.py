@@ -2,8 +2,9 @@ from flask import render_template, flash, redirect, request, session, url_for
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin.contrib.sqla import ModelView
 from app import app, db, lm, admin
-from .forms import LoginForm, SignupForm
-from .models import User
+from .forms import LoginForm, SignupForm, CompetitionForm
+from .models import User, Competitions
+from datetime import datetime
 
 admin.add_view(ModelView(User, db.session))
 
@@ -21,10 +22,10 @@ def load_user(id):
 def login():
 
   # Disable access to login page if user is already logged in.
-  if current_user.is_authenticated: 
+  if current_user.is_authenticated:
     flash("You are already logged in!")
     return redirect(url_for('index'))
-  
+
   form = LoginForm()
 
   if request.method == 'POST':
@@ -57,10 +58,10 @@ def logout():
 def signup():
 
   # # Disable access to login page if user is already logged in.
-  if current_user.is_authenticated: 
+  if current_user.is_authenticated:
       flash("You are already signed up!")
       return redirect(url_for('index'))
-  
+
   form = SignupForm()
   # Checks if form fields are filled
   # if it is, create a new user with provided credentials
@@ -81,7 +82,26 @@ def signup():
 ##############
 # HOST ROUTE #
 ##############
-# @app.route('/host')
+@app.route('/host', methods=['GET', 'POST'])
+@login_required
+def host():
+  form = CompetitionForm()
+
+  # form.event.choices =
+
+  if request.method == 'POST':
+    if form.validate_on_submit():
+      # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
+      newcomp = Competitions(form.name.data, form.location.data, form.date.data)
+
+      db.session.add(newcomp)
+      db.session.commit()
+
+      flash(form.name.data, "has been created!")
+      return redirect(url_for('index'))
+    else:
+      return render_template('host.html', form=form)
+  return render_template('host.html', form=form)
 
 @app.route('/profile')
 @login_required

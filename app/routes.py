@@ -21,9 +21,6 @@ def load_user(id):
 def login():
 
   # Disable access to login page if user is already logged in.
-  # if 'email' in session:
-  #   flash("You are already logged in!")
-  #   return redirect(url_for('index'))
   if current_user.is_authenticated: 
     flash("You are already logged in!")
     return redirect(url_for('index'))
@@ -60,9 +57,6 @@ def logout():
 def signup():
 
   # # Disable access to login page if user is already logged in.
-  # if 'email' in session:
-  #   flash("You are already logged in!")
-  #   return redirect(url_for('index'))
   if current_user.is_authenticated: 
       flash("You are already logged in!")
       return redirect(url_for('index'))
@@ -77,6 +71,8 @@ def signup():
       db.session.commit()
 
       session['email'] = newuser.email
+
+      flash("You have signed up!")
       return redirect(url_for('index'))
     else:
       return render_template('signup.html', form=form)

@@ -58,7 +58,7 @@ def signup():
 
   # # Disable access to login page if user is already logged in.
   if current_user.is_authenticated: 
-      flash("You are already logged in!")
+      flash("You are already signed up!")
       return redirect(url_for('index'))
   
   form = SignupForm()
@@ -78,6 +78,10 @@ def signup():
       return render_template('signup.html', form=form)
 
   return render_template('signup.html', form=form)
+##############
+# HOST ROUTE #
+##############
+# @app.route('/host')
 
 @app.route('/profile')
 @login_required
@@ -96,7 +100,3 @@ def about():
 @app.route('/eventselected')
 def eventselected():
     return render_template('event.html')
-
-# @app.route('/signup')
-# def signup():
-#   return "hellowordl!"

@@ -12,11 +12,11 @@
           {{ form.email.label }}
             
           {% if form.email.errors %}
-            <div class="alert alert-danger">
-              {% for error in form.email.errors %}
+            {% for error in form.email.errors %}
+              <div class="alert alert-danger">
                 {{ error }}
-              {% endfor %}
-            </div>       
+              </div>       
+            {% endfor %}
           {% endif %}
             
           {{ form.email(class="form-control") }}
@@ -26,11 +26,11 @@
           {{ form.password.label }}
 
           {% if form.password.errors %}
-            <div class="alert alert-danger">
-              {% for error in form.password.errors %}
+            {% for error in form.password.errors %}
+              <div class="alert alert-danger">
                 {{ error }}
-              {% endfor %}
-            </div>
+              </div>
+            {% endfor %}
           {% endif %}
             
           {{ form.password(class="form-control")}}

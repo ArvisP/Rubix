@@ -15,23 +15,7 @@ class SignupForm(Form):
   password = PasswordField('Password', validators=[DataRequired("Please enter a password."), Length(min=6, message="Passwords must be 6 characters or more.")])
   confirm = PasswordField('Repeat Password')
   submit = SubmitField('Sign up')
-'''
-  def __init__(self, *args, **kwargs):
-    Form.__init__(self, *args, **kwargs)
-  
-  # email validation process -- Once we have tables we can uncomment this
-  
-  def validate(self):
-    if not Form.validate(self):
-      return False
 
-    user = User.query.filter_by(email = self.email.data.lower()).first()
-    if user:
-      self.email.errors.append("That email is already taken")
-      return False
-    else:
-      return True
-'''
 class LoginForm(Form):
   email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
   password = PasswordField('Password', validators=[DataRequired("Please enter a password.")])

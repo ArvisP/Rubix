@@ -5,13 +5,9 @@ from .forms import LoginForm, SignupForm
 from .models import User
 
 @app.route('/')
-@app.route('/index')
 def index():
-  return render_template('index.html')
-  
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+  form = LoginForm()
+  return render_template('index.html', form=form )
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -39,8 +35,8 @@ def login():
       else:
         flash('Invalid Login')
         return render_template('login.html', form=form)
+  return render_template('index.html', form=form)
 
-  return render_template('login.html', form=form)
 
 @app.route('/logout')
 def logout():
@@ -49,7 +45,6 @@ def logout():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-
   # # Disable access to login page if user is already logged in.
   if 'email' in session:
     flash("You are already logged in!")
@@ -71,10 +66,13 @@ def signup():
 
   return render_template('signup.html', form=form)
 
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 @app.route('/profile')
 def profile():
     return render_template('profile-layout.html')
-
 
 @app.route('/learnmore')
 def learnmore():

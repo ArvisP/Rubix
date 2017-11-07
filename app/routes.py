@@ -1,20 +1,18 @@
 from flask import render_template, flash, redirect, request, session, url_for
 from flask_login import login_user, logout_user, current_user, login_required
-from app import app, db, lm
-from .forms import LoginForm, SignupForm
-from .models import User
+from flask_admin.contrib.sqla import ModelView
+from app import app, db, lm, admin
+from .forms import LoginForm, SignupForm, CompetitionForm
+from .models import User, Competition
+from datetime import datetime
+
+admin.add_view(ModelView(User, db.session))
 
 @app.route('/')
 @app.route('/index')
 def index():
-<<<<<<< HEAD
-  number = request.args.get('number')
-  return render_template('index.html', number=number)
-
-=======
   return render_template('index.html')
-  
->>>>>>> a952715db896cf834b71dd46f3e8cf8210ea471b
+
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -22,7 +20,8 @@ def load_user(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
   # Disable access to login page if user is already logged in.
-  if 'email' in session:
+
+  if current_user.is_authenticated:
     flash("You are already logged in!")
     return redirect(url_for('profile'))
 
@@ -51,15 +50,16 @@ def login():
 @app.route('/logout')
 def logout():
   logout_user()
+  flash("You have been logged out!")
   return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
 
   # # Disable access to login page if user is already logged in.
-  if 'email' in session:
-    flash("You are already logged in!")
-    return redirect(url_for('index'))
+  if current_user.is_authenticated:
+      flash("You are already signed up!")
+      return redirect(url_for('index'))
 
   form = SignupForm()
   # Checks if form fields are filled
@@ -71,13 +71,40 @@ def signup():
       db.session.commit()
 
       session['email'] = newuser.email
+
+      flash("You have signed up!")
       return redirect(url_for('index'))
     else:
       return render_template('signup.html', form=form)
 
   return render_template('signup.html', form=form)
+##############
+# HOST ROUTE #
+##############
+@app.route('/host', methods=['GET', 'POST'])
+@login_required
+def host():
+  form = CompetitionForm()
+
+  # form.event.choices =
+
+  if request.method == 'POST':
+    if form.validate_on_submit():
+      # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
+      newcomp = Competition(form.name.data, form.location.data, form.date.data)
+
+
+      db.session.add(newcomp)
+      db.session.commit()
+
+      flash(form.name.data, "has been created!")
+      return redirect(url_for('index'))
+    else:
+      return render_template('host.html', form=form)
+  return render_template('host.html', form=form)
 
 @app.route('/profile')
+@login_required
 def profile():
     return render_template('profile-layout.html')
 
@@ -90,19 +117,13 @@ def learnmore():
 def about():
   return render_template('about.html')
 
-<<<<<<< HEAD
 @app.route('/eventselected')
 def eventselected():
     return render_template('event.html')
-=======
+
 #@app.errorhandler(404)
 #def page_not_found(e):
 #  return render_template('404.html'), 404
 @app.route('/404')
 def error():
   return render_template('404.html')
->>>>>>> a952715db896cf834b71dd46f3e8cf8210ea471b
-
-# @app.route('/signup')
-# def signup():
-#   return "hellowordl!"

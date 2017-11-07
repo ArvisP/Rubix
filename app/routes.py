@@ -84,12 +84,13 @@ def profile():
 
 @app.route('/learnmore')
 def learnmore():
-  return render_template('learnmore.html')
+    return render_template('learnmore.html')
 
 @app.route('/about')
 def about():
-  return render_template('about.html')
+    return render_template('about.html')
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 @app.route('/eventselected')
 def eventselected():
@@ -102,7 +103,17 @@ def eventselected():
 def error():
   return render_template('404.html')
 >>>>>>> a952715db896cf834b71dd46f3e8cf8210ea471b
+=======
+@app.route('/event-announcements')
+def eventAnnouncements():
+    events = [('Event 4', 'Announcement 4', 'Today 7:30PM'),('Event 3', 'Announcement 3', 'Today 7:00PM'),
+    ('Event 2', 'Announcement 2', 'Today 6:45PM'),('Event 1', 'Announcement 1', 'Today 6:30PM')]
+    return render_template('event-announcements.html', eventName="City College Cube Day", list = events, name="Arvis", eventorganizer=True)
+>>>>>>> 40f625c5f3f90a2cd4624e1f40c80bbfab054c8f
 
+@app.route('/event-schedule')
+def eventSchedule():
+    return render_template('event-schedule.html', eventName="City College Cube Day")
 # @app.route('/signup')
 # def signup():
 #   return "hellowordl!"

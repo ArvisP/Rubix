@@ -60,7 +60,8 @@ class User(db.Model):
 
 class Comp_events(db.Model):
   __tablename__ = 'comp_events'
-  comp_id = db.Column(db.Integer, primary_key=True)
+  event_id = db.Column(db.Integer, primary_key=True)
+  comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
   rubikscube = db.Column(db.Boolean, unique=False, default=False)
   fourcube = db.Column(db.Boolean, unique=False, default=False)
   fivecube = db.Column(db.Boolean, unique=False, default=False)
@@ -80,13 +81,13 @@ class Comp_events(db.Model):
   mbld = db.Column(db.Boolean, unique=False, default=False)
 
 
-  organizerRel = db.relationship('User', backref='competitionRel')
+  organizerRel = db.relationship('Competition', backref='compeventRel')
 
 
   def __repr__(self):
     return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
 
-class Competitions(db.Model):
+class Competition(db.Model):
     __tablename__ = 'competitions'
     comp_id = db.Column(db.Integer, primary_key=True)
     wca_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
@@ -98,8 +99,8 @@ class Competitions(db.Model):
     zipcode = db.Column(db.String(10))
 
     organizerRel = db.relationship('User', backref='competitionRel')
-    
-    
+
+
     def __init__(self, name, address, date):
       self.name = name
       self.address = address
@@ -154,7 +155,7 @@ class Schedule(db.Model):
 
 class CompetitorRecord(db.Model):
     __tablename__ = "competitorRecords"
-    wca_id = db.Column(db.Integer)
+    wca_id = db.Column(db.Integer, primary_key=True)
     comp_id = db.Column(db.Integer)
     event_id = db.Column(db.Integer)
     # TODO: Additional fields might be added here for the purpose of keeping

@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin.contrib.sqla import ModelView
 from app import app, db, lm, admin
 from .forms import LoginForm, SignupForm, CompetitionForm
-from .models import User, Competitions
+from .models import User, Competition
 from datetime import datetime
 
 admin.add_view(ModelView(User, db.session))
@@ -12,7 +12,7 @@ admin.add_view(ModelView(User, db.session))
 @app.route('/index')
 def index():
   return render_template('index.html')
-  
+
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -91,7 +91,7 @@ def host():
   if request.method == 'POST':
     if form.validate_on_submit():
       # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
-      newcomp = Competitions(form.name.data, form.location.data, form.date.data)
+      newcomp = Competition(form.name.data, form.location.data, form.date.data)
 
 
       db.session.add(newcomp)

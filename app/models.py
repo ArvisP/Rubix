@@ -58,39 +58,23 @@ class User(db.Model):
       return str(self.wca_id)  # python 3
 
 
-class Comp_events(db.Model):
-  __tablename__ = 'comp_events'
-  event_id = db.Column(db.Integer, primary_key=True)
-  comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
-  rubikscube = db.Column(db.Boolean, unique=False, default=False)
-  fourcube = db.Column(db.Boolean, unique=False, default=False)
-  fivecube = db.Column(db.Boolean, unique=False, default=False)
-  sixcube = db.Column(db.Boolean, unique=False, default=False)
-  sevencube = db.Column(db.Boolean, unique=False, default=False)
-  bld = db.Column(db.Boolean, unique=False, default=False)
-  fmc = db.Column(db.Boolean, unique=False, default=False)
-  oh = db.Column(db.Boolean, unique=False, default=False)
-  feet = db.Column(db.Boolean, unique=False, default=False)
-  megaminx = db.Column(db.Boolean, unique=False, default=False)
-  pyraminx = db.Column(db.Boolean, unique=False, default=False)
-  clock = db.Column(db.Boolean, unique=False, default=False)
-  skewb = db.Column(db.Boolean, unique=False, default=False)
-  sq1 = db.Column(db.Boolean, unique=False, default=False)
-  bld4 = db.Column(db.Boolean, unique=False, default=False)
-  bld5 = db.Column(db.Boolean, unique=False, default=False)
-  mbld = db.Column(db.Boolean, unique=False, default=False)
+# This association table is used to store the many-to-many relationship between competitions and events
+competitions_events = db.Table('competitionsEvents',
+                               db.Model.metadata,
+                               db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
+                               db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
 
 
-  organizerRel = db.relationship('Competition', backref='compeventRel')
+class Event(db.Model):
+    __tablename__ = 'events'
+    event_id = db.Column(db.Integer, primary_key=True)
+    event_name = db.Column(db.String(50))
 
-
-  def __repr__(self):
-    return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
 
 class Competition(db.Model):
     __tablename__ = 'competitions'
     comp_id = db.Column(db.Integer, primary_key=True)
-    wca_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
+    organizer_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
     title = db.Column(db.String(50))
     date = db.Column(db.Date)
     address = db.Column(db.String(100))
@@ -99,6 +83,7 @@ class Competition(db.Model):
     zipcode = db.Column(db.String(10))
 
     organizerRel = db.relationship('User', backref='competitionRel')
+    events = db.relationship('Event', secondary=competitions_events)
 
 
     def __init__(self, title, address, date):
@@ -126,18 +111,6 @@ class Announcement(db.Model):
         return 'This announcement has the id {!d} with title {!s}'.format(self.annc_id, self.title)
 
 
-class Event(db.Model):
-    __tablename__ = "events"
-    event_id = db.Column(db.Integer, primary_key=True)
-    comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
-    event_name = db.Column(db.String(50))
-
-    competitionRel = db.relationship('Competition', backref='eventRel')
-
-    def __repr__(self):
-        return "The event id is {!d} and competition id is {!d}".format(self.event_id, self.comp_id)
-
-
 class Schedule(db.Model):
     __tablename__ = "schedules"
     schedule_id = db.Column(db.Integer, primary_key=True)
@@ -151,17 +124,3 @@ class Schedule(db.Model):
 
     def __repr__(self):
         return "The scheduled event has the id {!d} for the competition {!d}".format(self.schedule_id, self.comp_id)
-
-
-class CompetitorRecord(db.Model):
-    __tablename__ = "competitorRecords"
-    wca_id = db.Column(db.Integer, primary_key=True)
-    comp_id = db.Column(db.Integer)
-    event_id = db.Column(db.Integer)
-    # TODO: Additional fields might be added here for the purpose of keeping
-    # the result of the event competition for each participant
-
-    def __repr__(self):
-        return "The competitor record has the WCA ID of {!d}, Comp ID of {!d} and Event ID of {!d}".format(self.wca_id,
-                                                                                                           self.comp_id,
-                                                                                                           self.event_id)

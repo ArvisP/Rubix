@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 node_modules
 db_*
+app.db

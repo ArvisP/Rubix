@@ -1,7 +1,7 @@
 from flask.ext.testing import TestCase
 
-from project import app, db
-from project.models import User, BlogPost
+from app import app, db
+from app.models import User, BlogPost
 
 
 class BaseTestCase(TestCase):

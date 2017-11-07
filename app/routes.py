@@ -9,9 +9,13 @@ from datetime import datetime
 admin.add_view(ModelView(User, db.session))
 
 @app.route('/')
-@app.route('/index')
 def index():
+<<<<<<< HEAD
   return render_template('index.html')
+=======
+  form = LoginForm()
+  return render_template('index.html', form=form )
+>>>>>>> 2f8b2a839a01861d12c33e665c77369518b3a345
 
 @lm.user_loader
 def load_user(id):
@@ -44,8 +48,8 @@ def login():
       else:
         flash('Invalid Login')
         return render_template('login.html', form=form)
+  return render_template('index.html', form=form)
 
-  return render_template('login.html', form=form)
 
 @app.route('/logout')
 def logout():
@@ -55,7 +59,6 @@ def logout():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-
   # # Disable access to login page if user is already logged in.
   if current_user.is_authenticated:
       flash("You are already signed up!")
@@ -121,11 +124,14 @@ def event(comp_id):
   return render_template('event.html', comp=comp)
 
 
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 @app.route('/profile')
 @login_required
 def profile():
     return render_template('profile-layout.html')
-
 
 @app.route('/learnmore')
 def learnmore():
@@ -138,8 +144,11 @@ def about():
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 99b38db44e64bfc1e2102c4847157130b4d1ea57
+=======
+>>>>>>> 2f8b2a839a01861d12c33e665c77369518b3a345
 @app.route('/eventselected')
 def eventselected():
     return render_template('event.html')
@@ -147,6 +156,7 @@ def eventselected():
 #@app.errorhandler(404)
 #def page_not_found(e):
 #  return render_template('404.html'), 404
+<<<<<<< HEAD
 @app.route('/404')
 def error():
   return render_template('404.html')
@@ -159,6 +169,11 @@ def eventAnnouncements():
     ('Event 2', 'Announcement 2', 'Today 6:45PM'),('Event 1', 'Announcement 1', 'Today 6:30PM')]
     return render_template('event-announcements.html', eventName="City College Cube Day", list = events)
 >>>>>>> 40f625c5f3f90a2cd4624e1f40c80bbfab054c8f
+=======
+#@app.route('/404')
+#def error():
+#  return render_template('404.html')
+>>>>>>> 2f8b2a839a01861d12c33e665c77369518b3a345
 
 @app.route('/event-schedule')
 def eventSchedule():

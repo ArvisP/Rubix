@@ -15,16 +15,8 @@ class SignupForm(FlaskForm):
   password = PasswordField('Password', validators=[DataRequired("Please enter a password."), Length(min=6, message="Passwords must be 6 characters or more.")])
   confirm = PasswordField('Repeat Password')
   submit = SubmitField('Sign up')
-'''
-  def __init__(self, *args, **kwargs):
-    Form.__init__(self, *args, **kwargs)
-  
-  # email validation process -- Once we have tables we can uncomment this
-  
-  def validate(self):
-    if not Form.validate(self):
-      return False
 
+<<<<<<< HEAD
     user = User.query.filter_by(email = self.email.data.lower()).first()
     if user:
       self.email.errors.append("That email is already taken")
@@ -33,6 +25,9 @@ class SignupForm(FlaskForm):
       return True
 '''
 class LoginForm(FlaskForm):
+=======
+class LoginForm(Form):
+>>>>>>> 2f8b2a839a01861d12c33e665c77369518b3a345
   email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
   password = PasswordField('Password', validators=[DataRequired("Please enter a password.")])
   remember_me = BooleanField('remember_me', default=False)

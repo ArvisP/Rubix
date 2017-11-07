@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'layout.html' %} 
 {% block content %}
 <main class="container signup-section">
@@ -70,4 +71,65 @@
   </div>
 </main>
 
+=======
+{% extends 'navbar.html' %}
+<p></p>
+{% block content %}
+<title> {% block title%} Sign Up {% endblock %} </title>
+
+<body>
+
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                <a class="navbar-brand" href="{{ url_for('index') }}"> Rubik's<sup>3</sup>  </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ url_for('index') }}"> Home </a></li>
+                    <li><a href="{{ url_for('about') }}"> About Us </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="cube"></div>
+            </div>
+            <div class="col-md-8">
+                <form method="POST" action="{{ url_for('index') }}" role="form">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.first_name.label }} {% if form.first_name.errors %} {% for error in form.first_name.errors %} {{ error }} {% endfor %} {% endif %} {{ form.first_name }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.last_name.label }} {% if form.last_name.errors %} {% for error in form.last_name.errors %} {{ error }} {% endfor %} {% endif %} {{ form.last_name }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.email.label }} {% if form.email.errors %} {% for error in form.email.errors %} {{ error }} {% endfor %} {% endif %} {{ form.email }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password.label }} {% if form.password.errors %} {% for error in form.password.errors %} {{ error }} {% endfor %} {% endif %} {{ form.password }}
+                    </div>
+                    {{ form.submit(class="btn btn-primary") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+>>>>>>> 2f8b2a839a01861d12c33e665c77369518b3a345
 {% endblock %}

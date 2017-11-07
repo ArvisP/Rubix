@@ -58,7 +58,7 @@ class User(db.Model):
             return str(self.wca_id)  # python 3
 
 
-class Competitions(db.Model):
+class Competition(db.Model):
     __tablename__ = 'competitions'
     comp_id = db.Column(db.Integer, primary_key=True)
     wca_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
@@ -73,3 +73,60 @@ class Competitions(db.Model):
 
     def __repr__(self):
         return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
+
+
+class Announcement(db.Model):
+    __tablename__ = 'announcements'
+    annc_id = db.Column(db.Integer, primary_key=True)
+    comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
+    time_created = db.Column(db.DateTime)
+    title = db.Column(db.String(50))
+    body = db.Column(db.Text)
+
+    authorRel = db.relationship('User', backref='announcementRel')
+    competitionRel = db.relationship('Competition', backref='announcementRel')
+
+    def __repr__(self):
+        return 'This announcement has the id {!d} with title {!s}'.format(self.annc_id, self.title)
+
+
+class Event(db.Model):
+    __tablename__ = "events"
+    event_id = db.Column(db.Integer, primary_key=True)
+    comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
+    event_name = db.Column(db.String(50))
+
+    competitionRel = db.relationship('Competition', backref='eventRel')
+
+    def __repr__(self):
+        return "The event id is {!d} and competition id is {!d}".format(self.event_id, self.comp_id)
+
+
+class Schedule(db.Model):
+    __tablename__ = "schedules"
+    schedule_id = db.Column(db.Integer, primary_key=True)
+    comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
+    event_id = db.Column(db.Integer)
+    time_start = db.Column(db.DateTime)
+    time_end = db.Column(db.DateTime)
+    event_name = db.Column(db.String(50))
+
+    competitionRel = db.relationship('Competition', backref='scheduleRel')
+
+    def __repr__(self):
+        return "The scheduled event has the id {!d} for the competition {!d}".format(self.schedule_id, self.comp_id)
+
+
+class CompetitorRecord(db.Model):
+    __tablename__ = "competitorRecords"
+    wca_id = db.Column(db.Integer)
+    comp_id = db.Column(db.Integer)
+    event_id = db.Column(db.Integer)
+    # TODO: Additional fields might be added here for the purpose of keeping
+    # the result of the event competition for each participant
+
+    def __repr__(self):
+        return "The competitor record has the WCA ID of {!d}, Comp ID of {!d} and Event ID of {!d}".format(self.wca_id,
+                                                                                                           self.comp_id,
+                                                                                                           self.event_id)

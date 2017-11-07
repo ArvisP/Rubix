@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="/static/css/jquery.cube.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
+<<<<<<< HEAD
 <body class = "background">
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
@@ -149,43 +150,66 @@
                   </ul>
                 {% endif %}
             </div>
+=======
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a href="/" class="navbar-brand">Rubik's</a>
+      <div class="mr-auto">
+        <ul class="navbar-nav">
+          <li><a href="{{ url_for('about') }}">About</a></li>
+          <li><a href="{{ url_for('learnmore') }}">Learn More</a></li>
+        </ul>
+      </div>
+      <div class="ml-auto">
+        <ul class="navbar-nav">
+          {% if current_user.is_authenticated %}
+          <li class="nav-item mx-2">
+            Hi, <a href="{{ url_for('profile') }}">{{ current_user.first_name }}</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a href="{{ url_for('logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
+          </li>
+          {% else %}
+          <li class="nav-item mx-2">
+            <a href="{{ url_for('signup') }}" class="btn btn-dark"><span class="text-light">Sign up</span></a>
+          </li>
+          <li class="nav-item mx-2">
+            <a href="{{ url_for('login') }}" class="btn btn-dark"><span class="text-light">Log in</span></a>
+          </li>
+          {% endif %}
+
+        </ul>
+>>>>>>> 99b38db44e64bfc1e2102c4847157130b4d1ea57
         </div>
+      </div>
     </nav>
 
-<<<<<<< HEAD
-
     <!-- "col-sm-8 mx-auto" -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-dark">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
     {% block content %}
     {% endblock %}
 
 
-=======
-    <div class="jumbotron">
-        <div class="">
-            <!-- "col-sm-8 mx-auto" -->
-            {% block content %} {% endblock %}
-        </div>
-    </div>
->>>>>>> a952715db896cf834b71dd46f3e8cf8210ea471b
 
-    {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul class=flashes>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %} {% endwith %}
     <!-- RUBIX CUBE ANIMATION
     <div class="logo">
         <div class="cube">.</div>
     </div>
     -->
-
-    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="/static/js/jquery.cube.min.js"></script>
     <script src="/static/js/main.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 
 </html>

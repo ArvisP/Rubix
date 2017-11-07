@@ -82,10 +82,6 @@ class Comp_events(db.Model):
 
   organizerRel = db.relationship('User', backref='competitionRel')
 
-  def __init__(self, name, address, date):
-    self.name = name
-    self.address = address
-    self.date = date
 
   def __repr__(self):
     return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
@@ -102,6 +98,12 @@ class Competitions(db.Model):
     zipcode = db.Column(db.String(10))
 
     organizerRel = db.relationship('User', backref='competitionRel')
+    
+    
+    def __init__(self, name, address, date):
+      self.name = name
+      self.address = address
+      self.date = date
 
     def __repr__(self):
         return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)

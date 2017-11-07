@@ -101,8 +101,8 @@ class Competition(db.Model):
     organizerRel = db.relationship('User', backref='competitionRel')
 
 
-    def __init__(self, name, address, date):
-      self.name = name
+    def __init__(self, title, address, date):
+      self.title = title
       self.address = address
       self.date = date
 

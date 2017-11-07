@@ -103,6 +103,12 @@ def host():
       return render_template('host.html', form=form)
   return render_template('host.html', form=form)
 
+@app.route('/manage')
+@login_required
+def manage():
+  competitions = db.session.query(Competition).all()
+  return render_template('manage.html', competitions=competitions)
+
 @app.route('/profile')
 @login_required
 def profile():

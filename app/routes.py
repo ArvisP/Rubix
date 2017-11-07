@@ -11,20 +11,19 @@ admin.add_view(ModelView(User, db.session))
 @app.route('/')
 @app.route('/index')
 def index():
-  number = request.args.get('number')
-  return render_template('index.html', number=number)
-
+  return render_template('index.html')
+  
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
   # Disable access to login page if user is already logged in.
+
   if current_user.is_authenticated:
     flash("You are already logged in!")
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
   form = LoginForm()
 
@@ -94,6 +93,7 @@ def host():
       # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
       newcomp = Competitions(form.name.data, form.location.data, form.date.data)
 
+
       db.session.add(newcomp)
       db.session.commit()
 
@@ -106,7 +106,7 @@ def host():
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html')
+    return render_template('profile-layout.html')
 
 
 @app.route('/learnmore')
@@ -120,3 +120,10 @@ def about():
 @app.route('/eventselected')
 def eventselected():
     return render_template('event.html')
+
+#@app.errorhandler(404)
+#def page_not_found(e):
+#  return render_template('404.html'), 404
+@app.route('/404')
+def error():
+  return render_template('404.html')

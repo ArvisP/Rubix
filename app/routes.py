@@ -46,15 +46,7 @@ def login():
                 return render_template('login.html', form=form)
 
     return render_template('login.html', form=form)
-
-      if user is not None and user.verify_password(password):
-        login_user(user)
-        flash('Logged in')
-        return redirect(url_for('index'))
-      else:
-        flash('Invalid Login')
-        return render_template('login.html', form=form)
-  return render_template('index.html', form=form)
+  
 
 
 @app.route('/logout')

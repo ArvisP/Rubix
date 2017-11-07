@@ -109,6 +109,18 @@ def manage():
   competitions = db.session.query(Competition).all()
   return render_template('manage.html', competitions=competitions)
 
+@app.route('/event/<comp_id>')
+@login_required
+def event(comp_id):
+  comp = Competition.query.filter_by(comp_id=comp_id).first()
+
+  if comp == None:
+    flash('Competition is not found.')
+    return redirect(url_for('index'))
+
+  return render_template('event.html', comp=comp)
+
+
 @app.route('/profile')
 @login_required
 def profile():

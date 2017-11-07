@@ -86,8 +86,8 @@ class Competition(db.Model):
     events = db.relationship('Event', secondary=competitions_events)
 
 
-    def __init__(self, name, address, date):
-      self.name = name
+    def __init__(self, title, address, date):
+      self.title = title
       self.address = address
       self.date = date
 

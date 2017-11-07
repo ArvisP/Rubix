@@ -17,39 +17,44 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a href="/" class="navbar-brand">Rubik's</a>
-      
+      <div class="mr-auto">
+        <ul class="navbar-nav">
+          <li><a href="{{ url_for('about') }}">About</a></li>
+          <li><a href="{{ url_for('learnmore') }}">Learn More</a></li>
+        </ul>
+      </div>
       <div class="ml-auto">
         <ul class="navbar-nav">
           {% if current_user.is_authenticated %}
           <li class="nav-item mx-2">
-            Hi, {{ current_user.first_name }}
+            Hi, <a href="{{ url_for('profile') }}">{{ current_user.first_name }}</a>
           </li>
           <li class="nav-item mx-2">
-            <button class="btn btn-dark"><a href="{{ url_for('logout') }}"><span class="text-light">Log out</span></a></button>
+            <a href="{{ url_for('logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
           </li>
           {% else %}
           <li class="nav-item mx-2">
-            <button class="btn btn-dark"><a href="{{ url_for('signup') }}"><span class="text-light">Sign up</span></a></button>
+            <a href="{{ url_for('signup') }}" class="btn btn-dark"><span class="text-light">Sign up</span></a>
           </li>
           <li class="nav-item mx-2">
-            <button class="btn btn-dark"><a href="{{ url_for('login') }}"><span class="text-light">Log in</span></a></button>
+            <a href="{{ url_for('login') }}" class="btn btn-dark"><span class="text-light">Log in</span></a>
           </li>
           {% endif %}
-          
+
         </ul>
         </div>
       </div>
     </nav>
 
     <!-- "col-sm-8 mx-auto" -->
-    {% with messages = get_flashed_messages() %} 
+    {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-dark">  
+          <div class="alert alert-dark">
             {{ message }}
           </div>
         {% endfor %}
-      {% endif %} 
+      {% endif %}
     {% endwith %}
 
     {% block content %}

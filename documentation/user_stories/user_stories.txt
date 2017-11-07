@@ -101,3 +101,27 @@ registration period.
 purchase these puzzles.
 10. As a competitor I want to be able to be able to notify everyone of a lost item so I can find it
 more easily.
+
+-----------------------------------------------------------------------------------------------
+Ichwan Palongengi
+
+1. As an organizer, I want to limit the number of events a competitor can participate in so that
+the competition can attract more competitors of different strength and/or power.
+2. As an organizer, I want to send announcements to the competitors and volunteers so that
+they can be informed of the changes in time, venue, or certain competition's rules in a timely manner.
+3. As an organizer, I want to be able to keep track of the list possible venues so that
+I would be able to compare the different prices and size of each location so that the organizer team can find the one that fits the capacity, price, and location.
+4. As a competitor, I want to view the location of the competition venue that I am registered in so that
+I can plan my commute there accordingly.
+5. As a competitor, I want to register for an account so that
+I can look for the nearest Rubik's Cube competition around my area (if there is one) and register for it.
+6. As a competitor, I want to see the statistics for each users that are going to participate in a competition so that
+I can plan ahead and improve my skills accordingly.
+7. As a competitor, I want to be able to see all the events in the competition so that
+I can register for the ones that I find really interesting, think is capable of solving or just curious of trying.
+8. As a delegate, I want to see all of the registered competitors and volunteers of a competition so that
+I can discern whether the competitors need to be tasked to do the required roles in a competition as stipulated by the WCA's regulation.
+9. As a delegate, I want to send announcements to the competitors and volunteers of a competition so that
+I can tell them the role(s) that they need perform during the competition
+10. As a delegate, I want to approve the additional rules set by the organizer of a competition so that
+I can ensure that those rules do not go in opposite direction of the WCA regulations.

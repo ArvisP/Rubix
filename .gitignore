@@ -1,7 +1,7 @@
 venv/
 __pycache__/
+node_modules/
 .idea/
 *.pyc
-node_modules
 db_*
-app.db
+*.db

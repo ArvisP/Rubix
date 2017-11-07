@@ -24,11 +24,13 @@
       </table>
     </div>
     {% if eventorganizer %} <!-- Checks if user is the event organizer -->
-      <div style="margin-top: 20px">
-        <input type="Text" placeholder="Title..." style="width: 90%; bold"></input>
-        <textarea rows="4" placeholder="Announcement..." style="width: 90%; resize:none"></textarea><br>
-        <button type="button" class="btn btn-default" style="float: right; margin-right: 5%; margin-top: 5px">POST</button>
-      </div>
+      <form action = "{{ url_for('postAnnouncement')}}">
+        <div style="margin-top: 20px">
+          <input type="Text" name="ann-title" placeholder="Title..." style="width: 90%; bold"></input>
+          <textarea rows="4" name="announcement" placeholder="Announcement..." style="width: 90%; resize:none"></textarea><br>
+          <button type="button" class="btn btn-default" style="float: right; margin-right: 5%; margin-top: 5px">POST</button>
+        </div>
+      </form>
     {% endif %}
 
   </div>

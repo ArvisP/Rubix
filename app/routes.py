@@ -163,6 +163,14 @@ def eventAnnouncements():
 @app.route('/event-schedule')
 def eventSchedule():
     return render_template('event-schedule.html', eventName="City College Cube Day")
+
+def postAnnouncement():
+    # Code for posting announcement
+
+    # render template / reload page
+    eventAnnouncements()
+
+    
 # @app.route('/signup')
 # def signup():
 #   return "hellowordl!"

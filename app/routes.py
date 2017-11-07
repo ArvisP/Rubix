@@ -157,7 +157,7 @@ def error():
 def eventAnnouncements():
     events = [('Event 4', 'Announcement 4', 'Today 7:30PM'),('Event 3', 'Announcement 3', 'Today 7:00PM'),
     ('Event 2', 'Announcement 2', 'Today 6:45PM'),('Event 1', 'Announcement 1', 'Today 6:30PM')]
-    return render_template('event-announcements.html', eventName="City College Cube Day", list = events, name="Arvis", eventorganizer=True)
+    return render_template('event-announcements.html', eventName="City College Cube Day", list = events)
 >>>>>>> 40f625c5f3f90a2cd4624e1f40c80bbfab054c8f
 
 @app.route('/event-schedule')

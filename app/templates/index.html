@@ -1,13 +1,18 @@
 {% extends "layout.html" %} {% block content %}
-<html>
+<main>
+    <div class="container-fluid">
+        <div class="row text-center">
+            <div class="col-sm-4 offset-2">
+                <a href="{{ url_for('host') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Host a Competition</span></a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{{ url_for('manage') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Manage Competitions</span></a>
+            </div>
+        </div>
 
-<head>
-    <title> {% block title %} Rubik's Cube {% endblock %}</title>
-</head>
+        <div class="text-center">
 
-<body>
-
-</body>
-
-</html>
+        </div>
+    </div>
+</main>
 {% endblock %}

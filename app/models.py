@@ -15,13 +15,13 @@ class User(db.Model):
     zipcode = db.Column(db.String(10))
 
     def __init__(self, first_name, last_name, email, password):
-      self.first_name = first_name.title()
-      self.last_name = last_name.title()
-      self.email = email.lower()
-      self.set_password(password)
+        self.first_name = first_name.title()
+        self.last_name = last_name.title()
+        self.email = email.lower()
+        self.set_password(password)
 
     def set_password(self, password):
-      self.password_hash = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
       return check_password_hash(self.password_hash, password)
@@ -58,10 +58,23 @@ class User(db.Model):
             return str(self.wca_id)  # python 3
 
 
-class Competitions(db.Model):
+# This association table is used to store the many-to-many relationship between competitions and events
+competitions_events = db.Table('competitionsEvents',
+                               db.Model.metadata,
+                               db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
+                               db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
+
+
+class Event(db.Model):
+    __tablename__ = 'events'
+    event_id = db.Column(db.Integer, primary_key=True)
+    event_name = db.Column(db.String(50))
+
+
+class Competition(db.Model):
     __tablename__ = 'competitions'
     comp_id = db.Column(db.Integer, primary_key=True)
-    wca_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
+    organizer_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
     title = db.Column(db.String(50))
     date = db.Column(db.Date)
     address = db.Column(db.String(100))
@@ -70,6 +83,44 @@ class Competitions(db.Model):
     zipcode = db.Column(db.String(10))
 
     organizerRel = db.relationship('User', backref='competitionRel')
+    events = db.relationship('Event', secondary=competitions_events)
+
+
+    def __init__(self, title, address, date):
+        self.title = title
+        self.address = address
+        self.date = date
 
     def __repr__(self):
         return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
+
+
+class Announcement(db.Model):
+    __tablename__ = 'announcements'
+    annc_id = db.Column(db.Integer, primary_key=True)
+    comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.wca_id'))
+    time_created = db.Column(db.DateTime)
+    title = db.Column(db.String(50))
+    body = db.Column(db.Text)
+
+    authorRel = db.relationship('User', backref='announcementRel')
+    competitionRel = db.relationship('Competition', backref='announcementRel')
+
+    def __repr__(self):
+        return 'This announcement has the id {!d} with title {!s}'.format(self.annc_id, self.title)
+
+
+class Schedule(db.Model):
+    __tablename__ = "schedules"
+    schedule_id = db.Column(db.Integer, primary_key=True)
+    comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
+    event_id = db.Column(db.Integer)
+    time_start = db.Column(db.DateTime)
+    time_end = db.Column(db.DateTime)
+    event_name = db.Column(db.String(50))
+
+    competitionRel = db.relationship('Competition', backref='scheduleRel')
+
+    def __repr__(self):
+        return "The scheduled event has the id {!d} for the competition {!d}".format(self.schedule_id, self.comp_id)

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <main class="container-fluid">
+    <div class="container">
+      <h2>Log in</h2>
+
+      <form action="/login" method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          {{ form.email.label }}
+            
+          {% if form.email.errors %}
+            {% for error in form.email.errors %}
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>       
+            {% endfor %}
+          {% endif %}
+            
+          {{ form.email(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.password.label }}
+
+          {% if form.password.errors %}
+            {% for error in form.password.errors %}
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>
+            {% endfor %}
+          {% endif %}
+            
+          {{ form.password(class="form-control")}}
+        </div>
+
+        {{ form.submit(class="btn btn-primary") }}
+      </form>
+    </div>
+  </main>
+{% endblock %}

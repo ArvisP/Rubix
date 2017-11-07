@@ -1,21 +1,19 @@
-.btn-bar {
-    width: 100%;
-    background-color: #555;
-    overflow: auto;
+h1{
+  font-family: "Courier New", cursive;
+  text-align: center;
+  color: #7b7e82;
 }
 
-.btn-bar a {
-    float: left;
-    width: 20%;
-    text-align: center;
-    padding: 12px 0;
-    transition: all 0.3s ease;
-    color: white;
-    font-size: 36px;
+h3{
+
 }
 
-.btn-bar a:hover {
-    background-color: #000;
+h4{
+
+}
+
+h6{
+
 }
 
 .background {
@@ -23,5 +21,10 @@
 }
 
 .active {
-    background-color: #4CAF50 !important;
+    background-color: #4b4f4b !important;
+}
+
+table, tr, td {
+    border: 1px solid #4b4f4b;
+
 }

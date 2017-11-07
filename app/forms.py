@@ -16,11 +16,18 @@ class SignupForm(FlaskForm):
     confirm = PasswordField('Repeat Password')
     submit = SubmitField('Sign up')
 
+    user = User.query.filter_by(email = self.email.data.lower()).first()
+    if user:
+      self.email.errors.append("That email is already taken")
+      return False
+    else:
+      return True
+
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
-    password = PasswordField('Password', validators=[DataRequired("Please enter a password.")])
-    remember_me = BooleanField('remember_me', default=False)
-    submit = SubmitField('Sign in')
+  email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
+  password = PasswordField('Password', validators=[DataRequired("Please enter a password.")])
+  remember_me = BooleanField('remember_me', default=False)
+  submit = SubmitField('Sign in')
 
 class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(prefix_label=False)
@@ -49,7 +56,3 @@ class CompetitionForm(FlaskForm):
                                                 ('mbld', '3x3x3 Multi-Blind')])
     submit = SubmitField('Create competition')
 
-
-'''
-
-'''

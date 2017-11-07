@@ -9,9 +9,9 @@ from datetime import datetime
 admin.add_view(ModelView(User, db.session))
 
 @app.route('/')
-@app.route('/index')
 def index():
-    return render_template('index.html')
+  form = LoginForm()
+  return render_template('index.html', form=form )
 
 @lm.user_loader
 def load_user(id):
@@ -47,6 +47,16 @@ def login():
 
     return render_template('login.html', form=form)
 
+      if user is not None and user.verify_password(password):
+        login_user(user)
+        flash('Logged in')
+        return redirect(url_for('index'))
+      else:
+        flash('Invalid Login')
+        return render_template('login.html', form=form)
+  return render_template('index.html', form=form)
+
+
 @app.route('/logout')
 def logout():
     logout_user()
@@ -55,12 +65,10 @@ def logout():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-
     # # Disable access to login page if user is already logged in.
     if current_user.is_authenticated:
             flash("You are already signed up!")
             return redirect(url_for('index'))
-
     form = SignupForm()
     # Checks if form fields are filled
     # if it is, create a new user with provided credentials
@@ -129,11 +137,14 @@ def announcements(comp_id):
     return render_template('announcements.html', comp=comp)
 
 
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 @app.route('/profile')
 @login_required
 def profile():
     return render_template('profile-layout.html')
-
 
 @app.route('/learnmore')
 def learnmore():
@@ -150,6 +161,7 @@ def eventselected():
 #@app.errorhandler(404)
 #def page_not_found(e):
 #  return render_template('404.html'), 404
+
 @app.route('/404')
 def error():
     return render_template('404.html')
@@ -169,9 +181,3 @@ def postAnnouncement():
 
     # render template / reload page
     eventAnnouncements()
-
-
-# @app.route('/signup')
-# def signup():
-#   return "hellowordl!"
-

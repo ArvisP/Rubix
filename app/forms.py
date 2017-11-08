@@ -16,6 +16,7 @@ class SignupForm(FlaskForm):
     confirm = PasswordField('Repeat Password')
     submit = SubmitField('Sign up')
 
+<<<<<<< HEAD
     user = User.query.filter_by(email = self.email.data.lower()).first()
     if user:
         self.email.errors.append("That email is already taken")
@@ -23,6 +24,8 @@ class SignupForm(FlaskForm):
     else:
         return True
 
+=======
+>>>>>>> 16f00a970e4a3f3235c7dbd500e5721414de636e
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
     password = PasswordField('Password', validators=[DataRequired("Please enter a password.")])

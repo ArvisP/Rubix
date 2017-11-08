@@ -23,6 +23,7 @@
         {% endfor %}
       </table>
     </div>
+    
     {% if eventorganizer %} <!-- Checks if user is the event organizer -->
       <form action = "{{ url_for('postAnnouncement')}}">
         <div style="margin-top: 20px">

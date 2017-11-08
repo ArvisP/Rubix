@@ -5,15 +5,15 @@
   <div class="container-fluid">
     <div class="row text-center">
       <div class="col-sm-4 offset-2">
-        <button type="button" class="btn btn-dark btn-lg btn-block">Host a Competition</button>   
+        <a href="{{ url_for('host') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Host a Competition</span></a>
       </div>
       <div class="col-sm-4">
-        <button type="button" class="btn btn-dark btn-lg btn-block">Manage Competitions</button>
+        <a href="{{ url_for('manage') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Manage Competitions</span></a>
       </div>
     </div>
 
     <div class="text-center">
-      
+
     </div>
   </div>
 </main>

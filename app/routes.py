@@ -2,20 +2,20 @@ from flask import render_template, flash, redirect, request, session, url_for
 from flask_admin.contrib.sqla import ModelView
 from app import app, db, admin
 from .forms import CompetitionForm
-from .models import Competition
+from .models import User, Competition
 from datetime import datetime
 
-# admin.add_view(ModelView(User, db.session))
-
-@app.route('/')
-def index():
-    return render_template('index.html')
+admin.add_view(ModelView(User, db.session))
 
 from functools import wraps
 
 from project.users.views import users_blueprint, login_required
 
 app.register_blueprint(users_blueprint)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 ##############
 # HOST ROUTE #

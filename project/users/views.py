@@ -6,17 +6,18 @@ from app.models import User
 from functools import wraps
 
 
-
+#
 users_blueprint = Blueprint(
     'users', __name__,
     template_folder='templates'
 )
 
 
+
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):
-        if 'logged_in' in session:
+        if current_user.is_authenticated:
             return test(*args, **kwargs)
         else:
             flash('You need to be logged in to access this page!')
@@ -31,7 +32,7 @@ def login():
 
     if current_user.is_authenticated:
         flash("You are already logged in!")
-        return redirect(url_for('profile'))
+        return redirect(url_for('index'))
 
     form = LoginForm()
 
@@ -56,11 +57,14 @@ def login():
     return render_template('login.html', form=form)
 
 
+
 @users_blueprint.route('/logout')
 def logout():
     logout_user()
     flash("You have been logged out!")
     return redirect(url_for('index'))
+
+
 
 @users_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():

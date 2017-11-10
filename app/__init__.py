@@ -9,6 +9,9 @@ from flask_admin import Admin
 
 admin = Admin(app, name='Rubix', template_mode='bootstrap3')
 # admin.add_view(ModelView(User, db.session))
+from flask_login import LoginManager
+lm = LoginManager()
+lm.init_app(app)
 
 
 # IMPORT BLUEPRINTS #

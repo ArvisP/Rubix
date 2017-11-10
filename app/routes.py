@@ -1,82 +1,22 @@
 from flask import render_template, flash, redirect, request, session, url_for
-from flask_login import login_user, logout_user, current_user, login_required
 from flask_admin.contrib.sqla import ModelView
-from app import app, db, lm, admin
-from .forms import LoginForm, SignupForm, CompetitionForm
-from .models import User, Competition
+from app import app, db, admin
+from .forms import CompetitionForm
+from .models import Competition
 from datetime import datetime
 
-admin.add_view(ModelView(User, db.session))
+# admin.add_view(ModelView(User, db.session))
 
 @app.route('/')
 def index():
-    form = LoginForm()
-    return render_template('index.html', form=form )
+    return render_template('index.html')
 
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+from functools import wraps
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    # Disable access to login page if user is already logged in.
+from project.users.views import users_blueprint, login_required
 
-    if current_user.is_authenticated:
-        flash("You are already logged in!")
-        return redirect(url_for('profile'))
+app.register_blueprint(users_blueprint)
 
-    form = LoginForm()
-
-    if request.method == 'POST':
-        if form.validate_on_submit():
-
-            email = form.email.data
-            password = form.password.data
-
-            session['remember_me'] = form.remember_me.data
-
-            user = User.query.filter_by(email=email).first()
-
-            if user is not None and user.verify_password(password):
-                login_user(user)
-                flash('Logged in')
-                return redirect(url_for('index'))
-            else:
-                flash('Invalid Login')
-                return render_template('login.html', form=form)
-
-    return render_template('login.html', form=form)
-
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    flash("You have been logged out!")
-    return redirect(url_for('index'))
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    # # Disable access to login page if user is already logged in.
-    if current_user.is_authenticated:
-            flash("You are already signed up!")
-            return redirect(url_for('index'))
-    form = SignupForm()
-    # Checks if form fields are filled
-    # if it is, create a new user with provided credentials
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            newuser = User(form.first_name.data, form.last_name.data, form.email.data, form.password.data)
-            db.session.add(newuser)
-            db.session.commit()
-
-            session['email'] = newuser.email
-
-            flash("You have signed up!")
-            return redirect(url_for('index'))
-        else:
-            return render_template('signup.html', form=form)
-
-    return render_template('signup.html', form=form)
 ##############
 # HOST ROUTE #
 ##############
@@ -127,10 +67,6 @@ def announcements(comp_id):
 
     return render_template('announcements.html', comp=comp)
 
-
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
 @app.route('/profile')
 @login_required

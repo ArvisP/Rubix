@@ -1,6 +1,7 @@
 from flask import render_template, redirect, flash, session, url_for, request, Blueprint
+from flask_login import current_user
 from app import app, db
-from app.models import Competition
+from app.models import Competition, Event
 from app.forms import CompetitionForm
 
 from project.users.views import login_required
@@ -20,15 +21,18 @@ def host():
     if request.method == 'POST':
         if form.validate_on_submit():
             # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
-            newcomp = Competition(form.name.data, form.location.data, form.date.data)
+            print(current_user.wca_id)
 
+            newComp = Competition(current_user.wca_id, form.name.data, form.location.data, form.date.data)
+            for event in form.events.data:
+                newComp.events.append(Event(event))
 
-            db.session.add(newcomp)
+            db.session.add(newComp)
             db.session.commit()
 
             flash(form.name.data + " has been created!")
-            return redirect(url_for('index'))
+            return redirect(url_for('manage'))
         else:
-            return render_template('host.host.html', form=form)
+            return render_template('host.html', form=form)
     return render_template('host.html', form=form)
 

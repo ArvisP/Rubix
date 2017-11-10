@@ -70,6 +70,9 @@ class Event(db.Model):
     event_id = db.Column(db.Integer, primary_key=True)
     event_name = db.Column(db.String(50))
 
+    def __init__(self, event_name):
+        self.event_name = event_name
+
 
 class Competition(db.Model):
     __tablename__ = 'competitions'
@@ -86,7 +89,8 @@ class Competition(db.Model):
     events = db.relationship('Event', secondary=competitions_events)
 
 
-    def __init__(self, title, address, date):
+    def __init__(self, organizer_id, title, address, date):
+        self.organizer_id = organizer_id
         self.title = title
         self.address = address
         self.date = date

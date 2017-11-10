@@ -1,48 +1,26 @@
 from flask import render_template, flash, redirect, request, session, url_for
 from flask_admin.contrib.sqla import ModelView
 from app import app, db, admin
-from .models import User, Competition
+from .models import User, Competition, Event
 from datetime import datetime
 
 admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Competition, db.session))
+admin.add_view(ModelView(Event, db.session))
 
 from functools import wraps
 
 from project.users.views import users_blueprint, login_required
 from project.host.views import host_blueprint
+from project.manage.views import manage_blueprint
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(host_blueprint)
+app.register_blueprint(manage_blueprint)
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/manage')
-@login_required
-def manage():
-    competitions = db.session.query(Competition).all()
-    return render_template('manage.html', competitions=competitions)
-
-
-@app.route('/manage/<comp_id>')
-@login_required
-def manage_comp(comp_id):
-    comp = Competition.query.filter_by(comp_id=comp_id).first()
-
-    if comp == None:
-        flash('Competition is not found.')
-        return redirect(url_for('index'))
-
-    return render_template('competition.html', comp=comp)
-
-@app.route('/manage/<comp_id>/announcements')
-@login_required
-def announcements(comp_id):
-    comp = Competition.query.filter_by(comp_id=comp_id).first()
-
-    return render_template('announcements.html', comp=comp)
-
 
 @app.route('/profile')
 @login_required

@@ -15,7 +15,7 @@
             <td>{{ comp.title }}</td>
             <td>{{ comp.address }}</td>
             <td>{{ comp.date }}</td>
-            <td><a href="{{ url_for('manage') }}/{{comp.comp_id}}" class="btn btn-primary">Manage</a></td>
+            <td><a href="{{ url_for('manage.manage') }}/{{comp.comp_id}}" class="btn btn-primary">Manage</a></td>
           </tr>
         {% endfor %}
       </tbody>

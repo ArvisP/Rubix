@@ -10,8 +10,8 @@ admin.add_view(ModelView(User, db.session))
 
 @app.route('/')
 def index():
-  form = LoginForm()
-  return render_template('index.html', form=form )
+    form = LoginForm()
+    return render_template('index.html', form=form )
 
 @lm.user_loader
 def load_user(id):
@@ -46,15 +46,6 @@ def login():
                 return render_template('login.html', form=form)
 
     return render_template('login.html', form=form)
-
-      if user is not None and user.verify_password(password):
-        login_user(user)
-        flash('Logged in')
-        return redirect(url_for('index'))
-      else:
-        flash('Invalid Login')
-        return render_template('login.html', form=form)
-  return render_template('index.html', form=form)
 
 
 @app.route('/logout')
@@ -127,7 +118,7 @@ def manage_comp(comp_id):
         flash('Competition is not found.')
         return redirect(url_for('index'))
 
-    return render_template('event.html', comp=comp)
+    return render_template('competition.html', comp=comp)
 
 @app.route('/manage/<comp_id>/announcements')
 @login_required

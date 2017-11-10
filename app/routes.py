@@ -1,7 +1,6 @@
 from flask import render_template, flash, redirect, request, session, url_for
 from flask_admin.contrib.sqla import ModelView
 from app import app, db, admin
-from .forms import CompetitionForm
 from .models import User, Competition
 from datetime import datetime
 
@@ -10,37 +9,14 @@ admin.add_view(ModelView(User, db.session))
 from functools import wraps
 
 from project.users.views import users_blueprint, login_required
+from project.host.views import host_blueprint
 
 app.register_blueprint(users_blueprint)
+app.register_blueprint(host_blueprint)
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-##############
-# HOST ROUTE #
-##############
-@app.route('/host', methods=['GET', 'POST'])
-@login_required
-def host():
-    form = CompetitionForm()
-
-    # form.event.choices =
-
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
-            newcomp = Competition(form.name.data, form.location.data, form.date.data)
-
-
-            db.session.add(newcomp)
-            db.session.commit()
-
-            flash(form.name.data, "has been created!")
-            return redirect(url_for('index'))
-        else:
-            return render_template('host.html', form=form)
-    return render_template('host.html', form=form)
 
 @app.route('/manage')
 @login_required

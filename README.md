@@ -1,6 +1,7 @@
 # Rubix
 
-# Deployed using Heroku: https://gentle-beyond-16492.herokuapp.com/
+# Deployed using Heroku:
+> https://gentle-beyond-16492.herokuapp.com/
 
 ## Getting Started
 Fork the master repository from https://github.com/ArvisP/Rubix and clone the fork.

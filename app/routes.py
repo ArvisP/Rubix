@@ -45,7 +45,7 @@ def login():
                 flash('Invalid Login')
                 return render_template('login.html', form=form)
 
-<<<<<<< HEAD
+
         return render_template('login.html', form=form)
 
     if user is not None and user.verify_password(password):
@@ -55,11 +55,8 @@ def login():
     else:
         flash('Invalid Login')
         return render_template('login.html', form=form)
-    return render_template('index.html', form=form)
-=======
     return render_template('login.html', form=form)
-  
->>>>>>> 16f00a970e4a3f3235c7dbd500e5721414de636e
+
 
 
 @app.route('/logout')

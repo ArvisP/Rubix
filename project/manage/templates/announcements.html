@@ -1,5 +1,30 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
+
 {% block content %}
 {% include 'competition.html' %}
+  <div class="container-fluid col-8" align="center" style="width: 90%">
+    <div class="container-fluid" align="left" style="margin-top: 5px">
+      <table style="width:100%">
+        {% for title, body, time in list %}
+          <tr style="text-align:left">
+            <td>
+              <h3 style="padding-left: 10px">{{ title }}</h3>
+              <h4 style="padding-left: 20px">{{ body }}</h4>
+              <h6 style="float: right">{{ time }}  </h6>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% if eventorganizer %} <!-- Checks if user is the event organizer -->
+      <form action = "{{ url_for('postAnnouncement')}}">
+        <div style="margin-top: 20px">
+          <input type="Text" name="ann-title" placeholder="Title..." style="width: 90%; bold"></input>
+          <textarea rows="4" name="announcement" placeholder="Announcement..." style="width: 90%; resize:none"></textarea><br>
+          <button type="button" class="btn btn-default" style="float: right; margin-right: 5%; margin-top: 5px">POST</button>
+        </div>
+      </form>
+    {% endif %}
 
+  </div>
 {% endblock %}

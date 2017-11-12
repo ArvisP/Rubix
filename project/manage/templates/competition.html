@@ -1,5 +1,6 @@
 {% block content %}
 <div class="container-fluid col-8" align="center">
+  <h1>{{ eventName }}</h1>
   <nav class="navbar navbar-expand bg-light">
     <ul class="navbar-nav">
 
@@ -10,7 +11,7 @@
         <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Announcements</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Schedule</a>
+        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/schedule" class="nav-link">Schedule</a>
       </li>
       <li class="nav-item">
         <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Directions</a>

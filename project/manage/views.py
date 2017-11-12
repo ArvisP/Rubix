@@ -24,11 +24,18 @@ def manage_comp(comp_id):
         flash('Competition is not found.')
         return redirect(url_for('index'))
 
-    return render_template('competition.html', comp=comp)
+    return render_template('announcements.html', comp=comp)
 
 @manage_blueprint.route('/manage/<comp_id>/announcements')
 @login_required
 def announcements(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
+    events = [('Event 4', 'Announcement 4', 'Today 7:30PM'),('Event 3', 'Announcement 3', 'Today 7:00PM'),
+    ('Event 2', 'Announcement 2', 'Today 6:45PM'),('Event 1', 'Announcement 1', 'Today 6:30PM')]
 
-    return render_template('announcements.html', comp=comp)
+    return render_template('announcements.html', comp=comp, eventName="City College Cube Day", list = events)
+
+@app.route('/manage/<comp_id>/schedule')
+def eventSchedule(comp_id):
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    return render_template('schedule.html', comp = comp, eventName="City College Cube Day")

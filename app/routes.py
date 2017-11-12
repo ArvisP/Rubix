@@ -47,15 +47,6 @@ def eventselected():
 def error():
     return render_template('404.html')
 
-@app.route('/event-announcements')
-def eventAnnouncements():
-    events = [('Event 4', 'Announcement 4', 'Today 7:30PM'),('Event 3', 'Announcement 3', 'Today 7:00PM'),
-    ('Event 2', 'Announcement 2', 'Today 6:45PM'),('Event 1', 'Announcement 1', 'Today 6:30PM')]
-    return render_template('event-announcements.html', eventName="City College Cube Day", list = events)
-
-@app.route('/event-schedule')
-def eventSchedule():
-    return render_template('event-schedule.html', eventName="City College Cube Day")
 
 def postAnnouncement():
     # Code for posting announcement

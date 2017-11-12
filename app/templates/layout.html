@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang = "en-us">
+<html lang="en-us">
 
 <head>
     <meta charset="utf-8">
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a href="/" class="navbar-brand">Rubik's</a>
@@ -42,11 +43,8 @@
             <a href="{{ url_for('users.login') }}" class="btn btn-dark"><span class="text-light">Log in</span></a>
           </li>
           {% endif %}
-
-        </ul>
-        </div>
-      </div>
     </nav>
+
 
     <!-- "col-sm-8 mx-auto" -->
     {% with messages = get_flashed_messages() %}

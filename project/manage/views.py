@@ -43,12 +43,12 @@ def announcements(comp_id):
     if request.method == 'POST':
         if form.validate_on_submit():
             newAnnounce = Announcement(comp.comp_id, current_user.wca_id, form.title.data, form.body.data)
-
+            print('announcement posted!')
             db.session.add(newAnnounce)
             db.session.commit()
 
-        flash('Posted!')
-        return redirect(url_for('manage.manage'))
+            flash('Posted!')
+            return redirect(url_for('manage.manage'))
 
 
 

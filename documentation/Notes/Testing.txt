@@ -203,7 +203,15 @@ Add some Test Adding Messages:
 {% endblock %}
 -->
 
+this is for layout.html
 
+    <!-- "col-sm-8 mx-auto"
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+    <div class="alert alert-dark">
+        {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %} {% block content %} {% endblock %}
+    -->
 
 
 

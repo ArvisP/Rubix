@@ -1,20 +1,24 @@
 from app import app, db
-from flask_testing import TestCase
 from flask import request
 from werkzeug.security import check_password_hash
 
 import unittest
 import datetime
 
+from flask_testing import TestCase
 from flask_login import current_user
 from app.models import User, Competition
 
 class BaseTestCase(TestCase):
-
+    '''
+    Initializes he app
+    '''
     def create_app(self):
         app.config.from_object('config.TestConfig')
         return app
-
+    '''
+    Creates the database and adds data to the database
+    '''
     def setUp(self):
         db.create_all()
         user = User("Firstname", "Lastname", "test@test.com", "test123")
@@ -23,6 +27,9 @@ class BaseTestCase(TestCase):
         db.session.add(comp)
         db.session.commit()
 
+    '''
+    Drops all tables from the database
+    '''
     def tearDown(self):
         db.session.remove()
         db.drop_all()
@@ -121,6 +128,39 @@ class TestHost(BaseTestCase):
     def test_host_requires_login(self):
         response = self.client.get('/host', follow_redirects=True)
         self.assertIn(b'You need to be logged in to access this page!', response.data)
+
+    def test_host_submission(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.post(
+                '/host',
+                data=dict(name="Cube Day", location="Cubicle",
+                    date=datetime.date(2018, 5, 13), events="rubikscube"),
+                follow_redirects=True
+            )
+            comp = Competition.query.filter_by(title="Cube Day").first()
+            self.assertTrue(comp)
+            self.assertIn(b'Cube Day has been created!', response.data)
+
+    def test_submission_matches_user(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.post(
+                '/host',
+                data=dict(name="Cube Day", location="Cubicle",
+                    date=datetime.date(2018, 5, 13), events="rubikscube"),
+                follow_redirects=True
+            )
+            comp = Competition.query.filter_by(title="Cube Day").first()
+            self.assertTrue(comp.organizer_id == current_user.wca_id)
 
 
 if __name__ == '__main__':

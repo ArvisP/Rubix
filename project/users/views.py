@@ -82,8 +82,6 @@ def signup():
             db.session.add(newuser)
             db.session.commit()
 
-            session['email'] = newuser.email
-
             flash("You have signed up! Please log in!")
             return redirect(url_for('index'))
         else:

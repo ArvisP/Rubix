@@ -1,3 +1,5 @@
+import datetime
+
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -110,6 +112,13 @@ class Announcement(db.Model):
 
     authorRel = db.relationship('User', backref='announcementRel')
     competitionRel = db.relationship('Competition', backref='announcementRel')
+
+    def __init__(self, comp_id, author_id, title, body):
+        self.comp_id = comp_id
+        self.author_id = author_id
+        self.title = title
+        self.body = body
+        self.time_created = datetime.datetime.now()
 
     def __repr__(self):
         return 'This announcement has the id {!d} with title {!s}'.format(self.annc_id, self.title)

@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main class="container-fluid">
+  <div class="col-8 offset-2">
+    <h2 class="my-4">Manage Competitions</h2>
+    <table class="table">
+      <thead>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Date</th>
+      </thead>
+      <tbody>
+        {% for comp in competitions %}
+          <tr>
+            <td>{{ comp.title }}</td>
+            <td>{{ comp.address }}</td>
+            <td>{{ comp.date }}</td>
+            <td><a href="{{ url_for('manage.manage') }}/{{comp.comp_id}}" class="btn btn-primary">Manage</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %}

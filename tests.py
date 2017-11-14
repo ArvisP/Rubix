@@ -48,9 +48,9 @@ class TestUser(BaseTestCase):
                 data=dict(
                     first_name="New", last_name="User",
                     email="new@user.com", password="newuser"
-                    ),
+                ),
                 follow_redirects=True
-                )
+            )
             self.assertIn(b'You have signed up! Please log in!', response.data)
             user = User.query.filter_by(email="new@user.com").first()
             self.assertTrue(user)
@@ -62,9 +62,9 @@ class TestUser(BaseTestCase):
                 data=dict(
                     first_name="New", last_name="User",
                     email="newuser", password="newuser"
-                    ),
+                ),
                 follow_redirects=True
-                )
+            )
             self.assertIn(b'Please enter a valid email.', response.data)
             self.assertIn('/signup', request.url)
 
@@ -138,13 +138,42 @@ class TestHost(BaseTestCase):
             )
             response = self.client.post(
                 '/host',
-                data=dict(name="Cube Day", location="Cubicle",
-                    date=datetime.date(2018, 5, 13), events="rubikscube"),
+                data=dict(
+                    name="Cube Day",
+                    location="Cubicle",
+                    date=datetime.date(2018, 5, 13),
+                    events="rubikscube"
+                ),
                 follow_redirects=True
             )
             comp = Competition.query.filter_by(title="Cube Day").first()
             self.assertTrue(comp)
             self.assertIn(b'Cube Day has been created!', response.data)
+
+    def test_submission_on_manage(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            self.client.post(
+                '/host',
+                data=dict(
+                    name="Cube Day",
+                    location="Cubicle",
+                    date=datetime.date(2018, 5, 13),
+                    events="rubikscube"
+                ),
+                follow_redirects=True
+            )
+            response = self.client.get('/manage', content_type='html/text')
+            self.assertIn(b'Cube Day', response.data)
+            self.assertIn(b'Cubicle', response.data)
+            self.assertIn(b'2018-05-13', response.data)
+            self.assertIn(b'Manage', response.data)
+
+
 
     def test_submission_matches_user(self):
         with self.client:
@@ -155,12 +184,36 @@ class TestHost(BaseTestCase):
             )
             response = self.client.post(
                 '/host',
-                data=dict(name="Cube Day", location="Cubicle",
-                    date=datetime.date(2018, 5, 13), events="rubikscube"),
+                data=dict(
+                    name="Cube Day",
+                    location="Cubicle",
+                    date=datetime.date(2018, 5, 13),
+                    events="rubikscube"
+                ),
                 follow_redirects=True
             )
             comp = Competition.query.filter_by(title="Cube Day").first()
             self.assertTrue(comp.organizer_id == current_user.wca_id)
+
+class TestManage(BaseTestCase):
+
+    def test_manage_requires_login(self):
+        response = self.client.get('/manage', follow_redirects=True)
+        self.assertIn(b'You need to be logged in to access this page!', response.data)
+
+    def test_manage_displays_competition(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/manage', content_type='html/text')
+            self.assertIn(b'Test name', response.data)
+            self.assertIn(b'Test location', response.data)
+            self.assertIn(b'2017-12-31', response.data)
+            self.assertIn(b'Manage', response.data)
+
 
 
 if __name__ == '__main__':

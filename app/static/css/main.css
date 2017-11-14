@@ -13,7 +13,7 @@ h4{
 }
 
 h6{
-
+  
 }
 
 .background {
@@ -21,10 +21,9 @@ h6{
 }
 
 .active {
-    background-color: #4b4f4b !important;
+  background-color: #4b4f4b !important;
 }
 
 table, tr, td {
-    border: 1px solid #4b4f4b;
-
+  border: 1px solid #4b4f4b;
 }

@@ -2,23 +2,23 @@
 
 {% block content %}
   <main class="container-fluid">
-    <div class="container">
-      <h2>Log in</h2>
+    <div class="container" style="width: 40%">
+      <h2 style="text-align: center">Log in</h2>
 
       <form action="/login" method="POST">
         {{ form.hidden_tag() }}
 
         <div class="form-group">
           {{ form.email.label }}
-            
+
           {% if form.email.errors %}
             {% for error in form.email.errors %}
               <div class="alert alert-danger">
                 {{ error }}
-              </div>       
+              </div>
             {% endfor %}
           {% endif %}
-            
+
           {{ form.email(class="form-control") }}
         </div>
 
@@ -32,7 +32,7 @@
               </div>
             {% endfor %}
           {% endif %}
-            
+
           {{ form.password(class="form-control")}}
         </div>
 

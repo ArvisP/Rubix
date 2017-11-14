@@ -49,3 +49,7 @@ class CompetitionForm(FlaskForm):
                                                 ('mbld', '3x3x3 Multi-Blind')])
     submit = SubmitField('Create competition')
 
+class AnnouncementForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired("Please enter a title")])
+    body = TextAreaField('Body', validators=[DataRequired("Please enter a body")])
+    submit = SubmitField('Post announcement')

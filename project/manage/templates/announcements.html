@@ -5,24 +5,46 @@
   <div class="container-fluid col-8" align="center" style="width: 90%">
     <div class="container-fluid" align="left" style="margin-top: 5px">
       <table style="width:100%">
-        {% for title, body, time in list %}
+        {% for post in announcements %}
           <tr style="text-align:left">
             <td>
-              <h3 style="padding-left: 10px">{{ title }}</h3>
-              <h4 style="padding-left: 20px">{{ body }}</h4>
-              <h6 style="float: right">{{ time }}  </h6>
+              <h3 style="padding-left: 10px">{{ post.title }}</h3>
+              <h4 style="padding-left: 20px">{{ post.body }}</h4>
+              <h6 style="float: right">{{ post.date }}  </h6>
             </td>
           </tr>
         {% endfor %}
       </table>
     </div>
-    {% if eventorganizer %} <!-- Checks if user is the event organizer -->
-      <form action = "{{ url_for('postAnnouncement')}}">
-        <div style="margin-top: 20px">
-          <input type="Text" name="ann-title" placeholder="Title..." style="width: 90%; bold"></input>
-          <textarea rows="4" name="announcement" placeholder="Announcement..." style="width: 90%; resize:none"></textarea><br>
-          <button type="button" class="btn btn-default" style="float: right; margin-right: 5%; margin-top: 5px">POST</button>
+    {% if comp.organizer_id == current_user.wca_id %} <!-- Checks if user is the event organizer -->
+      <form action="{{ url_for('manage.manage') }}/{{comp.comp_id}}/announcements" method="POST">
+        <div class="form-group">
+          {{ form.title.label }}
+          {% if form.title.errors %}
+          <div class="alert alert-danger">
+            {% for error in form.title.error %}
+              {{ error }}
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {{ form.title(class="form-control") }}
         </div>
+
+        <div class="form-group">
+          {{ form.body.label }}
+          {% if form.body.errors %}
+          <div class="alert alert-danger">
+            {% for error in form.body.error %}
+              {{ error }}
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {{ form.body(class="form-control") }}
+        </div>
+
+        {{ form.submit(class="btn btn-primary") }}
       </form>
     {% endif %}
 

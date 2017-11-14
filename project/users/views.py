@@ -57,6 +57,7 @@ def login():
 
 
 @users_blueprint.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash("You have been logged out!")
@@ -79,9 +80,7 @@ def signup():
             db.session.add(newuser)
             db.session.commit()
 
-            session['email'] = newuser.email
-
-            flash("You have signed up!")
+            flash("You have signed up! Please log in!")
             return redirect(url_for('index'))
         else:
             return render_template('signup.html', form=form)

@@ -1,17 +1,16 @@
 from flask import Flask
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config.from_object('config')
+lm = LoginManager()
+lm.init_app(app)
+app.config.from_object('config.BaseConfig')
 db = SQLAlchemy(app)
 
 from flask_admin import Admin
 
 admin = Admin(app, name='Rubix', template_mode='bootstrap3')
-# admin.add_view(ModelView(User, db.session))
-from flask_login import LoginManager
-lm = LoginManager()
-lm.init_app(app)
 
 
 # IMPORT BLUEPRINTS #
@@ -19,5 +18,7 @@ lm.init_app(app)
 from project.users.views import users_blueprint
 app.register_blueprint(users_blueprint)
 
+
+lm.login_view = "users.login"
 
 from app import routes, models

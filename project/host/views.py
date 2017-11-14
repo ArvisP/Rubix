@@ -31,7 +31,7 @@ def host():
             db.session.commit()
 
             flash(form.name.data + " has been created!")
-            return redirect(url_for('manage'))
+            return redirect(url_for('manage.manage'))
         else:
             return render_template('host.html', form=form)
     return render_template('host.html', form=form)

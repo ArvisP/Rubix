@@ -12,8 +12,6 @@ users_blueprint = Blueprint(
     template_folder='templates'
 )
 
-
-
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):

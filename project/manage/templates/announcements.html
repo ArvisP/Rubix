@@ -1,16 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <h1>{{ eventName }}</h1>
-  <div class="container-fluid" align="center" style="width: 90%">
-    <div class="navbar navbar-inverse btn-group" style="padding-left:20px; padding-right:20px; width:80%">
-        <button class="btn navbar-btn btn-default active" style="width: 20%">Announcements</button>
-        <button class="btn navbar-btn btn-default" style="width: 20%">Schedule</button>
-        <button class="btn navbar-btn btn-default" style="width: 20%">Competitors</button>
-        <button class="btn navbar-btn btn-default" style="width: 20%">Volunteers</button>
-        <button class="btn navbar-btn btn-default" style="width: 20%">Staff</button>
-    </div>
-    <div class="container-fluid background" align="left" style="margin-top: 5px">
+{% include 'competition.html' %}
+  <div class="container-fluid col-8" align="center" style="width: 90%">
+    <div class="container-fluid" align="left" style="margin-top: 5px">
       <table style="width:100%">
         {% for title, body, time in list %}
           <tr style="text-align:left">

@@ -17,10 +17,10 @@ class SignupForm(FlaskForm):
     submit = SubmitField('Sign up')
 
 class LoginForm(FlaskForm):
-  email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
-  password = PasswordField('Password', validators=[DataRequired("Please enter a password.")])
-  remember_me = BooleanField('remember_me', default=False)
-  submit = SubmitField('Sign in')
+    email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
+    password = PasswordField('Password', validators=[DataRequired("Please enter a password.")])
+    remember_me = BooleanField('remember_me', default=False)
+    submit = SubmitField('Sign in')
 
 class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(prefix_label=False)

@@ -1,4 +1,8 @@
 # Rubix
+
+# Deployed using Heroku:
+> https://gentle-beyond-16492.herokuapp.com/
+
 ## Getting Started
 Fork the master repository from https://github.com/ArvisP/Rubix and clone the fork.
 ~~~
@@ -24,7 +28,7 @@ Make sure to install packages from requirements.txt
 > pip install -r requirements.txt
 ~~~
 
-## To run the server
+## To run the server locally
 ~~~
 > python run.py
 ~~~

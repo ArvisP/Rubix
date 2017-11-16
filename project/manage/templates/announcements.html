@@ -10,7 +10,7 @@
             <td>
               <h3 style="padding-left: 10px">{{ post.title }}</h3>
               <h4 style="padding-left: 20px">{{ post.body }}</h4>
-              <h6 style="float: right">{{ post.date }}  </h6>
+              <h6 style="float: right">{{ post.time_created }}  </h6>
             </td>
           </tr>
         {% endfor %}
@@ -18,11 +18,12 @@
     </div>
     {% if comp.organizer_id == current_user.wca_id %} <!-- Checks if user is the event organizer -->
       <form action="{{ url_for('manage.manage') }}/{{comp.comp_id}}/announcements" method="POST">
+        {{ form.hidden_tag() }}
         <div class="form-group">
           {{ form.title.label }}
           {% if form.title.errors %}
           <div class="alert alert-danger">
-            {% for error in form.title.error %}
+            {% for error in form.title.errors %}
               {{ error }}
             {% endfor %}
           </div>
@@ -35,7 +36,7 @@
           {{ form.body.label }}
           {% if form.body.errors %}
           <div class="alert alert-danger">
-            {% for error in form.body.error %}
+            {% for error in form.body.errors %}
               {{ error }}
             {% endfor %}
           </div>

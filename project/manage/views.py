@@ -14,7 +14,7 @@ manage_blueprint = Blueprint(
 @manage_blueprint.route('/manage')
 @login_required
 def manage():
-    competitions = db.session.query(Competition).all()
+    competitions = Competition.query.filter_by(organizer_id=current_user.wca_id).all()
     return render_template('manage.html', competitions=competitions)
 
 
@@ -37,18 +37,18 @@ def announcements(comp_id):
     comp = Competition.query.filter_by(comp_id=int(comp_id)).first()
     announcements = Announcement.query.filter_by(comp_id=comp.comp_id).all()
 
-    for post in announcements:
-        print('announcemnt')
-
     if request.method == 'POST':
         if form.validate_on_submit():
             newAnnounce = Announcement(comp.comp_id, current_user.wca_id, form.title.data, form.body.data)
-            print('announcement posted!')
             db.session.add(newAnnounce)
             db.session.commit()
 
             flash('Posted!')
-            return redirect(url_for('manage.manage'))
+            return redirect(url_for('manage.manage') + "/" + comp_id +"/announcements")
+        else:
+            flash('Somethings not working')
+            return render_template('announcements.html', form=form, comp=comp, announcements=announcements)
+
 
 
 

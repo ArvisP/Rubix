@@ -1,29 +1,32 @@
 {% block content %}
-<div class="container-fluid col-8" align="center">
-  <h1>{{ comp.title }}</h1>
-  <nav class="navbar navbar-expand bg-light">
-    <ul class="navbar-nav">
+<div class="container-fluid">
+  <div class="container-fluid my-4 row">
+    <h1 class="col-10">{{ comp.title }}</h1>
+    <p> {{ comp.address }}</p>
+  </div>
 
+  <nav>
+    <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}" class="nav-link">Details</a>
+        <a href="{{ url_for('manage.manage_comp', comp_id=comp.comp_id) }}"  class="nav-link text-dark ">Details</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Announcements</a>
+        <a href="{{ url_for('manage.announcements', comp_id=comp.comp_id) }}" class="nav-link text-dark active">Announcements</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/schedule" class="nav-link">Schedule</a>
+        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/schedule" class="nav-link text-dark ">Schedule</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Directions</a>
+        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link text-dark ">Directions</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Competitors</a>
+        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link text-dark ">Competitors</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Volunteeers</a>
+        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link text-dark ">Volunteeers</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link">Staff</a>
+        <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/announcements" class="nav-link text-dark ">Staff</a>
       </li>
     </ul>
   </nav>

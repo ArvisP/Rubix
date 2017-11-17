@@ -50,6 +50,6 @@ class CompetitionForm(FlaskForm):
     submit = SubmitField('Create competition')
 
 class AnnouncementForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired("Please enter a title")])
-    body = TextAreaField('Body', validators=[DataRequired("Please enter a body")])
+    title = StringField('Title', validators=[DataRequired("Please enter a title")], render_kw={"placeholder": "Title..."})
+    body = TextAreaField('Body', validators=[DataRequired("Please enter a body")], render_kw={"placeholder": "Body..."})
     submit = SubmitField('Post announcement')

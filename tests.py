@@ -28,8 +28,10 @@ class BaseTestCase(TestCase):
         db.session.add(Competition(user.wca_id, "Test name", "Test location", datetime.date(2017, 12, 31)))
         db.session.add(Competition(20, "Cant view", "Cant view", datetime.date(2017, 12, 31)))
         comp = Competition.query.filter_by(comp_id=1).first()
+        comp20 = Competition.query.filter_by(comp_id=20).first()
 
         announce = Announcement(comp.comp_id, user.wca_id, "Test announcement", "Test body")
+        announce = Announcement(comp20.comp_id, 2, "Can i see this?", "maybe")
 
         db.session.add(announce)
         db.session.commit()

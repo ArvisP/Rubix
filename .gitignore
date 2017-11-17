@@ -3,6 +3,5 @@ __pycache__/
 node_modules/
 .idea/
 *.pyc
-db_*
 *.db
 .vscode

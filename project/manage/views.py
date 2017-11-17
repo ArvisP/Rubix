@@ -27,15 +27,18 @@ def manage_comp(comp_id):
         flash('Competition is not found.')
         return redirect(url_for('index'))
 
-    return render_template('competition_index.html', comp=comp)
+    return render_template('details.html', comp=comp)
 
 @manage_blueprint.route('/manage/<comp_id>/announcements', methods=['GET', 'POST'])
 @login_required
 def announcements(comp_id):
     form = AnnouncementForm()
 
-    comp = Competition.query.filter_by(comp_id=int(comp_id)).first()
-    announcements = Announcement.query.filter_by(comp_id=comp.comp_id).all()
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    query = Announcement.query.filter_by(comp_id=comp.comp_id).all()
+    announcements = list(reversed(query))
+
+
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -57,4 +60,4 @@ def announcements(comp_id):
 @app.route('/manage/<comp_id>/schedule')
 def eventSchedule(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-    return render_template('schedule.html', comp = comp, eventName="City College Cube Day")
+    return render_template('schedule.html', comp = comp)

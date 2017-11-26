@@ -71,9 +71,12 @@ class Event(db.Model):
     __tablename__ = 'events'
     event_id = db.Column(db.Integer, primary_key=True)
     event_name = db.Column(db.String(50))
+    duration = db.Column(db.Time)
+    competition = db.relationship('Competition', secondary=competitions_events, backref=db.backref('comp_events'))
 
-    def __init__(self, event_name):
+    def __init__(self, event_name, duration):
         self.event_name = event_name
+        self.duration = duration
 
 
 class Competition(db.Model):
@@ -99,7 +102,6 @@ class Competition(db.Model):
 
     def __repr__(self):
         return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
-
 
 class Announcement(db.Model):
     __tablename__ = 'announcements'
@@ -129,8 +131,6 @@ class Schedule(db.Model):
     schedule_id = db.Column(db.Integer, primary_key=True)
     comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
     event_id = db.Column(db.Integer)
-    time_start = db.Column(db.DateTime)
-    time_end = db.Column(db.DateTime)
     event_name = db.Column(db.String(50))
 
     competitionRel = db.relationship('Competition', backref='scheduleRel')

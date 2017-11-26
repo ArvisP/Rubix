@@ -1,6 +1,6 @@
 import datetime
 from app import db
-from app.models import User, Competition, Announcement
+from app.models import User, Competition, Announcement, Event
 
 # Add users
 db.session.add(User("Test", "Test", "test@test.com", "test123"))
@@ -21,5 +21,9 @@ announce = Announcement(
 
 db.session.add(Announcement(1, session_user.wca_id, "Test Announcement", "Test Body"))
 db.session.add(announce)
+event = Event("Rubik's Cube", datetime.time(11, 0, 0))
+db.session.add(event)
+
+session_comp.comp_events.append(event)
 
 db.session.commit()

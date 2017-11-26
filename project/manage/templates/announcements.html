@@ -3,15 +3,16 @@
     <div class="card">
 
     {% if comp.organizer_id == current_user.wca_id %} <!-- Checks if user is the event organizer -->
+
       <form class="col-12 my-4" action="{{ url_for('manage.manage') }}/{{comp.comp_id}}/announcements" method="POST">
         {{ form.hidden_tag() }}
         <div class="form-group my-0">
           {% if form.title.errors %}
-          <div class="alert alert-danger">
-            {% for error in form.title.errors %}
-              {{ error }}
-            {% endfor %}
-          </div>
+            <div class="alert alert-danger">
+              {% for error in form.title.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
           {% endif %}
 
           {{ form.title(class="form-control") }}
@@ -19,11 +20,11 @@
 
         <div class="form-group">
           {% if form.body.errors %}
-          <div class="alert alert-danger">
-            {% for error in form.body.errors %}
-              {{ error }}
-            {% endfor %}
-          </div>
+            <div class="alert alert-danger">
+              {% for error in form.body.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
           {% endif %}
 
           {{ form.body(class="form-control") }}
@@ -42,6 +43,10 @@
               <h3 class="mx-3 my-1">{{ post.title }}</h3>
               <p class="mx-3">{{ post.body }}</h4>
               <p class=" mx-3 float-right">{{ post.time_created }}  </h6>
+              <form class="float-right" action="{{ url_for('delete_annc', comp_id=comp.comp_id) }}" method="POST">
+                <input type="hidden" value="{{ post.annc_id }}" name="post_to_delete"></input>
+                <button type="submit" class="btn btn-danger">Delete</input>
+              </form>
             </td>
           </tr>
         {% endfor %}

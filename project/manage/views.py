@@ -38,8 +38,6 @@ def announcements(comp_id):
     query = Announcement.query.filter_by(comp_id=comp.comp_id).all()
     announcements = list(reversed(query))
 
-
-
     if request.method == 'POST':
         if form.validate_on_submit():
             newAnnounce = Announcement(comp.comp_id, current_user.wca_id, form.title.data, form.body.data)
@@ -57,7 +55,16 @@ def announcements(comp_id):
 
     return render_template('announcements.html', form=form, comp=comp, announcements=announcements)
 
+@app.route('/manage/<comp_id>/announcements/delete', methods=['POST'])
+def delete_annc(comp_id):
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    delete_id = Announcement.query.filter_by(annc_id=request.form['post_to_delete']).first()
+
+    db.session.delete(delete_id)
+    db.session.commit()
+    return redirect(url_for('manage.announcements', comp_id=comp.comp_id))
+
 @app.route('/manage/<comp_id>/schedule')
 def eventSchedule(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-    return render_template('schedule.html', comp = comp)
+    return render_template('schedule.html', comp=comp)

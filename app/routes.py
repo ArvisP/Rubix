@@ -35,9 +35,13 @@ def learnmore():
 def about():
     return render_template('about.html')
 
-@app.route('/eventselected')
-def eventselected():
-    return render_template('event.html')
+@app.route('/comp-competitors')
+def competitors():
+    return render_template('competitors.html')
+
+@app.route('/comp-schedule')
+def schedule():
+    return render_template('schedule.html')
 
 #@app.errorhandler(404)
 #def page_not_found(e):

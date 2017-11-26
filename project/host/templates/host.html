@@ -47,26 +47,8 @@
           {% endfor %}
         {% endif %}
 
-        {{ form.date(class="form-control") }}
+        {{ form.date(class="form-control", type="date") }}
       </div>
-
-      <div class="form-check">
-
-
-          {% if form.events.errors %}
-            {% for error in form.events.errors %}
-            <div class="alert alert-danger">
-              {{ error }}
-            </div>
-            {% endfor %}
-          {% endif %}
-
-
-          {{ form.events.label }}
-          {{ form.events }}
-
-      </div>
-
 
       {{ form.submit(class="btn btn-primary") }}
 

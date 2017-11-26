@@ -1,4 +1,16 @@
 {% include 'competition.html' %}
 <div class="container-fluid col-8">
-
+    <table class="col-3">
+        {% for event in comp.comp_events %}
+        <tr class="card my-4">
+            <td>
+                <h3 class="mx-3 my-1">{{ event.event_name }}</h3>
+                <p class="mx-3">{{ event.start_time }} - {{ event.end_time }}</h4>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <a href="{{ url_for('manage.newEvent', comp_id=comp.comp_id) }}" class="btn btn-primary">New Event</a>
+        </tr>
+    </table>
 </div>

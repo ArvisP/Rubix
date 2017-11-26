@@ -24,8 +24,6 @@ def host():
             print(current_user.wca_id)
 
             newComp = Competition(current_user.wca_id, form.name.data, form.location.data, form.date.data)
-            for event in form.events.data:
-                newComp.events.append(Event(event))
 
             db.session.add(newComp)
             db.session.commit()

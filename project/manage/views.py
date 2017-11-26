@@ -2,9 +2,9 @@ from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
 from app import app, db
-from app.models import Competition, Announcement
+from app.models import Competition, Announcement, Event
 from project.users.views import login_required
-from app.forms import AnnouncementForm
+from app.forms import AnnouncementForm, ScheduleForm
 
 manage_blueprint = Blueprint(
     'manage', __name__,
@@ -55,7 +55,7 @@ def announcements(comp_id):
 
     return render_template('announcements.html', form=form, comp=comp, announcements=announcements)
 
-@app.route('/manage/<comp_id>/announcements/delete', methods=['POST'])
+@manage_blueprint.route('/manage/<comp_id>/announcements/delete', methods=['POST'])
 def delete_annc(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
     delete_id = Announcement.query.filter_by(annc_id=request.form['post_to_delete']).first()
@@ -64,7 +64,31 @@ def delete_annc(comp_id):
     db.session.commit()
     return redirect(url_for('manage.announcements', comp_id=comp.comp_id))
 
-@app.route('/manage/<comp_id>/schedule')
+@manage_blueprint.route('/manage/<comp_id>/schedule')
 def eventSchedule(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
+
+    for event in comp.comp_events:
+        print(event.event_name)
     return render_template('schedule.html', comp=comp)
+
+
+@manage_blueprint.route('/manage/<comp_id>/newevent', methods=['GET', 'POST'])
+def newEvent(comp_id):
+    form = ScheduleForm()
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            newEvent = Event(form.event.data, form.start_time.data, form.end_time.data)
+            db.session.add(newEvent)
+            comp.comp_events.append(newEvent)
+            db.session.commit()
+
+            flash(form.event.data + " event created!")
+            return redirect(url_for('manage.manage'))
+        else:
+            flash('Somethings not working!')
+            return render_template('newevent.html', form=form, comp=comp)
+
+    return render_template('newevent.html', form=form, comp=comp)

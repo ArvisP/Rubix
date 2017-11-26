@@ -4,6 +4,10 @@ from app import app, db, admin
 from .models import User, Competition, Event
 from datetime import datetime
 
+class AdminView(ModelView):
+    column_display_pk = True
+    column_hide_backrefs = False
+
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Competition, db.session))
 admin.add_view(ModelView(Event, db.session))

@@ -43,7 +43,7 @@
               <h3 class="mx-3 my-1">{{ post.title }}</h3>
               <p class="mx-3">{{ post.body }}</h4>
               <p class=" mx-3 float-right">{{ post.time_created }}  </h6>
-              <form class="float-right" action="{{ url_for('delete_annc', comp_id=comp.comp_id) }}" method="POST">
+              <form class="float-right" action="{{ url_for('manage.delete_annc', comp_id=comp.comp_id) }}" method="POST">
                 <input type="hidden" value="{{ post.annc_id }}" name="post_to_delete"></input>
                 <button type="submit" class="btn btn-danger">Delete</input>
               </form>

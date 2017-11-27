@@ -7,7 +7,7 @@ import datetime
 
 from flask_testing import TestCase
 from flask_login import current_user
-from app.models import User, Competition, Announcement
+from app.models import User, Competition, Announcement, Event
 
 class BaseTestCase(TestCase):
     '''
@@ -32,9 +32,13 @@ class BaseTestCase(TestCase):
 
         announce1 = Announcement(comp.comp_id, user.wca_id, "Test announcement", "Test body")
         announce2 = Announcement(comp20.comp_id, 2, "Can i see this?", "maybe")
-
         db.session.add(announce1)
         db.session.add(announce2)
+
+        event1 = Event('Rubik\'s Cube', datetime.time(11, 0, 0), datetime.time(12, 0, 0))
+        db.session.add(event1)
+        comp.comp_events.append(event1)
+
         db.session.commit()
 
     '''
@@ -289,5 +293,7 @@ class TestAnnouncement(BaseTestCase):
             self.assertIn(b'Please enter a title', response.data)
             self.assertIn(b'Please enter a body', response.data)
 
+# class TestSchedule(BaseTestCase):
+#     def
 if __name__ == '__main__':
     unittest.main()

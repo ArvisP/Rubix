@@ -56,6 +56,7 @@ def announcements(comp_id):
     return render_template('announcements.html', form=form, comp=comp, announcements=announcements)
 
 @manage_blueprint.route('/manage/<comp_id>/announcements/delete', methods=['POST'])
+@login_required
 def delete_annc(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
     delete_id = Announcement.query.filter_by(annc_id=request.form['post_to_delete']).first()
@@ -75,13 +76,14 @@ def eventSchedule(comp_id):
 
 
 @manage_blueprint.route('/manage/<comp_id>/newevent', methods=['GET', 'POST'])
+@login_required
 def newEvent(comp_id):
     form = ScheduleForm()
     comp = Competition.query.filter_by(comp_id=comp_id).first()
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            newEvent = Event(form.event.data, form.start_time.data, form.end_time.data)
+            newEvent = Event(form.event.data, form.event_round.data, form.start_time.data, form.end_time.data)
             db.session.add(newEvent)
             comp.comp_events.append(newEvent)
             db.session.commit()
@@ -95,6 +97,7 @@ def newEvent(comp_id):
     return render_template('newevent.html', form=form, comp=comp)
 
 @manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>', methods=['GET', 'POST'])
+@login_required
 def event(comp_id, event_id):
     form = EventForm()
     comp = Competition.query.filter_by(comp_id=comp_id).first()

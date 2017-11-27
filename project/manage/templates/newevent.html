@@ -21,6 +21,20 @@
                 {{ form.event(class="form-control") }}
             </div>
 
+            <div class="form-group">
+                {{ form.event_round.label }}
+
+
+                {% if form.event_round.errors %}
+                  {% for error in form.event_round.errors %}
+                  <div class="alert alert-danger">
+                    {{ error }}
+                  </div>
+                  {% endfor %}
+                {% endif %}
+
+                {{ form.event_round(class="form-control") }}
+            </div>
 
             <div class="form-group">
                 {{ form.start_time.label }}

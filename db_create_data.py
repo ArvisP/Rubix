@@ -21,7 +21,7 @@ announce = Announcement(
 
 db.session.add(Announcement(1, session_user.wca_id, "Test Announcement", "Test Body"))
 db.session.add(announce)
-event = Event("Rubik's Cube", datetime.time(11, 0, 0), datetime.time(12, 0, 0))
+event = Event("Rubik's Cube", "Round 1",datetime.time(11, 0, 0), datetime.time(12, 0, 0))
 db.session.add(event)
 
 session_comp.comp_events.append(event)

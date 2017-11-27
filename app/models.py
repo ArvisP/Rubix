@@ -71,12 +71,14 @@ class Event(db.Model):
     __tablename__ = 'events'
     event_id = db.Column(db.Integer, primary_key=True)
     event_name = db.Column(db.String(50))
+    event_round = db.Column(db.String(50))
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
     competition = db.relationship('Competition', secondary=competitions_events, backref=db.backref('comp_events'))
 
-    def __init__(self, event_name, start_time, end_time):
+    def __init__(self, event_name, event_round, start_time, end_time):
         self.event_name = event_name
+        self.event_round = event_round
         self.start_time = start_time
         self.end_time = end_time
 

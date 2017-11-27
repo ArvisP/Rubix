@@ -56,6 +56,7 @@ class AnnouncementForm(FlaskForm):
 
 class ScheduleForm(FlaskForm):
     event = SelectField('Events', choices=[ ('Rubik\'s Cube', 'Rubik\'s Cube'),
+                                            ('2x2x2 Cube', '2x2x2 Cube'),
                                             ('4x4x4 Cube', '4x4x4 Cube'),
                                             ('5x5x5 Cube', '5x5x5 Cube'),
                                             ('6x6x6 Cube', '6x6x6 Cube'),

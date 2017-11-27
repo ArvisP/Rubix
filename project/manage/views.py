@@ -66,7 +66,7 @@ def delete_annc(comp_id):
     return redirect(url_for('manage.announcements', comp_id=comp.comp_id))
 
 @manage_blueprint.route('/manage/<comp_id>/schedule')
-def eventSchedule(comp_id):
+def schedule(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
 
     return render_template('schedule.html', comp=comp)
@@ -86,7 +86,7 @@ def newEvent(comp_id):
             db.session.commit()
 
             flash(form.event.data + " event created!")
-            return redirect(url_for('manage.eventSchedule', comp_id=comp.comp_id))
+            return redirect(url_for('manage.schedule', comp_id=comp.comp_id))
         else:
             flash('Somethings not working!')
             return render_template('newevent.html', form=form, comp=comp)
@@ -129,3 +129,13 @@ def editEvent(comp_id, event_id):
             return render_template('edit.html', form=form, comp=comp, event=event)
 
     return render_template('edit.html', form=form, comp=comp, event=event)
+
+@manage_blueprint.route('/manage/<comp_id>/schedule/delete', methods=['POST'])
+@login_required
+def delete_event(comp_id):
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    delete_id = Event.query.filter_by(event_id=request.form['post_to_delete']).first()
+
+    db.session.delete(delete_id)
+    db.session.commit()
+    return redirect(url_for('manage.schedule', comp_id=comp.comp_id))

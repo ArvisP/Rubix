@@ -96,9 +96,36 @@ def newEvent(comp_id):
 @manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>', methods=['GET', 'POST'])
 @login_required
 def event(comp_id, event_id):
+
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+
+    event = Event.query.filter_by(event_id=event_id).first()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            event.start_time = form.start_time.data
+            event.end_time = form.end_time.data
+
+    return render_template('event.html', comp=comp, event=event)
+
+@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/edit', methods=['GET', 'POST'])
+@login_required
+def editEvent(comp_id, event_id):
     form = EventForm()
     comp = Competition.query.filter_by(comp_id=comp_id).first()
 
     event = Event.query.filter_by(event_id=event_id).first()
 
-    return render_template('event.html', form=form, comp=comp, event=event)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            event.start_time = form.start_time.data
+            event.end_time = form.end_time.data
+            db.session.commit()
+
+            flash(event.event_name + " updated!")
+            return redirect(url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id))
+        else:
+            flash("something not working")
+            return render_template('edit.html', form=form, comp=comp, event=event)
+
+    return render_template('edit.html', form=form, comp=comp, event=event)

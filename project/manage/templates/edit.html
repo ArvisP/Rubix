@@ -1,0 +1,25 @@
+{% extends 'schedule.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="my-4">
+        <h1>{{ event.event_name }}</h1>
+        <h4>{{ event.event_round }}</h4>
+        <h5 class="font-weight-normal">{{ event.start_time }} - {{ event.end_time }}</h5>
+        <form action="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id = event.event_id) }}" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.start_time.label }}
+                {{ form.start_time(class="form-control") }}
+
+            </div>
+            <div class="form-group">
+                {{ form.end_time.label }}
+                {{ form.end_time(class="form-control") }}
+            </div>
+
+            {{ form.submit(class="btn btn-primary")}}
+        </form>
+
+    </div>
+</div>
+{% endblock %}

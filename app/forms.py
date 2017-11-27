@@ -83,5 +83,5 @@ class ScheduleForm(FlaskForm):
 
 class EventForm(FlaskForm):
     start_time = TimeField('Start time', format='%H:%M')
-    end_time = TimeField('end time', format='%H:%M')
+    end_time = TimeField('End time', format='%H:%M')
     submit = SubmitField('Edit Competition')

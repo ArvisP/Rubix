@@ -10,6 +10,7 @@
                     <h5>{{ event.event_round }}</h5>
                     <p>{{ event.start_time }} - {{ event.end_time }}</p>
                     <a class="mb-2" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
+                    <a class="mb-2" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=event.event_id) }}">Edit</a>
                 </td>
             </tr>
             {% endfor %}

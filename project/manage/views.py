@@ -4,7 +4,7 @@ from flask_login import current_user
 from app import app, db
 from app.models import Competition, Announcement, Event
 from project.users.views import login_required
-from app.forms import AnnouncementForm, ScheduleForm
+from app.forms import AnnouncementForm, ScheduleForm, EventForm
 
 manage_blueprint = Blueprint(
     'manage', __name__,
@@ -70,6 +70,7 @@ def eventSchedule(comp_id):
 
     for event in comp.comp_events:
         print(event.event_name)
+
     return render_template('schedule.html', comp=comp)
 
 
@@ -86,9 +87,18 @@ def newEvent(comp_id):
             db.session.commit()
 
             flash(form.event.data + " event created!")
-            return redirect(url_for('manage.manage'))
+            return redirect(url_for('manage.eventSchedule', comp_id=comp.comp_id))
         else:
             flash('Somethings not working!')
             return render_template('newevent.html', form=form, comp=comp)
 
     return render_template('newevent.html', form=form, comp=comp)
+
+@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>', methods=['GET', 'POST'])
+def event(comp_id, event_id):
+    form = EventForm()
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+
+    event = Event.query.filter_by(event_id=event_id).first()
+
+    return render_template('event.html', form=form, comp=comp, event=event)

@@ -73,7 +73,15 @@ class ScheduleForm(FlaskForm):
                                             ('5x5x5 Blindfolded', '5x5x5 Blindfolded'),
                                             ('3x3x3 Multi-Blind', '3x3x3 Multi-Blind'),
                                             ('Other', 'Other')])
-
+    rounds = SelectField('Round', choices=[ ('Round 1', 'Round 1'),
+                                            ('Round 2', 'Round 2'),
+                                            ('Final', 'Final'),
+                                            ('Combined Final', 'Combined Final')])
     start_time = TimeField('Start time', format='%H:%M')
     end_time = TimeField('End time', format='%H:%M')
     submit = SubmitField('Create competition')
+
+class EventForm(FlaskForm):
+    start_time = TimeField('Start time', format='%H:%M')
+    end_time = TimeField('end time', format='%H:%M')
+    submit = SubmitField('Edit Competition')

@@ -1,0 +1,9 @@
+{% extends 'schedule.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="my-4">
+        <h1>Event: {{ event.event_name }}</h1>
+        <h5>{{ event.start_time }} - {{ event.end_time }}</h5>
+    </div>
+</div>
+{% endblock %}

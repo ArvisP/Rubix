@@ -73,7 +73,7 @@ class Event(db.Model):
     event_name = db.Column(db.String(50))
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
-    competition = db.relationship('Competition', secondary=competitions_events, backref=db.backref('comp_events'), order_by="Event.start_time")
+    competition = db.relationship('Competition', secondary=competitions_events, backref=db.backref('comp_events'))
 
     def __init__(self, event_name, start_time, end_time):
         self.event_name = event_name
@@ -93,7 +93,7 @@ class Competition(db.Model):
     zipcode = db.Column(db.String(10))
 
     organizerRel = db.relationship('User', backref='competitionRel')
-    events = db.relationship('Event', secondary=competitions_events)
+    events = db.relationship('Event', secondary=competitions_events, order_by="Event.start_time")
 
 
     def __init__(self, organizer_id, title, address, date):

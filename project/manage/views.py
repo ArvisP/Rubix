@@ -69,9 +69,6 @@ def delete_annc(comp_id):
 def eventSchedule(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
 
-    for event in comp.comp_events:
-        print(event.event_name)
-
     return render_template('schedule.html', comp=comp)
 
 

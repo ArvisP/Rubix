@@ -35,7 +35,7 @@ class BaseTestCase(TestCase):
         db.session.add(announce1)
         db.session.add(announce2)
 
-        event1 = Event('Rubik\'s Cube', datetime.time(11, 0, 0), datetime.time(12, 0, 0))
+        event1 = Event('Rubik\'s Cube', 'Round 1', datetime.time(11, 0, 0), datetime.time(12, 0, 0))
         db.session.add(event1)
         comp.comp_events.append(event1)
 
@@ -177,7 +177,6 @@ class TestHost(BaseTestCase):
                     name="Cube Day",
                     location="Cubicle",
                     date=datetime.date(2018, 5, 13),
-                    events="rubikscube"
                 ),
                 follow_redirects=True
             )
@@ -274,7 +273,7 @@ class TestAnnouncement(BaseTestCase):
                 data=dict(title="new post", body="new body"),
                 follow_redirects=True
             )
-            response = self.client.get('manage/1/announcements', content_type='html/text')
+            response = self.client.get('/manage/1/announcements', content_type='html/text')
             self.assertIn(b'new post', response.data)
             self.assertIn(b'new body', response.data)
 
@@ -293,7 +292,37 @@ class TestAnnouncement(BaseTestCase):
             self.assertIn(b'Please enter a title', response.data)
             self.assertIn(b'Please enter a body', response.data)
 
-# class TestSchedule(BaseTestCase):
-#     def
+class TestSchedule(BaseTestCase):
+    def test_event_exist(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+
+            response = self.client.get('/manage/1/schedule', content_type='html/text')
+            self.assertIn(b'Rubik\'s Cube', response.data)
+
+    def test_event_is_created(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.post(
+                '/manage/1/newevent',
+                data=dict(
+                    event="4x4x4 Cube",
+                    event_round="Round 1",
+                    start_time=datetime.time(9, 0, 0),
+                    end_time=datetime.time(10, 0, 0)
+                ),
+                follow_redirects=True
+            )
+            self.assertIn(b'4x4x4 Cube', response.data)
+            self.assertIn(b'Round 1', response.data)
+
 if __name__ == '__main__':
     unittest.main()

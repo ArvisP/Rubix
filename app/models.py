@@ -3,6 +3,22 @@ import datetime
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
+competitions_users = db.Table('competitionsUsers',
+                        db.Model.metadata,
+                        db.Column('wca_id', db.Integer, db.ForeignKey('users.wca_id')),
+                        db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')))
+
+# This association table is used to store the many-to-many relationship between competitions and events
+competitions_events = db.Table('competitionsEvents',
+                               db.Model.metadata,
+                               db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
+                               db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
+
+events_users = db.Table('eventsUsers',
+                db.Model.metadata,
+                db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
+                db.Column('wca_id', db.Integer, db.ForeignKey('users.wca_id')))
+
 class User(db.Model):
     __tablename__ = 'users'
     wca_id = db.Column(db.Integer, primary_key=True)
@@ -16,6 +32,9 @@ class User(db.Model):
     state = db.Column(db.String(30))
     zipcode = db.Column(db.String(10))
 
+    competitor_of = db.relationship('Competition', secondary=competitions_users, backref=db.backref('competitor_of'))
+    in_event = db.relationship('Event', secondary=events_users, backref=db.backref('in_event'))
+
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name.title()
         self.last_name = last_name.title()
@@ -27,19 +46,12 @@ class User(db.Model):
 
     def check_password(self, password):
       return check_password_hash(self.password_hash, password)
-    # @property
-    # def password(self):
-    #     return AttributeError('Password is not a readable attribute')
-
-    # @password.setter
-    # def password(self, plaintext):
-    #     self.password_hash = generate_password_hash(plaintext)
 
     def verify_password(self, plaintext):
         return check_password_hash(self.password_hash, plaintext)
 
-    def __repr__(self):
-        return '<User {!r}>'.format(self.wca_id)
+    # def __repr__(self):
+    #     return '<User {!r}>'.format(self.wca_id)
 
     @property
     def is_authenticated(self):
@@ -60,11 +72,6 @@ class User(db.Model):
             return str(self.wca_id)  # python 3
 
 
-# This association table is used to store the many-to-many relationship between competitions and events
-competitions_events = db.Table('competitionsEvents',
-                               db.Model.metadata,
-                               db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
-                               db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
 
 
 class Event(db.Model):
@@ -75,6 +82,7 @@ class Event(db.Model):
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
     competition = db.relationship('Competition', secondary=competitions_events, backref=db.backref('comp_events'))
+    competitors = db.relationship('User', secondary=events_users, backref=db.backref('events_users'))
 
     def __init__(self, event_name, event_round, start_time, end_time):
         self.event_name = event_name
@@ -94,8 +102,12 @@ class Competition(db.Model):
     state = db.Column(db.String(30))
     zipcode = db.Column(db.String(10))
 
+    approved = db.Column(db.Boolean)
+    active = db.Column(db.Boolean)
+
     organizerRel = db.relationship('User', backref='competitionRel')
     events = db.relationship('Event', secondary=competitions_events, order_by="Event.start_time")
+    competitors = db.relationship('User', secondary=competitions_users)
 
 
     def __init__(self, organizer_id, title, address, date):
@@ -103,6 +115,8 @@ class Competition(db.Model):
         self.title = title
         self.address = address
         self.date = date
+        self.approved = False
+        self.active = False
 
     def __repr__(self):
         return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
@@ -128,16 +142,3 @@ class Announcement(db.Model):
 
     def __repr__(self):
         return 'This announcement has the id {!d} with title {!s}'.format(self.annc_id, self.title)
-
-
-class Schedule(db.Model):
-    __tablename__ = "schedules"
-    schedule_id = db.Column(db.Integer, primary_key=True)
-    comp_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
-    event_id = db.Column(db.Integer)
-    event_name = db.Column(db.String(50))
-
-    competitionRel = db.relationship('Competition', backref='scheduleRel')
-
-    def __repr__(self):
-        return "The scheduled event has the id {!d} for the competition {!d}".format(self.schedule_id, self.comp_id)

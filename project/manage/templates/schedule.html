@@ -4,13 +4,13 @@
         <div class="col-3">
         <table style="width: 100%">
             {% for event in comp.events %}
-            <tr class="card my-4">
+            <tr class="card my-3">
                 <td class="mx-2">
                     <h4 class="mt-2">{{ event.event_name }}</h4>
                     <h5>{{ event.event_round }}</h5>
                     <p>{{ event.start_time }} - {{ event.end_time }}</p>
-                    <a class="mb-2" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
-                    <a class="mb-2" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=event.event_id) }}">Edit</a>
+                    <a class="mb-2 btn btn-primary" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
+                    <a class="mb-2 btn btn-primary" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=event.event_id) }}">Edit</a>
                     <form class="float-right" action="{{ url_for('manage.delete_event', comp_id=comp.comp_id) }}" method="POST">
                         <input type="hidden" value="{{ event.event_id }}" name="post_to_delete"></input>
                         <button type="submit" class="btn btn-danger">Delete</input>

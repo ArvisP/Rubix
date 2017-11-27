@@ -30,23 +30,6 @@ class CompetitionForm(FlaskForm):
     name = StringField('Competition Name', validators=[DataRequired("Please enter a name for your competition")])
     location = TextAreaField('Location')
     date = DateField('Date', format="%Y-%m-%d")
-    # events = MultiCheckboxField('Events', choices=[('rubikscube', 'Rubik\'s Cube'),
-    #                                             ('fourcube', '4x4x4 Cube'),
-    #                                             ('fivecube', '5x5x5 Cube'),
-    #                                             ('sixcube', '6x6x6 Cube'),
-    #                                             ('sevencube', '7x7x7 Cube'),
-    #                                             ('bld', '3x3x3 Blindfolded'),
-    #                                             ('fmc', '3x3x3 Fewest Moves'),
-    #                                             ('oh', '3x3x3 One Handed'),
-    #                                             ('feet', '3x3x3 With Feet'),
-    #                                             ('megaminx', 'Megaminx'),
-    #                                             ('pyraminx', 'Pyraminx'),
-    #                                             ('clock', 'Rubik\'s Clock'),
-    #                                             ('skewb', 'Skewb'),
-    #                                             ('sq1', 'Square-1'),
-    #                                             ('bld4', '4x4x4 Blindfolded'),
-    #                                             ('bld5', '5x5x5 Blindfolded'),
-    #                                             ('mbld', '3x3x3 Multi-Blind')])
     submit = SubmitField('Create competition')
 
 class AnnouncementForm(FlaskForm):

@@ -50,19 +50,21 @@
         </a>
     </div>
 
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-4 offset-2">
+                <a href="{{ url_for('host.host') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Host a Competition</span></a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{{ url_for('manage.manage') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Manage Competitions</span></a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{{ url_for('competitions.competitions') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Find Competitions</span></a>
+            </div>
+
+    </div>
+
+
 </main>
 {% endblock %}
 
-<!--
-<main>
-  <div class="container-fluid" style="padding-top: 10%">
-    <div class="row text-center">
-      <div class="col-sm-4 offset-2">
-        <a href="{{ url_for('host.host') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Host a Competition</span></a>
-      </div>
-      <div class="col-sm-4">
-        <a href="{{ url_for('manage.manage') }}" class="btn btn-dark btn-lg btn-block"><span class="text-light">Manage Competitions</span></a>
-      </div>
-    </div>
-</main>
--->

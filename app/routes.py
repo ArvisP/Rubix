@@ -17,10 +17,12 @@ from functools import wraps
 from project.users.views import users_blueprint, login_required
 from project.host.views import host_blueprint
 from project.manage.views import manage_blueprint
+from project.competitions.views import competitions_blueprint
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(host_blueprint)
 app.register_blueprint(manage_blueprint)
+app.register_blueprint(competitions_blueprint)
 
 @app.route('/')
 def index():

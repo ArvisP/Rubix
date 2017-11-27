@@ -4,6 +4,7 @@
 <div class="container-fluid col-8">
   <div class="container-fluid my-4 row">
     <h1 class="col-10">{{ comp.title }}</h1>
+    <a href="{{ url_for('competitions.competition', comp_id=comp.comp_id) }}" class="btn btn-primary">View Competition</a>
     <p> {{ comp.address }}</p>
   </div>
 
@@ -13,7 +14,7 @@
         <a href="{{ url_for('manage.manage_comp', comp_id=comp.comp_id) }}"  class="nav-link text-dark ">Details</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('manage.announcements', comp_id=comp.comp_id) }}" class="nav-link text-dark active">Announcements</a>
+        <a href="{{ url_for('manage.announcements', comp_id=comp.comp_id) }}" class="nav-link text-dark">Announcements</a>
       </li>
       <li class="nav-item">
         <a href="{{ url_for('manage.manage') }}/{{ comp.comp_id }}/schedule" class="nav-link text-dark ">Schedule</a>

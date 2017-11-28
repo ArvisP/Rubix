@@ -27,7 +27,6 @@ def competition(comp_id):
     return render_template('comp_info.html', comp=comp)
 
 @competitions_blueprint.route('/competitions/<comp_id>/announcements', methods=['GET', 'POST'])
-@login_required
 def announcements(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
     query = Announcement.query.filter_by(comp_id=comp.comp_id).all()

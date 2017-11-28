@@ -38,6 +38,7 @@ class BaseTestCase(TestCase):
         event1 = Event('Rubik\'s Cube', 'Round 1', datetime.time(11, 0, 0), datetime.time(12, 0, 0))
         db.session.add(event1)
         comp.comp_events.append(event1)
+        comp.competitors.append(user)
 
         db.session.commit()
 
@@ -324,5 +325,46 @@ class TestSchedule(BaseTestCase):
             self.assertIn(b'4x4x4 Cube', response.data)
             self.assertIn(b'Round 1', response.data)
 
+class TestCompetitionsView(BaseTestCase):
+    def test_comp_info_exists(self):
+        response = self.client.get('/competitions/1', content_type='html/text')
+        self.assertIn(b'Test name', response.data)
+
+    def test_comp_info_competitors(self):
+        response = self.client.get('/competitions/1', content_type='html/text')
+        self.assertIn(b'Firstname', response.data)
+
+
+    def test_comp_announcements(self):
+        response = self.client.get('/competitions/1/announcements', content_type='html/text')
+        self.assertIn(b'Test announcement', response.data)
+
+
+    def test_comp_schedule(self):
+        response = self.client.get('/competitions/1/schedule', content_type='html/text')
+        self.assertIn(b'Rubik\'s Cube', response.data)
+        self.assertIn(b'Round 1', response.data)
+
+    def test_unregistered_user_can_register(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="mock@user.com", password="mock123"),
+                follow_redirects=True
+            )
+
+            response = self.client.get('/competitions/1', content_type='html/text')
+            self.assertIn(b'Register', response.data)
+
+
+    def test_registered_user_cannot_register(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1', content_type='html/text')
+            self.assertFalse(b'Register' in response.data)
 if __name__ == '__main__':
     unittest.main()

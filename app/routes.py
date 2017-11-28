@@ -1,8 +1,13 @@
-from flask import render_template, flash, redirect, request, session, url_for
+from flask import render_template
 from flask_admin.contrib.sqla import ModelView
 from app import app, db, admin
 from .models import User, Competition, Event
-from datetime import datetime
+
+#Import project blueprints
+from project.users.views import users_blueprint, login_required
+from project.host.views import host_blueprint
+from project.manage.views import manage_blueprint
+from project.competitions.views import competitions_blueprint
 
 class AdminView(ModelView):
     column_display_pk = True
@@ -12,38 +17,32 @@ admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Competition, db.session))
 admin.add_view(ModelView(Event, db.session))
 
-from functools import wraps
-
-from project.users.views import users_blueprint, login_required
-from project.host.views import host_blueprint
-from project.manage.views import manage_blueprint
-from project.competitions.views import competitions_blueprint
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(host_blueprint)
 app.register_blueprint(manage_blueprint)
 app.register_blueprint(competitions_blueprint)
 
+#Route to the index page
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/profile')
+#Route to the profile page
 @login_required
 def profile():
     return render_template('profile-layout.html')
 
+#Route to the learn more page
 @app.route('/learnmore')
 def learnmore():
     return render_template('learnmore.html')
 
+#Route to the about page
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-@app.route('/eventselected')
-def eventselected():
-    return render_template('event.html')
 
 #@app.errorhandler(404)
 #def page_not_found(e):
@@ -52,10 +51,3 @@ def eventselected():
 @app.route('/404')
 def error():
     return render_template('404.html')
-
-
-def postAnnouncement():
-    # Code for posting announcement
-
-    # render template / reload page
-    eventAnnouncements()

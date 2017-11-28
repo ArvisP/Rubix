@@ -6,7 +6,7 @@ from app.models import User
 from functools import wraps
 
 
-#
+
 users_blueprint = Blueprint(
     'users', __name__,
     template_folder='templates'
@@ -27,7 +27,6 @@ def login_required(test):
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     # Disable access to login page if user is already logged in.
-
     if current_user.is_authenticated:
         flash("You are already logged in!")
         return redirect(url_for('index'))
@@ -47,7 +46,7 @@ def login():
             if user is not None and user.verify_password(password):
                 login_user(user)
                 flash('Logged in')
-                return redirect(url_for('index'))
+                return redirect(url_for('profile'))
             else:
                 flash('Invalid Login')
                 return render_template('login.html', form=form)
@@ -65,7 +64,7 @@ def logout():
 
 
 
-@users_blueprint.route('/signup', methods=['GET', 'POST'])
+@users_blueprint.route('/signup', methods=['GET', 'POST']) # we should also make it so that people can't make another account with the same email
 def signup():
     # # Disable access to login page if user is already logged in.
     if current_user.is_authenticated:

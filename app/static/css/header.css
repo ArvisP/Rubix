@@ -7,14 +7,10 @@ p {
     line-height: 1.75;
 }
 
-a {
+.nav.navbar-nav li a {
     color: #fed136;
 }
 
-a:hover {
+.nav.navbar-nav a:hover {
     color: #fec503;
-}
-
-.text-primary {
-    color: #fed136 !important;
 }

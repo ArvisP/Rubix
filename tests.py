@@ -316,13 +316,15 @@ class TestSchedule(BaseTestCase):
                 data=dict(
                     event="4x4x4 Cube",
                     event_round="Round 1",
-                    start_time=datetime.time(9, 0, 0),
-                    end_time=datetime.time(10, 0, 0)
+                    start_time="11:00 AM",
+                    end_time="12:00 PM"
                 ),
                 follow_redirects=True
             )
             self.assertIn(b'4x4x4 Cube', response.data)
             self.assertIn(b'Round 1', response.data)
+            self.assertIn(b'View', response.data)
+            self.assertIn(b'Edit', response.data)
 
 if __name__ == '__main__':
     unittest.main()

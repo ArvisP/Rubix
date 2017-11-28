@@ -69,3 +69,25 @@ class EventForm(FlaskForm):
     start_time = TimeField('Start time', format='%H:%M')
     end_time = TimeField('End time', format='%H:%M')
     submit = SubmitField('Edit Competition')
+
+class RegisterForm(FlaskForm):
+    event = MultiCheckboxField('Events', choices=[ ('Rubik\'s Cube', 'Rubik\'s Cube'),
+                                            ('2x2x2 Cube', '2x2x2 Cube'),
+                                            ('4x4x4 Cube', '4x4x4 Cube'),
+                                            ('5x5x5 Cube', '5x5x5 Cube'),
+                                            ('6x6x6 Cube', '6x6x6 Cube'),
+                                            ('7x7x7 Cube', '7x7x7 Cube'),
+                                            ('3x3x3 Blindfolded', '3x3x3 Blindfolded'),
+                                            ('3x3x3 Fewest Moves', '3x3x3 Fewest Moves'),
+                                            ('3x3x3 One Handed', '3x3x3 One Handed'),
+                                            ('3x3x3 With Feet', '3x3x3 With Feet'),
+                                            ('Megaminx', 'Megaminx'),
+                                            ('Pyraminx', 'Pyraminx'),
+                                            ('Rubik\'s Clock', 'Rubik\'s Clock'),
+                                            ('Skewb', 'Skewb'),
+                                            ('Square-1', 'Square-1'),
+                                            ('4x4x4 Blindfolded', '4x4x4 Blindfolded'),
+                                            ('5x5x5 Blindfolded', '5x5x5 Blindfolded'),
+                                            ('3x3x3 Multi-Blind', '3x3x3 Multi-Blind'),
+                                            ('Other', 'Other')])
+    submit = SubmitField('Register')

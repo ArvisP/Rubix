@@ -366,5 +366,6 @@ class TestCompetitionsView(BaseTestCase):
             )
             response = self.client.get('/competitions/1', content_type='html/text')
             self.assertFalse(b'Register' in response.data)
+
 if __name__ == '__main__':
     unittest.main()

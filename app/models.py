@@ -118,9 +118,6 @@ class Competition(db.Model):
         self.approved = False
         self.active = False
 
-    def __repr__(self):
-        return 'Event {!r} with id {!d}'.format(self.title, self.comp_id)
-
 class Announcement(db.Model):
     __tablename__ = 'announcements'
     annc_id = db.Column(db.Integer, primary_key=True)
@@ -139,6 +136,3 @@ class Announcement(db.Model):
         self.title = title
         self.body = body
         self.time_created = datetime.datetime.now()
-
-    def __repr__(self):
-        return 'This announcement has the id {!d} with title {!s}'.format(self.annc_id, self.title)

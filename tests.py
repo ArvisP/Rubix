@@ -323,8 +323,6 @@ class TestSchedule(BaseTestCase):
             )
             self.assertIn(b'4x4x4 Cube', response.data)
             self.assertIn(b'Round 1', response.data)
-            self.assertIn(b'View', response.data)
-            self.assertIn(b'Edit', response.data)
 
 if __name__ == '__main__':
     unittest.main()

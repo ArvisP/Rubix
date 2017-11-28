@@ -19,7 +19,25 @@
 
             {{ form.submit(class="btn btn-primary")}}
         </form>
+        <div class="container-fluid col-6 float-left">
+            <h5 class="mt-5">Competitors:</h5>
+            <table class="table table-hover">
+                <thead>
+                    <th scope="col">First Name</th>
+                    <th scope="col">LastName</th>
+                </thead>
+                <tbody>
+                {% for competitor in event.competitors %}
+                    <tr>
+                        <td>{{ competitor.first_name }}</td>
+                        <td>{{ competitor.last_name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
 
+            </table>
+
+        </div>
     </div>
 </div>
 {% endblock %}

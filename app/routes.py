@@ -59,8 +59,6 @@ def about():
     '''
     return render_template('about.html')
 
-<<<<<<< HEAD
-=======
 @app.route('/announcements')
 def announcements():
     return render_template('announcements.html')
@@ -73,7 +71,6 @@ def competitors():
 def schedule():
     return render_template('schedule.html')
 
->>>>>>> b25537ec78778ba3966ceef31629eb2f2919cfb1
 #@app.errorhandler(404)
 #def page_not_found(e):
 #  return render_template('404.html'), 404

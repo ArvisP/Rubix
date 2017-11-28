@@ -35,6 +35,10 @@ def learnmore():
 def about():
     return render_template('about.html')
 
+@app.route('/announcements')
+def announcements():
+    return render_template('announcements.html')
+
 @app.route('/comp-competitors')
 def competitors():
     return render_template('competitors.html')

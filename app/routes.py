@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, request, session, url_for
 from flask_admin.contrib.sqla import ModelView
+from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, admin
 from .models import User, Competition, Event
 from datetime import datetime
@@ -25,8 +26,11 @@ def index():
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile-layout.html')
-
+    if current_user.credentials == 1:
+        return render_template('profile-layout.html')
+    elif current_user.credentials == 2:
+        return render_template('delegate-layout.html')
+    
 @app.route('/learnmore')
 def learnmore():
     return render_template('learnmore.html')

@@ -1,5 +1,4 @@
 import datetime
-
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -13,6 +12,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     address = db.Column(db.String(100))
     city = db.Column(db.String(30))
+    credentials = db.Column(db.Integer,default=1) #credential type: (1) regular user or (2) WCA delegate 
     state = db.Column(db.String(30))
     zipcode = db.Column(db.String(10))
 

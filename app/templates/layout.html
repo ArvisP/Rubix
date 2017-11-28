@@ -17,7 +17,6 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-        <!-- deleted this temp: bg-light -->
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="{{ url_for('index')}}">Rubik's<sup>3</sup></a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"> Menu <i class="fa fa-bars"></i></button>
@@ -29,37 +28,36 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ url_for('about') }}">About</a>
                     </li>
+
                     {% if current_user.is_authenticated %}
+                    <!-- If the user is logged in he will see this, if not the user won't -->
                     <li class="nav-item mx-2">
-                        Hi, <a href="{{ url_for('profile') }}">{{ current_user.first_name }}</a>
+                        Hi, <a href="{{ url_for('profile') }}"> {{ current_user.first_name }} </a>
                     </li>
                     <li class="nav-item mx-2">
                         <a href="{{ url_for('users.logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
-                     </li>
-                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ url_for('users.login') }}">Log-In</a>
                     </li>
+                    {% else %}
+                    <!-- Otherwise, the user will see options to log in or sign up -->
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ url_for('users.signup') }}">Sign-Up</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ url_for('users.login') }}">Log-In</a>
+                    </li>
                     {% endif %}
+                    <!-- end conditionals -->
+
                 </ul>
             </div>
         </div>
     </nav>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="col-8 offset-2 alert alert-primary">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    {% block content %}
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+    <div class="col-8 offset-2 alert alert-primary">
+        {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %} {% block content %}
     <div>
 
     </div>

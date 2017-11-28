@@ -13,7 +13,7 @@ h4{
 }
 
 h6{
-  
+
 }
 
 .background {
@@ -24,6 +24,12 @@ h6{
   background-color: #4b4f4b !important;
 }
 
-table, tr, td {
+.chatTable {
+  width:100%;
+  border: 1px solid #4b4f4b;
+}
+
+.chatCells{
+  text-align: center;
   border: 1px solid #4b4f4b;
 }

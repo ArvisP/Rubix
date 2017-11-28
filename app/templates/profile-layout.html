@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title> {% block title %} {% endblock %} </title>
+    <title> {% block title %} {{ current_user.first_name }}'s Profile' {% endblock %} </title>
+    <link rel="icon" href="/static/img/solved-cube.png">
     <link rel="stylesheet" href="/static/css/animate.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
@@ -53,8 +54,9 @@
                     </div>
                     <div class="navbar-header collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <button type="button" class="btn btn-primary navbar-btn">
-                                <i class="glyphicon glyphicon-log-out" aria-hidden="true"> logout </i>
+                            <button type="button" id="logoutbutton" class="btn btn-primary navbar-btn">
+                                <a href="{{ url_for('users.logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
+                                <!--<i class="glyphicon glyphicon-log-out" aria-hidden="true"> logout </i>-->
                             </button>
                         </ul>
                     </div>
@@ -105,6 +107,12 @@
         $(document).ready(function() {
             $('#sidebarCollapse').on('click', function() {
                 $('#sidebar').toggleClass('active');
+            });
+        });
+
+        $(document).ready(function() {
+            $('#signoutbutton').on('click', function() {
+                window.location = "http://google.com/";
             });
         });
     </script>

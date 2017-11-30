@@ -4,7 +4,7 @@ from app import app, db
 from app.forms import LoginForm, SignupForm
 from app.models import User
 from functools import wraps
-
+from wtforms import ValidationError
 
 
 users_blueprint = Blueprint(
@@ -29,7 +29,7 @@ def login():
     # Disable access to login page if user is already logged in.
     if current_user.is_authenticated:
         flash("You are already logged in!")
-        return redirect(url_for('index'))
+        return redirect(url_for('profile')) # originally redirected to index
 
     form = LoginForm()
 
@@ -71,11 +71,17 @@ def signup():
             flash("You are already signed up!")
             return redirect(url_for('index'))
     form = SignupForm()
+    #Check if email was used for another account
+
     # Checks if form fields are filled
     # if it is, create a new user with provided credentials
     if request.method == 'POST':
         if form.validate_on_submit():
             newuser = User(form.first_name.data, form.last_name.data, form.email.data, form.password.data)
+            if User.query.filter_by(email=form.email.data).first():
+                flash("This email is already in use")
+                return redirect(url_for('users.signup'))
+
             db.session.add(newuser)
             db.session.commit()
 

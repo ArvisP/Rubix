@@ -24,19 +24,18 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>Menu</p>
+                <p>Delegate Menu</p>
                 <li class="active">
-                    <a href="#homeSubmenu" aria-expanded="false">Home</a>
+                    <a href="#homeSubmenu" aria-expanded="false">Profile</a>
                 </li>
                 <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" aria-expanded="false">Pages</a>
+                    <a href="{{ url_for('manage.manage') }}">Manage Competitions</a>
                 </li>
                 <li>
-                    <a href="#">Portfolio</a>
+                    <a href="#">Manage Delegates</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="#">Manage volunteers</a>
                 </li>
             </ul>
         </nav>

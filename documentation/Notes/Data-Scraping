@@ -1,0 +1,64 @@
+Data Scraping with Beautiful Soup -- taken word for word from the datacamp website
+
+import all the libraries that we are going to use:
+
+# import libraries
+import urllib2
+from bs4 import BeautifulSoup
+
+# declare a variable for the url of the page
+# specify the url
+
+quote_page = "http://www.bloomberg.com/quote/SPX:IND"
+
+Then make use of the Python urllib2 to get the HTML page of the url declared
+
+# query the website and return the html to the variable 'page'
+page = urllib2.urlopen(quote_page)
+
+Parse the page into BeautifulSoup format so we can use BeautifulSoup to work on it
+
+# parse the html using beautiful soup and store in variable 'soup'
+soup = BeautifulSoup(page, 'html.parser')
+
+Now we have a variable, soup, containing the HTML of the page. Here's where can start coding the part that extracts the data
+
+BeautifulSoup can help us get into these layers and extra the content with find().
+Since the HTML class name is unique on this page, we can simply query <div class='name'>
+
+# Take out the <div> of name and get its value
+name_box = soup.find('h1', attrs={'class': 'name'})
+
+After we have the tag, we can get the data by getting its text
+
+name = name_box.text.strip() # strip() is used to remove starting and trailing
+print name
+
+Similarly we can get the price too
+
+#get the index price
+price_box = soup.find('div', attrs{'class':'price'})
+price = price_box.text
+print price
+
+Export to Excel CSV
+Now that we have the data, it is time to save it. The Excel Comma Separated Format is a nice choice. It can be in Excel so you can see the data
+and process it easily
+
+But first, we have to import the Python csv module and the datetime module to get the record date. Insert these lines to your code in the import section
+
+# code
+import csv
+from datetime import datetime
+
+At the bottom of your code, add the code for writing data to a csv file
+
+# open a csv file with append, so old data will not be erased with:
+
+open('index.csv', 'a') as csv_file:
+writer = csv.writer(csv_file)
+writer.writerow([name,price,datetime.now()])
+
+Now if you run your program, you should be able to export an index.csv file, which you can then open with Excel, where you should see a line of data.
+
+So if you run the program everyday you will be able to easily get the S&P 500 index price without rummaging through the website!

@@ -1,0 +1,16 @@
+body {
+    overflow-x: hidden;
+    font-family: 'Roboto Slab', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+p {
+    line-height: 1.75;
+}
+
+.nav.navbar-nav li a {
+    color: #fed136;
+}
+
+.nav.navbar-nav a:hover {
+    color: #fec503;
+}

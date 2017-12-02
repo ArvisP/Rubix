@@ -1,0 +1,23 @@
+{% include 'comp_nav.html' %}
+<div class="container-fluid col-8">
+    <div class="row">
+        <div class="col-3">
+        <table style="width: 100%">
+            {% for event in comp.events %}
+            <tr class="card my-3">
+                <td class="mx-2">
+                    <h4 class="mt-2">{{ event.event_name }}</h4>
+                    <h5>{{ event.event_round }}</h5>
+                    <p>{{ event.start_time }} - {{ event.end_time }}</p>
+                    <a class="mb-2 btn btn-primary" href="{{ url_for('competitions.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <div class="col-9">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </div>
+</div>

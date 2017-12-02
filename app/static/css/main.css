@@ -1,0 +1,35 @@
+h1{
+  font-family: "Courier New", cursive;
+  text-align: center;
+  color: #7b7e82;
+}
+
+h3{
+
+}
+
+h4{
+
+}
+
+h6{
+
+}
+
+.background {
+  background-color: #0d0e0f;
+}
+
+.active {
+  background-color: #4b4f4b !important;
+}
+
+.chatTable {
+  width:100%;
+  border: 1px solid #4b4f4b;
+}
+
+.chatCells{
+  text-align: center;
+  border: 1px solid #4b4f4b;
+}

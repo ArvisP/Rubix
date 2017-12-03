@@ -1,7 +1,9 @@
 import datetime
 from app import db
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# This association table is used to store the many-to-many relationship between competitions and users
 competitions_users = db.Table('competitionsUsers',
                         db.Model.metadata,
                         db.Column('wca_id', db.Integer, db.ForeignKey('users.wca_id')),
@@ -13,33 +15,48 @@ competitions_events = db.Table('competitionsEvents',
                                db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
                                db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
 
+# This association table is used to store the many-to-many relationship between events and users
 events_users = db.Table('eventsUsers',
                 db.Model.metadata,
                 db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
                 db.Column('wca_id', db.Integer, db.ForeignKey('users.wca_id')))
 
+
 class User(db.Model):
     __tablename__ = 'users'
-    wca_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    wca_id = db.Column(db.String(20))
     first_name = db.Column(db.String(100))
     last_name = db.Column(db.String(100))
     dob = db.Column(db.Date)
     email = db.Column(db.String(120), nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(128))
     address = db.Column(db.String(100))
     city = db.Column(db.String(30))
-    credentials = db.Column(db.Integer,default=1) #credential type: (1) regular user or (2) WCA delegate 
+    # credential type: (1) regular user or (2) WCA delegate
+    credentials = db.Column(db.Integer, default=1)
     state = db.Column(db.String(30))
     zipcode = db.Column(db.String(10))
+    oauth = db.Column(db.Boolean, default=False)
 
     competitor_of = db.relationship('Competition', secondary=competitions_users, backref=db.backref('competitor_of'))
     in_event = db.relationship('Event', secondary=events_users, backref=db.backref('in_event'))
 
+    # Constructor for new users that use the Sign Up page
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name.title()
         self.last_name = last_name.title()
         self.email = email.lower()
         self.set_password(password)
+
+    # Constructor for new users that have WCA ID
+    def __init__(self, wca_id, first_name, last_name, dob, email):
+        self.wca_id = wca_id
+        self.first_name = first_name.title()
+        self.last_name = last_name.title()
+        self.dob = datetime.strptime(dob, '%Y-%m-%d')
+        self.email = email
+        self.oauth = True
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -67,11 +84,9 @@ class User(db.Model):
 
     def get_id(self):
         try:
-            return unicode(self.wca_id)  # python 2
+            return unicode(self.id)  # python 2
         except NameError:
-            return str(self.wca_id)  # python 3
-
-
+            return str(self.id)  # python 3
 
 
 class Event(db.Model):
@@ -109,7 +124,6 @@ class Competition(db.Model):
     events = db.relationship('Event', secondary=competitions_events, order_by="Event.start_time")
     competitors = db.relationship('User', secondary=competitions_users)
 
-
     def __init__(self, organizer_id, title, address, date):
         self.organizer_id = organizer_id
         self.title = title
@@ -117,6 +131,7 @@ class Competition(db.Model):
         self.date = date
         self.approved = False
         self.active = False
+
 
 class Announcement(db.Model):
     __tablename__ = 'announcements'

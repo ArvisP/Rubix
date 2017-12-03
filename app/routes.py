@@ -39,20 +39,20 @@ def index():
 #Route to the profile page
 @login_required
 def profile():
-<<<<<<< HEAD
+
     '''
     Route to the profile page
     '''
     return render_template('profile-layout.html')
 
 #Route to the learn more page
-=======
+
     if current_user.credentials == 1:
         return render_template('profile-layout.html')
     elif current_user.credentials == 2:
         return render_template('delegate-layout.html')
     
->>>>>>> f83186f081eebb29fa5f39ec7260bbfcacf0dc06
+
 @app.route('/learnmore')
 def learnmore():
     '''

@@ -93,7 +93,9 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Register')
 
 class VolunteerForm(FlaskForm):
-    role = SelectField('Role', choices=[('Scrambler', 'Scrambler'),
+    role = SelectField('Role', choices=[('', '---'),
+                                        ('Scrambler', 'Scrambler'),
                                         ('Runner', 'Runner'),
-                                        ('Judge', 'Judge')])
+                                        ('Judge', 'Judge')],
+                                        default='', validators=[DataRequired('Please select a role')])
     submit = SubmitField('Volunteer')

@@ -22,16 +22,33 @@
                 </tbody>
 
             </table>
+
+
             <form action="{{ url_for('competitions.event', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
-                {{ form.hidden_tag() }}
+                {{ form_vol.hidden_tag() }}
                 <div class="form-group">
-                    {{ form.role.label }}
-                    {{ form.role }}
+                    {{ form_vol.role.label }}
+                    {{ form_vol.role(class="form-control") }}
+
+                    {% if form_vol.role.errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form_vol.role.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
                 </div>
 
-                {{ form.submit(class="btn btn-primary")}}
+                {{ form_vol.submit(class="btn btn-primary")}}
 
+
+            </form>
+
+            <form action="{{ url_for('competitions.event', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+
+                {{ form_reg.hidden_tag() }}
+                {{ form_reg.submit(class="btn btn-primary")}}
 
             </form>
         </div>

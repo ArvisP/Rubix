@@ -1,5 +1,5 @@
-from flask import render_template, flash, redirect, request, session, url_for, Blueprint, jsonify
-from flask_login import login_user, logout_user, current_user, login_required
+from flask import render_template, flash, redirect, request, session, url_for, Blueprint
+from flask_login import login_user, logout_user, current_user
 from app import db, wca
 from app.forms import LoginForm, SignupForm
 from app.models import User
@@ -82,7 +82,16 @@ def signup():
     # if it is, create a new user with provided credentials
     if request.method == 'POST':
         if form.validate_on_submit():
-            new_user = User(form.first_name.data, form.last_name.data, form.email.data, form.password.data)
+            new_user = User(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=form.password.data,
+                wca_id=None,
+                dob=None
+                )
+            new_user.credentials = 1
+
             db.session.add(new_user)
             db.session.commit()
 
@@ -122,7 +131,6 @@ def authorized():
         )
     session['wca_token'] = (resp['access_token'], '')
     me = wca.get('me').data['me']
-    print(me['wca_id'])
 
     user = User.query.filter_by(wca_id=me['wca_id']).first()
 
@@ -132,7 +140,20 @@ def authorized():
         return redirect(url_for('profile'))
     else:
         new_user_data = extract_info(me)
-        new_user = User(*new_user_data)
+        new_user = User(
+            first_name=new_user_data['first_name'],
+            last_name=new_user_data['last_name'],
+            email=new_user_data['email'],
+            password=None,
+            wca_id=new_user_data['wca_id'],
+            dob=new_user_data['dob']
+        )
+        
+        if new_user_data['is_delegate']:
+            new_user.credentials = 2
+        else:
+            new_user.credentials = 1
+
         db.session.add(new_user)
         db.session.commit()
 
@@ -152,7 +173,7 @@ def get_wca_oauth_token():
     return session.get('wca_token')
 
 
-def extract_info(me: object):
+def extract_info(me):
     """
     This method extracts information returned by the response from WCA OAuth
     :param me: a dictionary containing user information from WCA
@@ -167,4 +188,11 @@ def extract_info(me: object):
     dob = me['dob']
     email = me['email']
 
-    return wca_id, first_name, last_name, dob, email
+    if me['delegate_status'] is None:
+        is_delegate = False
+    else:
+        is_delegate = True
+
+    return {'wca_id': wca_id, 'first_name': first_name, 'last_name': last_name,
+            'dob': dob, 'email': email, 'is_delegate': is_delegate}
+

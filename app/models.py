@@ -13,33 +13,6 @@ competitions_events = db.Table('competitionsEvents',
                                db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
                                db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
 
-events_users = db.Table('eventsUsers',
-                db.Model.metadata,
-                db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
-                db.Column('wca_id', db.Integer, db.ForeignKey('users.wca_id')))
-
-events_volunteers = db.Table('eventsVolunteers',
-                    db.Model.metadata,
-                    db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
-                    db.Column('vol_id', db.Integer, db.ForeignKey('volunteers.vol_id')))
-
-
-events_staff = db.Table('eventsStaff',
-                    db.Model.metadata,
-                    db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
-                    db.Column('staff_id', db.Integer, db.ForeignKey('staff.staff_id')))
-
-users_volunteers = db.Table('usersVolunteers',
-                    db.Model.metadata,
-                    db.Column('wca_id', db.Integer, db.ForeignKey('users.wca_id')),
-                    db.Column('vol_id', db.Integer, db.ForeignKey('volunteers.vol_id')))
-
-
-users_staff = db.Table('usersStaff',
-                    db.Model.metadata,
-                    db.Column('wca_id', db.Integer, db.ForeignKey('users.wca_id')),
-                    db.Column('staff_id', db.Integer, db.ForeignKey('staff.staff_id')))
-
 class User(db.Model):
     __tablename__ = 'users'
     wca_id = db.Column(db.Integer, primary_key=True)
@@ -55,9 +28,7 @@ class User(db.Model):
     zipcode = db.Column(db.String(10))
 
     competitor_of = db.relationship('Competition', secondary=competitions_users, backref=db.backref('competitor_of'))
-    in_event = db.relationship('Event', secondary=events_users, backref=db.backref('in_event'))
-    volunteers_in = db.relationship('Volunteer', secondary=users_volunteers, backref=db.backref('volunteers_in'))
-    staff_in = db.relationship('Staff', secondary=users_staff, backref=db.backref('staff_in'))
+    events = db.relationship('Event', secondary='events_users_link')
 
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name.title()
@@ -105,10 +76,9 @@ class Event(db.Model):
     event_round = db.Column(db.String(50))
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
+
     competition = db.relationship('Competition', secondary=competitions_events, backref=db.backref('comp_events'))
-    competitors = db.relationship('User', secondary=events_users, backref=db.backref('events_users'))
-    volunteers = db.relationship('Volunteer', secondary=events_volunteers, backref=db.backref('events_volunteers'))
-    staff = db.relationship('Staff', secondary=events_staff, backref=db.backref('events_staff'))
+    users = db.relationship('User', secondary='events_users_link')
 
     def __init__(self, event_name, event_round, start_time, end_time):
         self.event_name = event_name
@@ -163,34 +133,13 @@ class Announcement(db.Model):
         self.body = body
         self.time_created = datetime.datetime.now()
 
-class Volunteer(db.Model):
-    __tablename__ = 'volunteers'
-    vol_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
-    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'))
-    role = db.Column(db.String(20))
-    approved = db.Column(db.Boolean)
+class EventUserLink(db.Model):
+    __tablename__ = 'events_users_link'
+    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), primary_key=True)
+    user_id = db.Column(db.Integer  , db.ForeignKey('users.wca_id'), primary_key=True)
+    volunteer_role = db.Column(db.String(20))
+    volunteer = db.Column(db.Boolean, default=False)
+    staff = db.Column(db.Boolean, default=False)
 
-    event = db.relationship('Event', secondary=events_volunteers, backref=db.backref('events_volunteers'))
-    user = db.relationship('User', secondary=users_volunteers, backref=db.backref('users_volunteers'))
-
-    def __init__(self, user_id, event_id, role):
-        self.user_id = user_id
-        self.event_id = event_id
-        self.role = role
-        self.approved = False
-
-class Staff(db.Model):
-    __tablename__ = 'staff'
-    staff_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('competitions.comp_id'))
-    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'))
-
-    event = db.relationship('Event', secondary=events_staff, backref=db.backref('events_staff'))
-    user = db.relationship('User', secondary=users_staff, backref=db.backref('users_staff'))
-
-    def __init__(self, user_id, event_id):
-        self.user_id = user_id
-        self.event_id = event_id
-
-
+    user = db.relationship(User, backref=db.backref("user_assoc"))
+    event = db.relationship(Event, backref=db.backref("event_assoc"))

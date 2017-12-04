@@ -1,57 +1,62 @@
 {% extends 'comp_schedule.html' %}
 {% block content %}
-<div class="container-fluid">
-    <div class="my-4">
-        <h1>{{ event.event_name }}</h1>
-        <h4>{{ event.event_round }}</h4>
-        <h5 class="font-weight-normal">{{ event.start_time }} - {{ event.end_time }}</h5>
-        <div class="container-fluid col-6 float-left">
-            <h5 class="mt-5">Competitors:</h5>
-            <table class="table table-hover">
-                <thead>
-                    <th scope="col">First Name</th>
-                    <th scope="col">LastName</th>
-                </thead>
-                <tbody>
-                {% for competitor in event.competitors %}
-                    <tr>
-                        <td>{{ competitor.first_name }}</td>
-                        <td>{{ competitor.last_name }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
+<div class="container-fluid my-4 col-9 float-left">
 
-            </table>
+    <h1>{{ event.event_name }}</h1>
+    <h4>{{ event.event_round }}</h4>
+    <h5 class="font-weight-normal">{{ event.start_time }} - {{ event.end_time }}</h5>
 
+    <!-- Volunteer button -->
+    {% if volunteer.volunteer == False %}
+    <form action="{{ url_for('competitions.event_volunteer', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+        {{ form_vol.hidden_tag() }}
+        <div class="form-group">
+            {{ form_vol.role.label }}
+            {{ form_vol.role(class="form-control") }}
 
-            <form action="{{ url_for('competitions.event', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
-                {{ form_vol.hidden_tag() }}
-                <div class="form-group">
-                    {{ form_vol.role.label }}
-                    {{ form_vol.role(class="form-control") }}
-
-                    {% if form_vol.role.errors %}
-                        <div class="alert alert-danger">
-                            {% for error in form_vol.role.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
+            {% if form_vol.role.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form_vol.role.errors %}
+                        {{ error }}
+                    {% endfor %}
                 </div>
+            {% endif %}
 
-                {{ form_vol.submit(class="btn btn-primary")}}
-
-
-            </form>
-
-            <form action="{{ url_for('competitions.event', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
-
-                {{ form_reg.hidden_tag() }}
-                {{ form_reg.submit(class="btn btn-primary")}}
-
-            </form>
         </div>
-    </div>
+
+        {{ form_vol.submit(class="btn btn-primary")}}
+
+
+    </form>
+    {% else %}
+    <h5>You are volunteering in this event as a {{ volunteer.volunteer_role }}</h2>
+    {% endif %}
+
+    <!-- Register button -->
+    {% if current_user not in event.users %}
+    <form action="{{ url_for('competitions.event_register', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+
+        {{ form_reg.hidden_tag() }}
+        {{ form_reg.submit(class="btn btn-primary")}}
+
+    </form>
+    {% endif %}
+    <!-- Competitiors Table -->
+    <h5 class="mt-5">Competitors:</h5>
+    <table class="table table-hover">
+        <thead>
+            <th scope="col">First Name</th>
+            <th scope="col">LastName</th>
+        </thead>
+        <tbody>
+        {% for user in event.users %}
+            <tr>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
 </div>
 {% endblock %}

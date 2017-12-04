@@ -6,7 +6,7 @@ from flask import render_template
 from flask_admin.contrib.sqla import ModelView
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, admin
-from .models import User, Competition, Event
+from .models import User, Competition, Event, Volunteer
 
 #Import project blueprints
 from project.users.views import users_blueprint, login_required
@@ -21,6 +21,7 @@ class AdminView(ModelView):
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Competition, db.session))
 admin.add_view(ModelView(Event, db.session))
+admin.add_view(ModelView(Volunteer, db.session))
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(host_blueprint)
@@ -39,20 +40,12 @@ def index():
 #Route to the profile page
 @login_required
 def profile():
-<<<<<<< HEAD
-    '''
-    Route to the profile page
-    '''
-    return render_template('profile-layout.html')
-
 #Route to the learn more page
-=======
     if current_user.credentials == 1:
         return render_template('profile-layout.html')
     elif current_user.credentials == 2:
         return render_template('delegate-layout.html')
-    
->>>>>>> f83186f081eebb29fa5f39ec7260bbfcacf0dc06
+
 @app.route('/learnmore')
 def learnmore():
     '''

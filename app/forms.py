@@ -91,3 +91,9 @@ class RegisterForm(FlaskForm):
                                             ('3x3x3 Multi-Blind', '3x3x3 Multi-Blind'),
                                             ('Other', 'Other')])
     submit = SubmitField('Register')
+
+class VolunteerForm(FlaskForm):
+    role = SelectField('Role', choices=[('Scrambler', 'Scrambler'),
+                                        ('Runner', 'Runner'),
+                                        ('Judge', 'Judge')])
+    submit = SubmitField('Volunteer')

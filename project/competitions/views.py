@@ -2,8 +2,8 @@ from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
 from app import app, db
-from app.models import Competition, Announcement, Event, User
-from app.forms import RegisterForm
+from app.models import Competition, Announcement, Event, User, Volunteer
+from app.forms import RegisterForm, VolunteerForm
 from project.users.views import login_required
 
 competitions_blueprint = Blueprint(
@@ -55,12 +55,26 @@ def schedule(comp_id):
 
 @competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>', methods=['GET', 'POST'])
 def event(comp_id, event_id):
+    form = VolunteerForm()
 
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-
+    user = User.query.filter_by(wca_id=current_user.wca_id).first()
     event = Event.query.filter_by(event_id=event_id).first()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            role = form.role.data
 
-    return render_template('comp_event.html', comp=comp, event=event)
+            newVolunteer = Volunteer(current_user.wca_id, event_id, role)
+            event.volunteers.append(newVolunteer)
+            user.volunteers_in.append(newVolunteer)
+
+
+            db.session.commit()
+
+            flash('You have requested to be a volunteer!')
+            return redirect(url_for('competitions.event', form=form, comp_id=comp.comp_id, event_id=event.event_id))
+
+    return render_template('comp_event.html', form=form, comp=comp, event=event)
 
 @competitions_blueprint.route('/competitions/<comp_id>/register', methods=['GET', 'POST'])
 @login_required

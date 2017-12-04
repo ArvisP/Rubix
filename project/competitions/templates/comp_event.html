@@ -22,7 +22,18 @@
                 </tbody>
 
             </table>
+            <form action="{{ url_for('competitions.event', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.role.label }}
+                    {{ form.role }}
 
+                </div>
+
+                {{ form.submit(class="btn btn-primary")}}
+
+
+            </form>
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@ manage_blueprint = Blueprint(
 @manage_blueprint.route('/manage')
 @login_required
 def manage():
-    competitions = Competition.query.filter_by(organizer_id=current_user.wca_id).all()
+    competitions = Competition.query.filter_by(organizer_id=current_user.id).all()
     return render_template('manage.html', competitions=competitions)
 
 

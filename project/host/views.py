@@ -23,7 +23,7 @@ def host():
             # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
             print(current_user.wca_id)
 
-            newComp = Competition(current_user.wca_id, form.name.data, form.location.data, form.date.data)
+            newComp = Competition(current_user.id, form.name.data, form.location.data, form.date.data)
 
             db.session.add(newComp)
             db.session.commit()

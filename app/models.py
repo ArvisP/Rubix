@@ -5,9 +5,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # This association table is used to store the many-to-many relationship between competitions and users
 competitions_users = db.Table('competitionsUsers',
-                        db.Model.metadata,
-                        db.Column('wca_id', db.Integer, db.ForeignKey('users.id')),
-                        db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')))
+                              db.Model.metadata,
+                              db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+                              db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')))
 
 # This association table is used to store the many-to-many relationship between competitions and events
 competitions_events = db.Table('competitionsEvents',
@@ -17,9 +17,9 @@ competitions_events = db.Table('competitionsEvents',
 
 # This association table is used to store the many-to-many relationship between events and users
 events_users = db.Table('eventsUsers',
-                db.Model.metadata,
-                db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
-                db.Column('wca_id', db.Integer, db.ForeignKey('users.id')))
+                        db.Model.metadata,
+                        db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
+                        db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
 
 
 class User(db.Model):
@@ -59,26 +59,14 @@ class User(db.Model):
         else:
             self.dob = datetime.strptime(dob, '%Y-%m-%d')
 
-    # Constructor for new users that have WCA ID
-    # def __init__(self, wca_id, first_name, last_name, dob, email):
-    #     self.wca_id = wca_id
-    #     self.first_name = first_name.title()
-    #     self.last_name = last_name.title()
-    #     self.dob = datetime.strptime(dob, '%Y-%m-%d')
-    #     self.email = email
-    #     self.oauth = True
-
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-      return check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password_hash, password)
 
     def verify_password(self, plaintext):
         return check_password_hash(self.password_hash, plaintext)
-
-    # def __repr__(self):
-    #     return '<User {!r}>'.format(self.wca_id)
 
     @property
     def is_authenticated(self):
@@ -160,4 +148,4 @@ class Announcement(db.Model):
         self.author_id = author_id
         self.title = title
         self.body = body
-        self.time_created = datetime.datetime.now()
+        self.time_created = datetime.now()

@@ -15,8 +15,8 @@ wca = oauth.remote_app ('wca',
                         consumer_key='ac5da98d8c8d0ea070939d65cbb0d29a49606d20c8f035719158bd9eee6c6cd6',
                         consumer_secret='f531e05fdc0cf5acf8205c4788e8dc668ef04f0aeca47704897b5f09842759e7',
                         request_token_method='POST',
-                        request_token_params={'scope': 'public'}
-                      )
+                        request_token_params={'scope': 'public email dob'}
+                        )
 
 
 @app.route('/')

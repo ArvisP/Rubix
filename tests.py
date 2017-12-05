@@ -252,6 +252,18 @@ class TestManage(BaseTestCase):
             self.assertIn(b'Test name', response.data)
             self.assertFalse(b'Cant view' in response.data)
 
+
+    def test_manage_info_competitors(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+        response = self.client.get('/manage/1', content_type='html/text')
+        self.assertIn(b'Firstname', response.data)
+        self.assertIn(b'Competitor', response.data)
+
 class TestAnnouncement(BaseTestCase):
     def test_announcements_exist(self):
         with self.client:
@@ -340,13 +352,11 @@ class TestSchedule(BaseTestCase):
 
 
 class TestCompetitionsView(BaseTestCase):
-    def test_comp_info_exists(self):
+    def test_comp_info_correctly_displays(self):
         response = self.client.get('/competitions/1', content_type='html/text')
         self.assertIn(b'Test name', response.data)
-
-    def test_comp_info_competitors(self):
-        response = self.client.get('/competitions/1', content_type='html/text')
         self.assertIn(b'Firstname', response.data)
+        self.assertIn(b'Competitor', response.data)
 
 
     def test_comp_announcements(self):
@@ -369,7 +379,6 @@ class TestCompetitionsView(BaseTestCase):
 
             response = self.client.get('/competitions/1', content_type='html/text')
             self.assertIn(b'Register', response.data)
-
 
     def test_registered_user_cannot_register(self):
         with self.client:

@@ -4,7 +4,7 @@
 
     <h1>{{ event.event_name }}</h1>
     <h4>{{ event.event_round }}</h4>
-    <h5 class="font-weight-normal">{{ event.start_time }} - {{ event.end_time }}</h5>
+    <h5 class="font-weight-normal">{{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</h5>
 
     <!-- Volunteer button -->
     {% if volunteer.volunteer == False %}

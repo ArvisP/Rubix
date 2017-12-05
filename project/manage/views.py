@@ -117,8 +117,10 @@ def event(comp_id, event_id):
 def editEvent(comp_id, event_id):
     form = EventForm()
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-
     event = Event.query.filter_by(event_id=event_id).first()
+
+    form.start_time.data = event.start_time
+    form.end_time.data = event.end_time
 
     if request.method == 'POST':
         if form.validate_on_submit():

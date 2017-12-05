@@ -7,7 +7,7 @@
     <link rel="icon" href="/static/img/solved-cube.png">
     <link rel="stylesheet" href="/static/css/landing_page.css">
     <link rel="stylesheet" href="/static/css/header.css">
-    <link rel="stylesheet" href="/static/css/main.css"> 
+    <link rel="stylesheet" href="/static/css/main.css">
     <!-- <link rel="stylesheet" href="/static/css/jquery.cube.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -28,11 +28,11 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ url_for('about') }}">About</a>
                     </li>
-
                     {% if current_user.is_authenticated %}
                     <!-- If the user is logged in he will see this, if not the user won't -->
                     <li class="nav-item mx-2">
-                        Hi, <a href="{{ url_for('profile') }}"> {{ current_user.first_name }} </a>
+                        Hi, {{ current_user.first_name }}
+                        <!-- <a href="{{ url_for('profile') }}"></a> </a> -->
                     </li>
                     <li class="nav-item mx-2">
                         <a href="{{ url_for('users.logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
@@ -47,7 +47,6 @@
                     </li>
                     {% endif %}
                     <!-- end conditionals -->
-
                 </ul>
             </div>
         </div>

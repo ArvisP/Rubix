@@ -26,17 +26,16 @@
             <ul class="list-unstyled components">
                 <p>Menu</p>
                 <li class="active">
-                    <a href="#homeSubmenu" aria-expanded="false">Home</a>
+                    <a href="#homeSubmenu" aria-expanded="false">Profile</a>
                 </li>
                 <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" aria-expanded="false">Pages</a>
+                    <a href="#">Create Competition</a>
                 </li>
                 <li>
-                    <a href="#">Portfolio</a>
+                    <a href="#">Manage Competition</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="#">View Competitions</a>
                 </li>
             </ul>
         </nav>
@@ -49,15 +48,15 @@
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-align-left"></i>
+                                    <i class="glyphicon glyphicon-align-left"></i>
                         </button>
                     </div>
                     <div class="navbar-header collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <button type="button" id="logoutbutton" class="btn btn-primary navbar-btn">
-                                <a href="{{ url_for('users.logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
-                                <!--<i class="glyphicon glyphicon-log-out" aria-hidden="true"> logout </i>-->
-                            </button>
+                            <button type="button" id="signoutbutton" class="btn btn-primary navbar-btn">
+                                        <a href="{{ url_for('users.logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
+                                        <!--<i class="glyphicon glyphicon-log-out" aria-hidden="true"> logout </i>-->
+                                    </button>
                         </ul>
                     </div>
                 </div>

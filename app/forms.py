@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import widgets, StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, SelectMultipleField, DateTimeField
 from wtforms_components import TimeField, DateField
 from wtforms.validators import DataRequired, Email, Length
+from .models import *
 '''
 Sign-In / Sign-Up Forms
 '''

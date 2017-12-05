@@ -17,7 +17,7 @@ class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
 
 
-# class HerokuDeployConfig(object):
-#     SECRET_KEY = 'thisPasswordIsSoDarnAmazinglyStrong123!'
-#     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-#     SQLALCHEMY_TRACK_MODIFICATIONS = False
+class HerokuDeployConfig(object):
+    SECRET_KEY = 'thisPasswordIsSoDarnAmazinglyStrong123!'
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

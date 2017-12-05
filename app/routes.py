@@ -18,6 +18,7 @@ class AdminView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
 
+
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Competition, db.session))
 admin.add_view(ModelView(Event, db.session))
@@ -28,7 +29,8 @@ app.register_blueprint(host_blueprint)
 app.register_blueprint(manage_blueprint)
 app.register_blueprint(competitions_blueprint)
 
-#Route to the index page
+
+# Route to the index page
 @app.route('/')
 def index():
     '''
@@ -36,11 +38,11 @@ def index():
     '''
     return render_template('index.html')
 
+
+# Route to the profile page
 @app.route('/profile')
-#Route to the profile page
 @login_required
 def profile():
-#Route to the learn more page
     if current_user.credentials == 1:
         return render_template('profile-layout.html')
     elif current_user.credentials == 2:
@@ -53,7 +55,8 @@ def learnmore():
     '''
     return render_template('learnmore.html')
 
-#Route to the about page
+
+# Route to the about page
 @app.route('/about')
 def about():
     '''
@@ -61,23 +64,23 @@ def about():
     '''
     return render_template('about.html')
 
+
 @app.route('/announcements')
 def announcements():
     return render_template('announcements.html')
+
 
 @app.route('/comp-competitors')
 def competitors():
     return render_template('competitors.html')
 
+
 @app.route('/comp-schedule')
 def schedule():
     return render_template('schedule.html')
 
-#@app.errorhandler(404)
-#def page_not_found(e):
-#  return render_template('404.html'), 404
 
-#404 Error handler
+# 404 Error handler
 @app.route('/404')
 def error():
     '''

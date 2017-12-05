@@ -29,13 +29,13 @@ class BaseTestCase(TestCase):
         user1 = User.query.filter_by(email="new@user.com").first()
         user2 = User.query.filter_by(email="comp@jones.com").first()
 
-        db.session.add(Competition(user.wca_id, "Test name", "Test location", datetime.date(2017, 12, 31)))
+        db.session.add(Competition(user.id, "Test name", "Test location", datetime.date(2017, 12, 31)))
         db.session.add(Competition(20, "Cant view", "Cant view", datetime.date(2017, 12, 31)))
         comp = Competition.query.filter_by(comp_id=1).first()
         comp.approved = True
         comp20 = Competition.query.filter_by(organizer_id=20).first()
 
-        announce1 = Announcement(comp.comp_id, user.wca_id, "Test announcement", "Test body")
+        announce1 = Announcement(comp.comp_id, user.id, "Test announcement", "Test body")
         announce2 = Announcement(comp20.comp_id, 2, "Can i see this?", "maybe")
         db.session.add(announce1)
         db.session.add(announce2)
@@ -80,7 +80,6 @@ class TestUser(BaseTestCase):
                 ),
                 follow_redirects=True
             )
-            self.assertIn(b'You have signed up! Please log in!', response.data)
             user = User.query.filter_by(email="new@user.com").first()
             self.assertTrue(user)
 
@@ -144,8 +143,8 @@ class TestUser(BaseTestCase):
                 data=dict(email="test@test.com", password='test123'),
                 follow_redirects=True
             )
-            self.assertTrue(current_user.wca_id == 1)
-            self.assertFalse(current_user.wca_id == 20)
+            self.assertTrue(current_user.id == 1)
+            self.assertFalse(current_user.id == 20)
 
     def test_check_password(self):
         user = User.query.filter_by(email='test@test.com').first()
@@ -221,7 +220,7 @@ class TestHost(BaseTestCase):
                 follow_redirects=True
             )
             comp = Competition.query.filter_by(title="Cube Day").first()
-            self.assertTrue(comp.organizer_id == current_user.wca_id)
+            self.assertTrue(comp.organizer_id == current_user.id)
 
 class TestManage(BaseTestCase):
 

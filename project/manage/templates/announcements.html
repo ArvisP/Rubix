@@ -2,7 +2,7 @@
   <div class="container-fluid col-8">
     <div class="card">
 
-    {% if comp.organizer_id == current_user.wca_id %} <!-- Checks if user is the event organizer -->
+    {% if comp.organizer_id == current_user.id %} <!-- Checks if user is the event organizer -->
 
       <form class="col-12 my-4" action="{{ url_for('manage.announcements', comp_id=comp.comp_id) }}" method="POST">
         {{ form.hidden_tag() }}
@@ -41,7 +41,7 @@
           <tr class="card my-4">
             <td>
               <h3 class="mx-3 my-1">{{ post.title }}</h3>
-              <p class="mx-3">{{ post.body }}</h4>
+              <p class="mx-3">{{ post.body }}</p>
               <p class=" mx-3 float-right">{{ post.time_created }}  </h6>
               <form class="float-right" action="{{ url_for('manage.delete_annc', comp_id=comp.comp_id) }}" method="POST">
                 <input type="hidden" value="{{ post.annc_id }}" name="post_to_delete"></input>

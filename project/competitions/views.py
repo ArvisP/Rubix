@@ -20,7 +20,7 @@ def competitions():
 def competition(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
 
-    if comp == None:
+    if comp is None:
         flash('Competition is not found.')
         return redirect(url_for('index'))
 
@@ -34,8 +34,8 @@ def announcements(comp_id):
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            newAnnounce = Announcement(comp.comp_id, current_user.wca_id, form.title.data, form.body.data)
-            db.session.add(newAnnounce)
+            new_announcement = Announcement(comp.comp_id, current_user.id, form.title.data, form.body.data)
+            db.session.add(new_announcement)
             db.session.commit()
 
             flash('Posted!')
@@ -68,7 +68,7 @@ def register(comp_id):
     form = RegisterForm()
 
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-    user = User.query.filter_by(wca_id=current_user.wca_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
 
     if request.method == 'POST':
         if form.validate_on_submit():

@@ -40,8 +40,8 @@ def announcements(comp_id):
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            newAnnounce = Announcement(comp.comp_id, current_user.wca_id, form.title.data, form.body.data)
-            db.session.add(newAnnounce)
+            new_announcement = Announcement(comp.comp_id, current_user.id, form.title.data, form.body.data)
+            db.session.add(new_announcement)
             db.session.commit()
 
             flash('Posted!')

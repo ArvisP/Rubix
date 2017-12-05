@@ -21,7 +21,7 @@ def host():
     if request.method == 'POST':
         if form.validate_on_submit():
             # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
-            print(current_user.wca_id)
+            print(current_user.id)
 
             newComp = Competition(current_user.id, form.name.data, form.location.data, form.date.data)
 

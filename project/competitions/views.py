@@ -62,8 +62,14 @@ def event(comp_id, event_id):
     user = User.query.filter_by(id=current_user.id).first()
     event = Event.query.filter_by(event_id=event_id).first()
     volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_volunteers = EventUserLink.query.filter_by(event_id=event_id).filter_by(volunteer=True).all()
 
-    return render_template('comp_event.html', form_reg=form_reg, form_vol=form_vol, volunteer=volunteer, comp=comp, event=event)
+    staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(staff=True).all()
+
+    for i in event_volunteers:
+        print(i.user.first_name)
+    return render_template('comp_event.html', form_reg=form_reg, form_vol=form_vol, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff, comp=comp, event=event)
 
 
 @competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>/volunteer', methods=['GET', 'POST'])

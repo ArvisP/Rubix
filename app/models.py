@@ -147,9 +147,10 @@ class EventUserLink(db.Model):
     __tablename__ = 'events_users_link'
     event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), primary_key=True)
     user_id = db.Column(db.Integer  , db.ForeignKey('users.id'), primary_key=True)
-    volunteer_role = db.Column(db.String(20))
     volunteer = db.Column(db.Boolean, default=False)
+    volunteer_role = db.Column(db.String(20))
     staff = db.Column(db.Boolean, default=False)
+    staff_role = db.Column(db.String(20))
 
     user = db.relationship(User, backref=db.backref("user_assoc"))
     event = db.relationship(Event, backref=db.backref("event_assoc"))

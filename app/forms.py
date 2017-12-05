@@ -69,7 +69,7 @@ class ScheduleForm(FlaskForm):
 class EventForm(FlaskForm):
     start_time = TimeField('Start time', format='%H:%M')
     end_time = TimeField('End time', format='%H:%M')
-    submit = SubmitField('Edit Competition')
+    submit = SubmitField('Edit Time')
 
 class RegisterForm(FlaskForm):
     event = MultiCheckboxField('Events', choices=[ ('Rubik\'s Cube', 'Rubik\'s Cube'),

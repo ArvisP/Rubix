@@ -9,7 +9,7 @@
             <td>
               <h3 class="mx-3 my-1">{{ post.title }}</h3>
               <p class="mx-3">{{ post.body }}</h4>
-              <p class=" mx-3 float-right">{{ post.time_created }}  </h6>
+              <p class=" mx-3 float-right">{{ post.time_created.strftime('%I:%M %p') }}  </h6>
             </td>
           </tr>
         {% endfor %}

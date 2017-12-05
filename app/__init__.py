@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_oauthlib.client import OAuth
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 lm = LoginManager()
@@ -22,6 +23,8 @@ wca = oauth.remote_app('wca',
                        request_token_method='POST',
                        request_token_params={'scope': 'public email dob'}
                        )
+# SocketIO junk
+socketio = SocketIO(app)
 
 from flask_admin import Admin
 

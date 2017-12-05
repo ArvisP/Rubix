@@ -8,6 +8,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, admin
 from .models import User, Competition, Event
 
+
 #Import project blueprints
 from project.users.views import users_blueprint, login_required
 from project.host.views import host_blueprint
@@ -26,6 +27,9 @@ app.register_blueprint(users_blueprint)
 app.register_blueprint(host_blueprint)
 app.register_blueprint(manage_blueprint)
 app.register_blueprint(competitions_blueprint)
+
+
+
 
 #Route to the index page
 @app.route('/')
@@ -51,7 +55,7 @@ def profile():
         return render_template('profile-layout.html')
     elif current_user.credentials == 2:
         return render_template('delegate-layout.html')
-    
+
 
 @app.route('/learnmore')
 def learnmore():

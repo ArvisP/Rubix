@@ -4,21 +4,27 @@
 <head>
     <meta charset="utf-8">
     <title> Rubik's Cube Competition Finder </title>
+    <!-- tab image -->
     <link rel="icon" href="/static/img/solved-cube.png">
-    <link rel="stylesheet" href="/static/css/landing_page.css">
-    <link rel="stylesheet" href="/static/css/header.css">
-    <link rel="stylesheet" href="/static/css/main.css">
-    <!-- <link rel="stylesheet" href="/static/css/jquery.cube.min.css"> -->
+    <!-- font  -->
+    <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet">
+    <!-- Bootstrap and other CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/landing_page.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/jquery.cube.min.css">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="{{ url_for('index')}}">Rubik's<sup>3</sup></a>
+            <a class="navbar-brand js-scroll-trigger" href="{{ url_for('index')}}">
+                <img src="/static/img/solved-cube.png" width="30" height="30" class="d-inline-block align-top"> Rubik's<sup>3</sup>
+            </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"> Menu <i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ml-auto">
@@ -31,19 +37,22 @@
                     {% if current_user.is_authenticated %}
                     <!-- If the user is logged in he will see this, if not the user won't -->
                     <li class="nav-item mx-2">
-                        Hi, {{ current_user.first_name }}
-                        <!-- <a href="{{ url_for('profile') }}"></a> </a> -->
+                        <a class="nav-link" href="{{ url_for('profile') }}"> Hi, {{ current_user.first_name }} </a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a href="{{ url_for('users.logout') }}" class="btn btn-dark"><span class="text-light" class="btn btn-dark">Log out</span></a>
+                        <a href="{{ url_for('users.logout') }}" class="btn btn-dark">
+                            <span class="fa fa-sign-out" aria-hidden="true" class="btn btn-dark"> Log out</span>
+                        </a>
                     </li>
                     {% else %}
                     <!-- Otherwise, the user will see options to log in or sign up -->
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ url_for('users.signup') }}">Sign-Up</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ url_for('users.login') }}">Log-In</a>
+                    <li class="nav-item mx-2">
+                        <a href="{{ url_for('users.login') }}" class="btn btn-dark">
+                            <span class="fa fa-sign-in" aria-hidden="true" class="btn btn-dark"> Log In</span>
+                        </a>
                     </li>
                     {% endif %}
                     <!-- end conditionals -->
@@ -51,12 +60,16 @@
             </div>
         </div>
     </nav>
-
+    <!-- Flash Messages -->
     {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
     <div class="col-8 offset-2 alert alert-primary">
         {{ message }}
     </div>
-    {% endfor %} {% endif %} {% endwith %} {% block content %}
+    {% endfor %} {% endif %} {% endwith %}
+
+    <p></p>
+
+    {% block content %}
     <div>
 
     </div>
@@ -68,7 +81,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="/static/js/jquery.cube.min.js"></script>
     <script src="/static/js/header.js"></script>
-    <!-- <script src="/static/js/main.js"></script> -->
+    <script src="/static/js/main.js"></script>
 </body>
 
 </html>

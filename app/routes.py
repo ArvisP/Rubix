@@ -43,7 +43,7 @@ def index():
 @login_required
 def profile():
     if current_user.credentials == 1:
-        return render_template('profile-layout.html')
+        return render_template('user_profile.html')
     elif current_user.credentials == 2:
         return render_template('delegate-layout.html')
 

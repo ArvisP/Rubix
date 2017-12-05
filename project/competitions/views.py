@@ -54,6 +54,7 @@ def schedule(comp_id):
 
 
 @competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>', methods=['GET', 'POST'])
+@login_required
 def event(comp_id, event_id):
     form_vol = VolunteerForm()
     form_reg = RegisterForm()
@@ -73,6 +74,7 @@ def event(comp_id, event_id):
 
 
 @competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>/volunteer', methods=['GET', 'POST'])
+@login_required
 def event_volunteer(comp_id, event_id):
     form = VolunteerForm()
 
@@ -92,6 +94,7 @@ def event_volunteer(comp_id, event_id):
 
 
 @competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>/register', methods=['GET', 'POST'])
+@login_required
 def event_register(comp_id, event_id):
     form = RegisterForm()
 

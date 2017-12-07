@@ -35,7 +35,7 @@ def index():
     '''
     Route to the index page
     '''
-    return render_template('index.html')
+    return render_template('landing_page.html')
 
 
 # Route to the profile page

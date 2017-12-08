@@ -76,9 +76,7 @@ def about():
 def announcements():
     return render_template('announcements.html')
 
-@app.route('/comp-competitors')
-def competitors():
-    return render_template('competitors.html')
+
 
 @app.route('/comp-schedule')
 def schedule():

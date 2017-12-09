@@ -13,7 +13,10 @@
           <td class = "chatCells">
           </td>
           <td class = "chatCells">
-           <textarea readonly id="chat" cols="40" rows="20" style="resize: none"></textarea><br>
+            <div class="no_message">
+            <h4 style='color: #ccc'>Start a conversation.</h1>
+            <div class="message_holder"></div>
+          </div>
            <form action = "" method="POST">
              <input id="text" class="message form-control" size="40" placeholder="Enter your message here"><br>
              <button type=submit class="btn" style="align: right">Send</button>
@@ -53,41 +56,16 @@
         } )
       } )
       // capture message
-      socket.on( 'my response', function( msg ) {
+      socket.on( 'my_response', function( msg ) {
         console.log( msg )
-        if( typeof msg.user_name !== 'undefined' ) {
-          $( '#chat' ).append('<li>'+msg.message+'</li>')
+        if( typeof msg.message !== 'undefined' ) {
+          //$( '#chat' ).append('<li>'+msg+'</li>')
+          $( 'h4' ).remove()
+          $( 'div.message_holder' ).append( '<div class="msg_bbl"><b style="color: #000">'+msg.message+'</div>' )
         }
       } )
-        // Broadcast
-    /*    socket.on('connect', function(){
-          socket.emit('event', {
-            data : "User Connected"
-          })
-          $("#chat").append("<li>Welcome!</li>");
-        })
-
-        var form = $("form").on('submit',function(e){
-          e.preventDefault()
-          var user_name
-          var message = $("#text").val()
-          socket.emit('event',{
-            user : null,
-            msg : message
-
-          })
-          $("#text").val('').focus()
-        })
-
-        // Capture message
-        socket.on('my_response', function(msg){
-          if (typeof msg.user !== 'undefined'){
-            $("#chat").append("<li>"+user+"<br>"+msg+"</li>");
-          }
-        }) */
 
       });
     </script>
-
 
 {% endblock %}

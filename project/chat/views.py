@@ -16,9 +16,9 @@ def competitors():
     return render_template('competitors.html')
 
 def messageReceived():
-  print( 'message was received!!!' )
+  print( 'Message was received!' )
 
 @socketio.on( 'my event' )
 def handle_my_custom_event( json ):
-  print( 'received my event: ' + str( json ) )
-  socketio.emit( 'my response', json, callback=messageReceived )
+  print( 'Received my event: ' + str( json ) )
+  socketio.emit( 'my_response', json, callback = messageReceived )

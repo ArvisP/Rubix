@@ -16,15 +16,16 @@
             <div class="animated fadeInDown chatHistory">
             {% if messages %}
               {% for msg in messages %}
-                <li>{{ msg }}</li>
+                <div class="msg_bbl"><b style="color: #000">{{ msg[1] }}</div>
               {% endfor %}
             {% else %}
               <h4 style='color: #ccc'>Start a conversation.</h4>
             {% endif %}
-            <div class="message_holder"></div>
+            <div class="message_holder" style = "overflow: auto"></div>
           </div>
            <form action = "" method="POST">
-             <input id="text" class="animated fadeInDown message form-control" size="40" placeholder="Enter your message here">
+             <input id="text" class="animated fadeInDown message form-control" size="40"
+                        placeholder="Enter your message here" autocomplete="off"></input>
              <button type=submit class="animated fadeInDown btn btn-dark btn-lg btn-block" style="align: right">Send</button>
            </form>
           </td>
@@ -46,27 +47,29 @@
 
         var socket = io.connect('http://' + document.domain + ':' + location.port);
         socket.on( 'connect', function() {
-        socket.emit( 'my event', {
-          data: 'User Connected'
-        } )
+      //  socket.emit( 'my event', {
+      //    data: 'User Connected'
+      //  } )
         var form = $( 'form' ).on( 'submit', function( e ) {
           e.preventDefault()
           let user_name = null
           let user_input = $( '#text' ).val()
-          socket.emit( 'my event', {
-          //  user_name : user_name,
-            message : user_input
-          } )
-          // empty the input field
-          $( '#text' ).val( '' ).focus()
+          if(user_input != ""){
+            socket.emit( 'message',
+            //  user_name : user_name,
+                user_input
+            )
+            // empty the input field
+            $( '#text' ).val( '' ).focus()
+          }
         } )
       } )
       // capture message
       socket.on( 'my_response', function( msg ) {
         console.log( msg )
-        if( typeof msg.message !== 'undefined' ) {
+        if( typeof msg !== 'undefined' ) {
           $( 'h4' ).remove()
-          $( 'div.message_holder' ).append( '<div class="msg_bbl"><b style="color: #000">'+msg.message+'</div>' )
+          $( 'div.message_holder' ).append( '<div class="msg_bbl"><b style="color: #000">'+msg+'</div>' )
         }
       } )
 

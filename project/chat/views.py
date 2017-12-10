@@ -15,13 +15,16 @@ chat_blueprint = Blueprint(
 def competitors():
     #comp = Competition.query.filter_by(comp_id=comp_id).first()
     msgs = ChatHistory.query.all()
-    return render_template('competitors.html', messages = msgs)
+    items = []
+    for item in msgs:
+        items+=[(item.sender,item.message)]
+    return render_template('competitors.html', messages = items)
 
-def messageReceived():
-  print( 'Message was received!' )
 
-@socketio.on( 'my event' )
-def handle_my_custom_event( json ):
-  print( 'Received my event: ' + str( json ) )
-  toAdd = ChatHistory()
-  socketio.emit( 'my_response', json, callback = messageReceived )
+@socketio.on( 'message' )
+def handleMessage( msg ):
+ # print( 'Received my event: ' + str( json ) )
+  toAdd = ChatHistory(0, "me", "all", str(msg))
+  db.session.add(toAdd)
+  db.session.commit()
+  socketio.emit( 'my_response', str(msg) )

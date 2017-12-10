@@ -28,7 +28,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     address = db.Column(db.String(100))
     city = db.Column(db.String(30))
-    credentials = db.Column(db.Integer,default=1) #credential type: (1) regular user or (2) WCA delegate 
+    credentials = db.Column(db.Integer,default=1) #credential type: (1) regular user or (2) WCA delegate
     state = db.Column(db.String(30))
     zipcode = db.Column(db.String(10))
 
@@ -136,3 +136,16 @@ class Announcement(db.Model):
         self.title = title
         self.body = body
         self.time_created = datetime.datetime.now()
+
+class ChatHistory(db.Model):
+    __tablename__ = "chat"
+    comp_id = db.Column('comp_id', db.Integer, primary_key=True)
+    sender = db.Column('sender', db.String(15))
+    recipient = db.Column('recipient', db.String(15))
+    message = db.Column('message', db.String(500))
+
+    def __init__(self, comp_id, sender, recipient, message):
+        self.chat_id = comp_id
+        self.sender = sender
+        self.recipient = recipient
+        self.message = message

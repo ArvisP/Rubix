@@ -6,7 +6,7 @@ from flask import render_template
 from flask_admin.contrib.sqla import ModelView
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, admin
-from .models import User, Competition, Event
+from .models import User, Competition, Event, ChatHistory
 
 
 #Import project blueprints
@@ -23,11 +23,13 @@ class AdminView(ModelView):
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Competition, db.session))
 admin.add_view(ModelView(Event, db.session))
+admin.add_view(ModelView(ChatHistory, db.session))
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(host_blueprint)
 app.register_blueprint(manage_blueprint)
 app.register_blueprint(competitions_blueprint)
+app.register_blueprint(chat_blueprint)
 
 
 

@@ -25,11 +25,29 @@ h6{
 }
 
 .chatTable {
-  width:100%;
-  border: 1px solid #4b4f4b;
+  width: 100%;
+  border-radius: 10px;
+  border: 5px double #4b4f4b;
+
 }
 
 .chatCells{
   text-align: center;
-  border: 1px solid #4b4f4b;
+  border-radius: 10px;
+  border: 5px double #4b4f4b;
+
+}
+
+div.msg_bbl {
+        background-color: #ddd;
+        padding: 5px 10px;
+        border-radius: 10px;
+        color: #555;
+        margin-bottom: 5px;
+}
+
+.chatHistory{
+    height: 800px;
+    width: 100%;
+    background-color: powderblue;
 }

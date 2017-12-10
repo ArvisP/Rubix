@@ -13,13 +13,19 @@
           <td class = "chatCells">
           </td>
           <td class = "chatCells">
-            <div class="no_message">
-            <h4 style='color: #ccc'>Start a conversation.</h1>
+            <div class="animated fadeInDown chatHistory">
+            {% if messages %}
+              {% for msg in messages %}
+                <li>{{ msg }}</li>
+              {% endfor %}
+            {% else %}
+              <h4 style='color: #ccc'>Start a conversation.</h4>
+            {% endif %}
             <div class="message_holder"></div>
           </div>
            <form action = "" method="POST">
-             <input id="text" class="message form-control" size="40" placeholder="Enter your message here"><br>
-             <button type=submit class="btn" style="align: right">Send</button>
+             <input id="text" class="animated fadeInDown message form-control" size="40" placeholder="Enter your message here">
+             <button type=submit class="animated fadeInDown btn btn-dark btn-lg btn-block" style="align: right">Send</button>
            </form>
           </td>
           <td class = "chatCells">
@@ -59,7 +65,6 @@
       socket.on( 'my_response', function( msg ) {
         console.log( msg )
         if( typeof msg.message !== 'undefined' ) {
-          //$( '#chat' ).append('<li>'+msg+'</li>')
           $( 'h4' ).remove()
           $( 'div.message_holder' ).append( '<div class="msg_bbl"><b style="color: #000">'+msg.message+'</div>' )
         }

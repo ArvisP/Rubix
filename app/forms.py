@@ -69,7 +69,7 @@ class ScheduleForm(FlaskForm):
 class EventForm(FlaskForm):
     start_time = TimeField('Start time', format='%H:%M')
     end_time = TimeField('End time', format='%H:%M')
-    submit = SubmitField('Edit Competition')
+    submit = SubmitField('Edit Time')
 
 class RegisterForm(FlaskForm):
     event = MultiCheckboxField('Events', choices=[ ('Rubik\'s Cube', 'Rubik\'s Cube'),
@@ -91,4 +91,12 @@ class RegisterForm(FlaskForm):
                                             ('5x5x5 Blindfolded', '5x5x5 Blindfolded'),
                                             ('3x3x3 Multi-Blind', '3x3x3 Multi-Blind'),
                                             ('Other', 'Other')])
-    submit = SubmitField('Register')
+    submit = SubmitField('Register Event')
+
+class VolunteerForm(FlaskForm):
+    role = SelectField('Role', choices=[('', '---'),
+                                        ('Scrambler', 'Scrambler'),
+                                        ('Runner', 'Runner'),
+                                        ('Judge', 'Judge')],
+                                        default='', validators=[DataRequired('Please select a role')])
+    submit = SubmitField('Request to Volunteer')

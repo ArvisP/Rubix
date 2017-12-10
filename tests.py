@@ -7,7 +7,7 @@ import datetime
 
 from flask_testing import TestCase
 from flask_login import current_user
-from app.models import User, Competition, Announcement, Event
+from app.models import User, Competition, Announcement, Event, EventUserLink
 
 class BaseTestCase(TestCase):
     '''
@@ -23,11 +23,16 @@ class BaseTestCase(TestCase):
         db.create_all()
         db.session.add(User("Firstname", "Lastname", "test@test.com", "test123"))
         db.session.add(User("Mock", "User", "mock@user.com", "mock123"))
+        db.session.add(User("new", "User", "new@user.com", "new123"))
+        db.session.add(User("Competitor", "Jones", "comp@jones.com", "comp123"))
         user = User.query.filter_by(email="test@test.com").first()
+        user1 = User.query.filter_by(email="new@user.com").first()
+        user2 = User.query.filter_by(email="comp@jones.com").first()
 
         db.session.add(Competition(user.id, "Test name", "Test location", datetime.date(2017, 12, 31)))
         db.session.add(Competition(20, "Cant view", "Cant view", datetime.date(2017, 12, 31)))
         comp = Competition.query.filter_by(comp_id=1).first()
+        comp.approved = True
         comp20 = Competition.query.filter_by(organizer_id=20).first()
 
         announce1 = Announcement(comp.comp_id, user.id, "Test announcement", "Test body")
@@ -39,6 +44,17 @@ class BaseTestCase(TestCase):
         db.session.add(event1)
         comp.comp_events.append(event1)
         comp.competitors.append(user)
+        comp.competitors.append(user1)
+        comp.competitors.append(user2)
+
+        register_user1 = EventUserLink(user=user1, event=event1)
+        register_user2 = EventUserLink(user=user2, event=event1)
+        db.session.add(register_user1)
+        db.session.add(register_user2)
+        register_user2.volunteer = True
+        register_user2.volunteer_role = 'Judge'
+        register_user1.staff = True
+        register_user1.staff_role = 'Scrambler'
 
         db.session.commit()
 
@@ -66,7 +82,6 @@ class TestUser(BaseTestCase):
                 ),
                 follow_redirects=True
             )
-            self.assertIn(b'You have signed up! Please log in!', response.data)
             user = User.query.filter_by(email="new@user.com").first()
             self.assertTrue(user)
 
@@ -94,7 +109,7 @@ class TestUser(BaseTestCase):
                 data=dict(email="test@test.com", password="test123"),
                 follow_redirects=True
             )
-            self.assertIn(b'Logged in', response.data)
+            # self.assertIn(b'Logged in', response.data)
             self.assertTrue(current_user.email == "test@test.com")
 
     def test_incorrect_login(self):
@@ -239,6 +254,29 @@ class TestManage(BaseTestCase):
             self.assertIn(b'Test name', response.data)
             self.assertFalse(b'Cant view' in response.data)
 
+
+    def test_manage_info_competitors(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+        response = self.client.get('/manage/1', content_type='html/text')
+        self.assertIn(b'Firstname', response.data)
+        self.assertIn(b'Competitor', response.data)
+
+    def test_manage_shows_vol_staff(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="comp@jones.com", password="comp123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertIn(b'Volunteers:', response.data)
+            self.assertIn(b'Staff:', response.data)
+
 class TestAnnouncement(BaseTestCase):
     def test_announcements_exist(self):
         with self.client:
@@ -325,14 +363,13 @@ class TestSchedule(BaseTestCase):
             self.assertIn(b'4x4x4 Cube', response.data)
             self.assertIn(b'Round 1', response.data)
 
+
 class TestCompetitionsView(BaseTestCase):
-    def test_comp_info_exists(self):
+    def test_comp_info_correctly_displays(self):
         response = self.client.get('/competitions/1', content_type='html/text')
         self.assertIn(b'Test name', response.data)
-
-    def test_comp_info_competitors(self):
-        response = self.client.get('/competitions/1', content_type='html/text')
         self.assertIn(b'Firstname', response.data)
+        self.assertIn(b'Competitor', response.data)
 
 
     def test_comp_announcements(self):
@@ -356,7 +393,6 @@ class TestCompetitionsView(BaseTestCase):
             response = self.client.get('/competitions/1', content_type='html/text')
             self.assertIn(b'Register', response.data)
 
-
     def test_registered_user_cannot_register(self):
         with self.client:
             self.client.post(
@@ -366,6 +402,88 @@ class TestCompetitionsView(BaseTestCase):
             )
             response = self.client.get('/competitions/1', content_type='html/text')
             self.assertFalse(b'Register' in response.data)
+
+
+    def test_event_can_be_registered(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="mock@user.com", password="mock123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertIn(b'Register Event', response.data)
+
+
+    def test_cannot_volunteer_unless_registered(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="mock@user.com", password="mock123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertFalse(b'Request to Volunteer' in response.data)
+
+    def test_user_can_volunteer_if_registered(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="new@user.com", password="new123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertIn(b'Request to Volunteer', response.data)
+
+    def test_user_is_volunteering(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="comp@jones.com", password="comp123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertIn(b'You are volunteering in this event as a Judge', response.data)
+
+    def test_comp_shows_vol_staff(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertIn(b'Volunteers:', response.data)
+            self.assertIn(b'Staff:', response.data)
+
+    def test_volunteer_approved_exists(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertIn(b'Competitor', response.data)
+            self.assertIn(b'Jones', response.data)
+            self.assertIn(b'Judge', response.data)
+            # self.assertFalse(b'new' in response.data)
+            # self.assertFalse(b'User' in response.data)
+
+
+    def test_staff_approved_exists(self):
+        with self.client:
+            self.client.post(
+                '/login',
+                data=dict(email="test@test.com", password="test123"),
+                follow_redirects=True
+            )
+            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
+            self.assertIn(b'New', response.data)
+            self.assertIn(b'User', response.data)
+            self.assertIn(b'Scrambler', response.data)
+            # self.assertFalse(b'Competitor' in response.data)
+            # self.assertFalse(b'Jones' in response.data)
 
 if __name__ == '__main__':
     unittest.main()

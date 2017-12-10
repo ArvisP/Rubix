@@ -2,7 +2,6 @@ import datetime
 from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from hashlib import md5
 
 # This association table is used to store the many-to-many relationship between competitions and users
 competitions_users = db.Table('competitionsUsers',
@@ -16,13 +15,6 @@ competitions_events = db.Table('competitionsEvents',
                                db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
                                db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
 
-# This association table is used to store the many-to-many relationship between events and users
-events_users = db.Table('eventsUsers',
-                        db.Model.metadata,
-                        db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')),
-                        db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
-
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -34,18 +26,13 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     address = db.Column(db.String(100))
     city = db.Column(db.String(30))
-    # credential type: (1) regular user or (2) WCA delegate
-    credentials = db.Column(db.Integer, default=1)
+    credentials = db.Column(db.Integer,default=1) #credential type: (1) regular user or (2) WCA delegate
     state = db.Column(db.String(30))
     zipcode = db.Column(db.String(10))
     oauth = db.Column(db.Boolean, default=False)
 
     competitor_of = db.relationship('Competition', secondary=competitions_users, backref=db.backref('competitor_of'))
-    in_event = db.relationship('Event', secondary=events_users, backref=db.backref('in_event'))
-
-    # user avatar
-    def avatar(self, size):
-        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode('utf-8')).hexdigest(), size)
+    events = db.relationship('Event', secondary='events_users_link')
 
     # Constructor for new users that use the Sign Up page
     def __init__(self, first_name, last_name, email, password=None, wca_id=None, dob=None):
@@ -58,7 +45,7 @@ class User(db.Model):
             self.oauth = True
         else:
             self.set_password(password)
- 
+
         if dob is None:
             self.dob = None
         else:
@@ -101,8 +88,9 @@ class Event(db.Model):
     event_round = db.Column(db.String(50))
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
+
     competition = db.relationship('Competition', secondary=competitions_events, backref=db.backref('comp_events'))
-    competitors = db.relationship('User', secondary=events_users, backref=db.backref('events_users'))
+    users = db.relationship('User', secondary='events_users_link')
 
     def __init__(self, event_name, event_round, start_time, end_time):
         self.event_name = event_name
@@ -156,3 +144,15 @@ class Announcement(db.Model):
         self.title = title
         self.body = body
         self.time_created = datetime.now()
+
+class EventUserLink(db.Model):
+    __tablename__ = 'events_users_link'
+    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), primary_key=True)
+    user_id = db.Column(db.Integer  , db.ForeignKey('users.id'), primary_key=True)
+    volunteer = db.Column(db.Boolean, default=False)
+    volunteer_role = db.Column(db.String(20))
+    staff = db.Column(db.Boolean, default=False)
+    staff_role = db.Column(db.String(20))
+
+    user = db.relationship(User, backref=db.backref("user_assoc"))
+    event = db.relationship(Event, backref=db.backref("event_assoc"))

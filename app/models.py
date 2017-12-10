@@ -60,8 +60,6 @@ class User(db.Model):
     def verify_password(self, plaintext):
         return check_password_hash(self.password_hash, plaintext)
 
-     
-
     @property
     def is_authenticated(self):
         return True

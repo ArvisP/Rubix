@@ -2,6 +2,7 @@ import datetime
 from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from hashlib import md5
 
 # This association table is used to store the many-to-many relationship between competitions and users
 competitions_users = db.Table('competitionsUsers',
@@ -42,6 +43,10 @@ class User(db.Model):
     competitor_of = db.relationship('Competition', secondary=competitions_users, backref=db.backref('competitor_of'))
     in_event = db.relationship('Event', secondary=events_users, backref=db.backref('in_event'))
 
+    # user avatar
+    def avatar(self, size):
+        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode('utf-8')).hexdigest(), size)
+
     # Constructor for new users that use the Sign Up page
     def __init__(self, first_name, last_name, email, password=None, wca_id=None, dob=None):
         self.first_name = first_name.title()
@@ -67,6 +72,8 @@ class User(db.Model):
 
     def verify_password(self, plaintext):
         return check_password_hash(self.password_hash, plaintext)
+
+     
 
     @property
     def is_authenticated(self):

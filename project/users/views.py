@@ -57,7 +57,7 @@ def login():
     return render_template('login.html', form=form)
 
 
-@users_blueprint.route('/wca_login')
+@users_blueprint.route('/wca_login') # logic for WCA Login
 def wca_login():
     return wca.authorize(callback=url_for('users.authorized', _external=True))
 
@@ -79,7 +79,7 @@ def signup():
     if current_user.is_authenticated:
             flash("You are already signed up!")
             return redirect(url_for('index'))
-    form = SignupForm()
+    form = SignupForm() # created an instance of SignupForm() and called it "form"
     # Check if email was used for another account
 
     # Checks if form fields are filled

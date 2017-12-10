@@ -1,46 +1,35 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block content %}
+<main class="container-fluid">
+    <div class="section-content" style="width: 40%; margin-left: auto; margin-right: auto;">
+        <h2 style="text-align: center">Log in</h2>
 
-{% block content %}
-  <main class="container-fluid">
-    <div class="container" style="width: 40%">
-      <h2 style="text-align: center">Log in</h2>
+        <form action="/login" method="POST">
+            {{ form.hidden_tag() }}
 
-      <form action="/login" method="POST">
-        {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label }} {% if form.email.errors %} {% for error in form.email.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endfor %} {% endif %} {{ form.email(class="form-control") }}
+            </div>
 
-        <div class="form-group">
-          {{ form.email.label }}
+            <div class="form-group">
+                {{ form.password.label }} {% if form.password.errors %} {% for error in form.password.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endfor %} {% endif %} {{ form.password(class="form-control")}}
+            </div>
 
-          {% if form.email.errors %}
-            {% for error in form.email.errors %}
-              <div class="alert alert-danger">
-                {{ error }}
-              </div>
-            {% endfor %}
-          {% endif %}
-
-          {{ form.email(class="form-control") }}
-        </div>
-
-        <div class="form-group">
-          {{ form.password.label }}
-
-          {% if form.password.errors %}
-            {% for error in form.password.errors %}
-              <div class="alert alert-danger">
-                {{ error }}
-              </div>
-            {% endfor %}
-          {% endif %}
-
-          {{ form.password(class="form-control")}}
-        </div>
-
-        {{ form.submit(class="btn btn-primary") }}
-      </form>
-    <form action="/wca_login">
-        <input class="btn btn-success" type="submit" value="Login using WCA ID">
-    </form>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+        <br>
+        <br>
+        <form action="/wca_login">
+            <img src="/static/img/WCA_logo.svg" alt="logo" width="28px" height="28px">
+            <input class="btn btn-success" type="submit" value="Login using WCA ID">
+        </form>
     </div>
-  </main>
+</main>
 {% endblock %}

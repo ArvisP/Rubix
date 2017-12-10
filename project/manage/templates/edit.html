@@ -1,50 +1,49 @@
 {% extends 'schedule.html' %}
 {% block content %}
 <div class="container-fluid card mt-4">
-    <div class="my-4">
-        <div class="row">
-            <h3 class="mx-4">{{ event.event_name }}</h3>
-            <h3 class="font-weight-normal">{{ event.event_round }}</h4>
-            <form class="mx-4" action="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id = event.event_id) }}" method="POST">
-            {{ form.hidden_tag() }}
-                <div class="row mx-2" style="height:40px">
-                    <div class="form-group">
-                        {{ form.start_time(class="form-control") }}
+    <div class="row my-4">
+        <h3 class="mx-4">{{ event.event_name }}</h3>
+        <h3 class="font-weight-normal">{{ event.event_round }}</h3>
+        <form class="mx-4" action="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id = event.event_id) }}" method="POST">
+        {{ form.hidden_tag() }}
+            <div class="row mx-2" style="height:40px">
+                <div class="form-group">
+                    {{ form.start_time(class="form-control") }}
 
-                    </div>
-                    <div class="form-group">
-                        {{ form.end_time(class="form-control") }}
-                    </div>
-
-                    {{ form.submit(class="btn btn-primary", style="height:40px")}}
+                </div>
+                <div class="form-group">
+                    {{ form.end_time(class="form-control") }}
                 </div>
 
-            </form>
+                {{ form.submit(class="btn btn-primary", style="height:40px")}}
+            </div>
 
-        </div>
+        </form>
+    </div>
 
-        <div class="container-fluid col-6 float-left">
-            <h5 class="mt-5">Competitors:</h5>
-            <table class="table table-hover">
-                <thead>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                </thead>
-                <tbody>
-                {% for user in event.users %}
-                    <tr>
-                        <td>{{ user.first_name }}</td>
-                        <td>{{ user.last_name }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
 
-            </table>
+    <div class="card container-fluid col-6 ml-0">
+        <h5 class="mt-4">Competitors:</h5>
+        <table class="table table-hover">
+            <thead>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+            </thead>
+            <tbody>
+            {% for user in event.users %}
+                <tr>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
 
-        </div>
-        <div class="container row">
+        </table>
+
+    </div>
+    <div class="container row">
         <!-- Volunteers Table -->
-        <div class="container col-6 card mt-5">
+        <div class="container col-6 card">
             <h5 class="mt-4">Volunteers:</h5>
             <table class="table table-hover">
                 <thead>
@@ -66,7 +65,7 @@
 
         </div>
         <!-- Staff Table -->
-        <div class="container col-6 card mt-5">
+        <div class="container col-6 card">
             <h5 class="mt-4">Staff:</h5>
             <table class="table table-hover">
                 <thead>
@@ -87,9 +86,6 @@
             </table>
 
         </div>
-    </div>
-    </div>
-
     </div>
 </div>
 {% endblock %}

@@ -38,7 +38,7 @@ h6{
 
 }
 
-div.msg_bbl {
+div.rcv_msg_bbl {
         background-color: #ddd;
         padding: 5px 10px;
         border-radius: 10px;
@@ -46,9 +46,17 @@ div.msg_bbl {
         margin-bottom: 5px;
 }
 
-.chatHistory{
-     max-height: 100%;
-    width: 100%;
+div.sent_msg_bbl {
+        background-color: #4286f4;
+        padding: 5px 10px;
+        border-radius: 10px;
+        color: #4286f4;
+        margin-bottom: 5px;
+}
 
+.chatHistory{
+     height: 400px;
+     width: 100%;
+     overflow-y: scroll;
 
 }

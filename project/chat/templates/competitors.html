@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div class="container-fluid col-8" align="center" style="width: 90%">
+  <div class="container-fluid col-8" align="center" style="width: 100%">
     <div class="container-fluid" style = "align = center">
       <table class = "chatTable" style="width:100%">
         <tr>
@@ -13,15 +13,16 @@
           <td class = "chatCells">
           </td>
           <td class = "chatCells">
-            <div class="animated fadeInDown chatHistory">
-            {% if messages %}
-              {% for msg in messages %}
-                <div class="msg_bbl"><b style="color: #000">{{ msg[1] }}</div>
-              {% endfor %}
-            {% else %}
-              <h4 style='color: #ccc'>Start a conversation.</h4>
-            {% endif %}
-            <div class="message_holder" style = "overflow: auto"></div>
+            <div id = "history" class="animated fadeInDown chatHistory">
+              <div class="message_holder" style = "overflow: auto">
+                {% if messages %}
+                  {% for msg in messages %}
+                    <div class="rcv_msg_bbl"><b style="color: #000">{{ msg[1] }}</div>
+                  {% endfor %}
+                {% else %}
+                  <h4 style='color: #ccc'>Start a conversation.</h4>
+                {% endif %}
+              </div>
           </div>
            <form action = "" method="POST">
              <input id="text" class="animated fadeInDown message form-control" size="40"
@@ -43,6 +44,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   <script type="text/javascript" charset="utf-8">
+      $("#history").scrollTop($("#history")[0].scrollHeight);
       $(document).ready(function(){
 
         var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -69,7 +71,8 @@
         console.log( msg )
         if( typeof msg !== 'undefined' ) {
           $( 'h4' ).remove()
-          $( 'div.message_holder' ).append( '<div class="msg_bbl"><b style="color: #000">'+msg+'</div>' )
+          $( 'div.message_holder' ).append( '<div class="sent_msg_bbl"><b style="color: #000">'+msg+'</div>' )
+          $("#history").scrollTop($("#history")[0].scrollHeight);
         }
       } )
 

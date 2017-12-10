@@ -126,7 +126,7 @@ def editEvent(comp_id, event_id):
     event = Event.query.filter_by(event_id=event_id).first()
 
     volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
-    event_volunteers = EventUserLink.query.filter_by(event_id=event_id).filter_by(volunteer=True).all()
+    event_volunteers = EventUserLink.query.filter_by(event_id=event_id).all()
 
     staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
     event_staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(staff=True).all()
@@ -148,11 +148,25 @@ def editEvent(comp_id, event_id):
 
     return render_template('edit.html', form=form, comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
 
+@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/edit/volunteer', methods=['POST'])
+@login_required
+def approveVolunteer(comp_id, event_id):
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=request.form['volunteer_to_add']).first()
+
+    volunteer.volunteer = True
+    db.session.commit()
+
+    return redirect(url_for('manage.editEvent', comp_id=comp_id, event_id=event_id))
+
+
+
+
 @manage_blueprint.route('/manage/<comp_id>/schedule/delete', methods=['POST'])
 @login_required
 def delete_event(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-    delete_id = Event.query.filter_by(event_id=request.form['post_to_delete']).first()
+    delete_id = Event.query.filter_by(event_id=request.form['event_to_delete']).first()
 
     db.session.delete(delete_id)
     db.session.commit()

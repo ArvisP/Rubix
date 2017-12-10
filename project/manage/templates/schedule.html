@@ -15,7 +15,7 @@
                         <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
                         <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=event.event_id) }}">Edit</a>
                         <form class="float-right" action="{{ url_for('manage.delete_event', comp_id=comp.comp_id) }}" method="POST">
-                            <input type="hidden" value="{{ event.event_id }}" name="post_to_delete"></input>
+                            <input type="hidden" value="{{ event.event_id }}" name="event_to_delete"></input>
                             <button type="submit" class="py-0 btn btn-danger">Delete</input>
                         </form>
 

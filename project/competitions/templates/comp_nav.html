@@ -25,6 +25,9 @@
                 <a href="{{ url_for('competitions.schedule', comp_id=comp.comp_id) }}" class="nav-link text-dark ">Schedule</a>
             </li>
             <li class="nav-item">
+                <a href="{{ url_for('competitions.competitors', comp_id=comp.comp_id) }}" class="nav-link text-dark ">Chat</a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ url_for('competitions.competition', comp_id=comp.comp_id) }}" class="nav-link text-dark ">Directions</a>
             </li>
             <li class="nav-item">

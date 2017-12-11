@@ -1,8 +1,8 @@
 from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
-from app import app, db
-from app.models import Competition, Announcement, Event, User
+from app import app, db, socketio
+from app.models import Competition, Announcement, Event, User, ChatHistory
 from app.forms import RegisterForm
 from project.users.views import login_required
 
@@ -61,6 +61,25 @@ def event(comp_id, event_id):
     event = Event.query.filter_by(event_id=event_id).first()
 
     return render_template('comp_event.html', comp=comp, event=event)
+
+@competitions_blueprint.route('/competitions/<comp_id>/competitors/<event_id>')
+def competitors(comp_id, event_id):
+    #comp = Competition.query.filter_by(comp_id=comp_id).first()
+    msgs = ChatHistory.query.all()
+    items = []
+    for item in msgs:
+        items+=[(item.sender,item.message)]
+    return render_template('competitors.html', messages = items)
+
+
+@socketio.on( 'message' )
+def handleMessage( msg ):
+ # print( 'Received my event: ' + str( json ) )
+  toAdd = ChatHistory(0, "M3", "all", str(msg))
+  db.session.add(toAdd)
+  db.session.commit()
+  socketio.emit( 'my_response', str(msg) )
+
 
 @competitions_blueprint.route('/competitions/<comp_id>/register', methods=['GET', 'POST'])
 @login_required

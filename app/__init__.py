@@ -21,8 +21,6 @@ admin = Admin(app, name='Rubix', template_mode='bootstrap3')
 from project.users.views import users_blueprint
 app.register_blueprint(users_blueprint)
 
-from project.chat.views import chat_blueprint
-app.register_blueprint(chat_blueprint)
 
 lm.login_view = "users.login"
 

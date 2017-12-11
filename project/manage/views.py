@@ -2,7 +2,7 @@ from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
 from app import app, db
-from app.models import Competition, Announcement, Event
+from app.models import Competition, Announcement, Event, ChatHistory
 from project.users.views import login_required
 from app.forms import AnnouncementForm, ScheduleForm, EventForm
 

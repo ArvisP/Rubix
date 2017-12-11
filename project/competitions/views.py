@@ -1,9 +1,15 @@
 from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
+<<<<<<< HEAD
 from app import app, db, socketio
 from app.models import Competition, Announcement, Event, User, ChatHistory
 from app.forms import RegisterForm
+=======
+from app import app, db
+from app.models import Competition, Announcement, Event, User, EventUserLink
+from app.forms import RegisterForm, VolunteerForm
+>>>>>>> 64bd84fb15bb4c38cc69375ae2fb7143da21f9b3
 from project.users.views import login_required
 
 competitions_blueprint = Blueprint(
@@ -20,7 +26,7 @@ def competitions():
 def competition(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
 
-    if comp == None:
+    if comp is None:
         flash('Competition is not found.')
         return redirect(url_for('index'))
 
@@ -34,8 +40,8 @@ def announcements(comp_id):
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            newAnnounce = Announcement(comp.comp_id, current_user.wca_id, form.title.data, form.body.data)
-            db.session.add(newAnnounce)
+            new_announcement = Announcement(comp.comp_id, current_user.id, form.title.data, form.body.data)
+            db.session.add(new_announcement)
             db.session.commit()
 
             flash('Posted!')
@@ -54,13 +60,59 @@ def schedule(comp_id):
 
 
 @competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>', methods=['GET', 'POST'])
+@login_required
 def event(comp_id, event_id):
+    form_vol = VolunteerForm()
+    form_reg = RegisterForm()
 
     comp = Competition.query.filter_by(comp_id=comp_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
+    event = Event.query.filter_by(event_id=event_id).first()
+    volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_volunteers = EventUserLink.query.filter_by(event_id=event_id).filter_by(volunteer=True).all()
 
+    staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(staff=True).all()
+
+    return render_template('comp_event.html', form_reg=form_reg, form_vol=form_vol, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff, comp=comp, event=event)
+
+
+@competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>/volunteer', methods=['GET', 'POST'])
+@login_required
+def event_volunteer(comp_id, event_id):
+    form = VolunteerForm()
+
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
+    event = Event.query.filter_by(event_id=event_id).first()
+    volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+
+    if form.validate_on_submit():
+        role = form.role.data
+
+        volunteer.volunteer_role = role
+        db.session.commit()
+
+        flash('You have requested to be a volunteer!')
+        return redirect(url_for('competitions.event', comp_id=comp_id, event_id=event_id))
+
+
+@competitions_blueprint.route('/competitions/<comp_id>/schedule/<event_id>/register', methods=['GET', 'POST'])
+@login_required
+def event_register(comp_id, event_id):
+    form = RegisterForm()
+
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
     event = Event.query.filter_by(event_id=event_id).first()
 
-    return render_template('comp_event.html', comp=comp, event=event)
+
+    if form.validate_on_submit():
+        register_user = EventUserLink(user=user, event=event)
+        db.session.add(register_user)
+        db.session.commit()
+        flash('You have registered for this event!')
+        return redirect(url_for('competitions.event', comp_id=comp_id, event_id=event_id))
 
 @competitions_blueprint.route('/competitions/<comp_id>/competitors/<event_id>')
 def competitors(comp_id, event_id):
@@ -87,7 +139,7 @@ def register(comp_id):
     form = RegisterForm()
 
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-    user = User.query.filter_by(wca_id=current_user.wca_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
 
     if request.method == 'POST':
         if form.validate_on_submit():

@@ -1,36 +1,40 @@
 {% extends 'schedule.html' %}
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid card mt-4">
     <div class="my-4">
-        <h1>{{ event.event_name }}</h1>
-        <h4>{{ event.event_round }}</h4>
-        <h5 class="font-weight-normal">{{ event.start_time }} - {{ event.end_time }}</h5>
-        <form action="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id = event.event_id) }}" method="POST">
+        <div class="row">
+            <h3 class="mx-4">{{ event.event_name }}</h3>
+            <h3 class="font-weight-normal">{{ event.event_round }}</h4>
+            <form class="mx-4" action="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id = event.event_id) }}" method="POST">
             {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.start_time.label }}
-                {{ form.start_time(class="form-control") }}
+                <div class="row mx-2" style="height:40px">
+                    <div class="form-group">
+                        {{ form.start_time(class="form-control") }}
 
-            </div>
-            <div class="form-group">
-                {{ form.end_time.label }}
-                {{ form.end_time(class="form-control") }}
-            </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form.end_time(class="form-control") }}
+                    </div>
 
-            {{ form.submit(class="btn btn-primary")}}
-        </form>
+                    {{ form.submit(class="btn btn-primary", style="height:40px")}}
+                </div>
+
+            </form>
+
+        </div>
+
         <div class="container-fluid col-6 float-left">
             <h5 class="mt-5">Competitors:</h5>
             <table class="table table-hover">
                 <thead>
                     <th scope="col">First Name</th>
-                    <th scope="col">LastName</th>
+                    <th scope="col">Last Name</th>
                 </thead>
                 <tbody>
-                {% for competitor in event.competitors %}
+                {% for user in event.users %}
                     <tr>
-                        <td>{{ competitor.first_name }}</td>
-                        <td>{{ competitor.last_name }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -38,6 +42,54 @@
             </table>
 
         </div>
+        <div class="container row">
+        <!-- Volunteers Table -->
+        <div class="container col-6 card mt-5">
+            <h5 class="mt-4">Volunteers:</h5>
+            <table class="table table-hover">
+                <thead>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Role</th>
+                </thead>
+                <tbody>
+                {% for vol in event_volunteers %}
+                    <tr>
+                        <td>{{ vol.user.first_name }}</td>
+                        <td>{{ vol.user.last_name }}</td>
+                        <td>{{ vol.volunteer_role }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+        <!-- Staff Table -->
+        <div class="container col-6 card mt-5">
+            <h5 class="mt-4">Staff:</h5>
+            <table class="table table-hover">
+                <thead>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Role</th>
+                </thead>
+                <tbody>
+                {% for staff in event_staff %}
+                    <tr>
+                        <td>{{ staff.user.first_name }}</td>
+                        <td>{{ staff.user.last_name }}</td>
+                        <td>{{ staff.staff_role }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+    </div>
+
     </div>
 </div>
 {% endblock %}

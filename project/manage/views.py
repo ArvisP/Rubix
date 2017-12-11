@@ -4,7 +4,7 @@ from flask_login import current_user
 from app import app, db
 from app.models import Competition, Announcement, Event, ChatHistory
 from project.users.views import login_required
-from app.forms import AnnouncementForm, ScheduleForm, EventForm
+from app.forms import AnnouncementForm, ScheduleForm, EventForm, EventUserLink
 
 manage_blueprint = Blueprint(
     'manage', __name__,
@@ -14,9 +14,13 @@ manage_blueprint = Blueprint(
 @manage_blueprint.route('/manage')
 @login_required
 def manage():
-    competitions = Competition.query.filter_by(organizer_id=current_user.wca_id).all()
-    return render_template('manage.html', competitions=competitions)
-
+    # if current_user.credentials == 1:
+    #     # print("regular user")
+    #     return render_template('404.html')
+    # elif current_user.credentials == 2:
+    #     # print("current user")
+        competitions = Competition.query.filter_by(organizer_id=current_user.id).all()
+        return render_template('manage.html', competitions=competitions)
 
 @manage_blueprint.route('/manage/<comp_id>')
 @login_required
@@ -40,8 +44,8 @@ def announcements(comp_id):
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            newAnnounce = Announcement(comp.comp_id, current_user.wca_id, form.title.data, form.body.data)
-            db.session.add(newAnnounce)
+            new_announcement = Announcement(comp.comp_id, current_user.id, form.title.data, form.body.data)
+            db.session.add(new_announcement)
             db.session.commit()
 
             flash('Posted!')
@@ -101,20 +105,34 @@ def event(comp_id, event_id):
 
     event = Event.query.filter_by(event_id=event_id).first()
 
+    volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_volunteers = EventUserLink.query.filter_by(event_id=event_id).filter_by(volunteer=True).all()
+
+    staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(staff=True).all()
+
     if request.method == 'POST':
         if form.validate_on_submit():
             event.start_time = form.start_time.data
             event.end_time = form.end_time.data
 
-    return render_template('event.html', comp=comp, event=event)
+    return render_template('event.html', comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
 
 @manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/edit', methods=['GET', 'POST'])
 @login_required
 def editEvent(comp_id, event_id):
     form = EventForm()
     comp = Competition.query.filter_by(comp_id=comp_id).first()
-
     event = Event.query.filter_by(event_id=event_id).first()
+
+    volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_volunteers = EventUserLink.query.filter_by(event_id=event_id).filter_by(volunteer=True).all()
+
+    staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+    event_staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(staff=True).all()
+
+    # form.start_time.data = event.start_time
+    # form.end_time.data = event.end_time
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -123,12 +141,12 @@ def editEvent(comp_id, event_id):
             db.session.commit()
 
             flash(event.event_name + " updated!")
-            return redirect(url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id))
+            return redirect(url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff))
         else:
             flash("something not working")
-            return render_template('edit.html', form=form, comp=comp, event=event)
+            return render_template('edit.html', form=form, comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
 
-    return render_template('edit.html', form=form, comp=comp, event=event)
+    return render_template('edit.html', form=form, comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
 
 @manage_blueprint.route('/manage/<comp_id>/schedule/delete', methods=['POST'])
 @login_required

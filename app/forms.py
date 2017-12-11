@@ -39,7 +39,10 @@ class MultiCheckboxField(SelectMultipleField):
 
 class CompetitionForm(FlaskForm):
     name = StringField('Competition Name', validators=[DataRequired("Please enter a name for your competition")])
-    location = TextAreaField('Location')
+    address = StringField('Address')
+    city = StringField('City')
+    state = StringField('State')
+    zipcode = StringField('Zipcode')
     date = DateField('Date', format="%Y-%m-%d")
     submit = SubmitField('Create competition')
 

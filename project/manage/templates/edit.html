@@ -1,6 +1,6 @@
-{% extends 'schedule.html' %}
-{% block content %}
-<div class="container-fluid card mt-4">
+{% extends 'competition_layout.html' %}
+{% block comp_content %}
+<div class="container-fluid card">
     <div class="row my-4">
         <h3 class="mx-4">{{ event.event_name }}</h3>
         <h3 class="font-weight-normal">{{ event.event_round }}</h3>
@@ -22,7 +22,7 @@
     </div>
 
 
-    <div class="card container-fluid col-6 ml-0">
+    <div class="container-fluid">
         <h5 class="mt-4">Competitors:</h5>
         <table class="table table-hover">
             <thead>
@@ -48,9 +48,9 @@
         </table>
 
     </div>
-    <div class="container row">
+    <div class="px-0 row">
         <!-- Volunteers Table -->
-        <div class="container col-6 card">
+        <div class="container">
             <h5 class="mt-4">Volunteers:</h5>
             <table class="table table-hover">
                 <thead>
@@ -94,7 +94,7 @@
 
         </div>
         <!-- Staff Table -->
-        <div class="container col-6 card">
+        <div class="container">
             <h5 class="mt-4">Staff:</h5>
             <table class="table table-hover">
                 <thead>
@@ -108,7 +108,6 @@
                         <td>{{ staff.user.first_name }}</td>
                         <td>{{ staff.user.last_name }}</td>
                         <td>
-
                             <form action="{{ url_for('manage.changeStaff', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
                             {{ form_staff.hidden_tag() }}
                             <div class="row">

@@ -1,5 +1,6 @@
-{% include 'competition.html' %}
-<div class="container-fluid col-8">
+{% extends 'competition_layout.html' %}
+{% block comp_content %}
+<div class="container-fluid">
     <div class="container">
         <h2>New Event</h2>
 
@@ -70,3 +71,4 @@
         </form>
     </div>
 </div>
+{% endblock %}

@@ -1,5 +1,5 @@
-{% extends 'schedule.html' %}
-{% block content %}
+{% extends 'competition_layout.html' %}
+{% block comp_content %}
 <div class="container-fluid card mt-4">
     <div class="row my-4">
         <h3 class="mx-4">{{ event.event_name }}</h3>
@@ -7,7 +7,7 @@
         <h5 class=" mx-4 mt-2 font-weight-normal">{{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</h5>
     </div>
 
-    <div class="card container-fluid col-6 float-left ml-0">
+    <div class="container-fluid col-6 float-left ml-0">
         <h5 class="mt-4">Competitors:</h5>
         <table class="table table-hover">
             <thead>
@@ -28,7 +28,7 @@
     </div>
     <div class="container row">
     <!-- Volunteers Table -->
-        <div class="container col-6 card">
+        <div class="container card">
             <h5 class="mt-4">Volunteers:</h5>
             <table class="table table-hover">
                 <thead>
@@ -50,7 +50,7 @@
 
         </div>
         <!-- Staff Table -->
-        <div class="container col-6 card">
+        <div class="container card">
             <h5 class="mt-4">Staff:</h5>
             <table class="table table-hover">
                 <thead>

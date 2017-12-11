@@ -1,9 +1,12 @@
 {% include 'comp_nav.html' %}
+<br>
 <div class="container-fluid col-8">
     <div class="container my-4 mx-2">
-        <h2>{{ comp.title }}</h2>
-        <h2 class="font-weight-normal">{{ comp.address }}</h2>
-        <div class="container-fluid col-6 float-left">
+        <h2 align="center">{{ comp.title }}</h2>
+        <h5 align="center"> {{ comp.address }} </h5>
+        <h6 align="center"> {{ comp.city }}, {{ comp.state }} {{ comp.zipcode }} </h6>
+        <div class="container-fluid col-6">
+            <!-- float-left -->
             <h5 class="mt-5">Competitors:</h5>
             <table class="table table-hover">
                 <thead>
@@ -11,16 +14,14 @@
                     <th scope="col">LastName</th>
                 </thead>
                 <tbody>
-                {% for competitor in comp.competitors %}
+                    {% for competitor in comp.competitors %}
                     <tr>
                         <td>{{ competitor.first_name }}</td>
                         <td>{{ competitor.last_name }}</td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
-
             </table>
-
         </div>
     </div>
 </div>

@@ -121,7 +121,7 @@ def competitors():
     items = []
     for item in msgs:
         items+=[(item.sender,item.message)]
-    return render_template('competitors.html', messages = items)
+    return render_template('chat.html', messages = items)
 
 
 @socketio.on( 'message' )

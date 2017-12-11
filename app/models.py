@@ -150,12 +150,11 @@ class Announcement(db.Model):
 class ChatHistory(db.Model):
     __tablename__ = "chat"
     comp_id = db.Column('comp_id', db.Integer, primary_key=True)
-    sender = db.Column('sender', db.String(20))
+    sender = db.Column('sender', db.String(15))
     message = db.Column('message', db.String(500))
 
-
     def __init__(self, comp_id, sender, message):
-        self.comp_id = comp_id
+        self.chat_id = comp_id
         self.sender = sender
         self.message = message
 

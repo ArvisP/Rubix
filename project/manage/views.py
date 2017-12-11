@@ -1,12 +1,12 @@
 from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
-from app import app, db
-<<<<<<< HEAD
+from app import app, db, socketio
+
 from app.models import Competition, Announcement, Event, ChatHistory
-=======
+
 from app.models import User, Competition, Announcement, Event, EventUserLink
->>>>>>> eec741d648b9e01540f84520eb09f5ae4782625f
+
 from project.users.views import login_required
 from app.forms import AnnouncementForm, ScheduleForm, EventTimeForm, StaffForm
 
@@ -207,3 +207,21 @@ def delete_event(comp_id):
     db.session.commit()
     return redirect(url_for('manage.schedule', comp_id=comp.comp_id))
 
+
+
+@competitions_blueprint.route('/competitors')
+def competitors():
+    #comp = Competition.query.filter_by(comp_id=comp_id).first()
+    msgs = ChatHistory.query.all()
+    items = []
+    for item in msgs:
+        items+=[(item.sender,item.message)]
+    return render_template('chat.html', messages = items)
+
+
+@socketio.on( 'message' )
+def handleMessage( msg ):
+  toAdd = ChatHistory(0, "M3", str(msg))
+  db.session.add(toAdd)
+  db.session.commit()
+  socketio.emit( 'my_response', str(msg) )

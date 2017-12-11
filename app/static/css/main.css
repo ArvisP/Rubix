@@ -44,6 +44,7 @@ div.rcv_msg_bbl {
         border-radius: 10px;
         color: #555;
         margin-bottom: 5px;
+        width: 40%;
 }
 
 div.sent_msg_bbl {
@@ -52,13 +53,15 @@ div.sent_msg_bbl {
         border-radius: 10px;
         color: #4286f4;
         margin-bottom: 5px;
+        width: 40%;
+        align: "right";
 }
 
 .chatHistory{
-    border-radius: 10px;
-    border: 5px double #4b4f4b;
-     height: 400px;
-     width: 100%;
-     overflow-y: scroll;
+  border-radius: 10px;
+  border: 5px double #4b4f4b;
+   height: 400px;
+   width: 100%;
+   overflow-y: scroll;
 
 }

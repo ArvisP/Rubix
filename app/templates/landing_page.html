@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> Rubik's</title>
+    <!-- tab icon -->
+    <link href="/static/img/solved-cube.png" rel="icon">
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700|Roboto:400,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/static/css/landing_page.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!--
+    =====================  HERO  ===================== 
+    -->
+    <section class="hero">
+        <a href="#home"></a>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="hero-brand" href="{{ url_for('index') }}" title="Home"><img src="/static/img/solved-cube.png" width="75" height="75"></a>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <h1>
+                    Rubik's<sup>3</sup>
+                </h1>
+
+                <p class="tagline">
+                    Rubik's Cube Competition Finder
+                </p>
+                <a class="btn btn-full" href="#about">Learn More Now</a>
+            </div>
+        </div>
+
+    </section>
+    <!--
+    =====================  END-HERO  =====================
+    -->
+
+    <!--
+    ====================  NAVBAR  ====================
+    -->
+    <header id="header">
+        <div class="container">
+            <div id="logo" class="pull-left">
+                <a href="{{ url_for('index') }}"><img src="/static/img/solved-cube.png" /></img>
+                </a>
+            </div>
+
+            <nav id="nav-menu-container">
+                <ul class="nav-menu ml-auto">
+                    <li><a href="#aboutus">About Us</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#team">Team</a></li>
+                    {% if current_user.is_authenticated %}
+                    <!-- If the user is logged in he will see this, if not the user won't -->
+                    <li class="nav-item mx-2">
+                        <a class="nav-link" href="{{ url_for('profile') }}"> Hi, {{ current_user.first_name }} </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a href="{{ url_for('users.logout') }}">
+                            <!--class="btn btn-dark"-->
+                            <span class="fa fa-sign-out" aria-hidden="true"> Log out</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <!-- Otherwise, the user will see options to log in or sign up -->
+                    <li class="nav-item mx-2">
+                        <a class="nav-link js-scroll-trigger" href="{{ url_for('users.signup') }}">
+                            <span class="fa fa-user-plus" aria-hidden="true"> Sign-Up </span>
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a href="{{ url_for('users.login') }}">
+                            <span class="fa fa-sign-in" aria-hidden="true"> Log In</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+    <div class="col-8 offset-2 alert alert-primary">
+        {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+    <!--
+    ==================  END-NAVBAR  ==================
+    -->
+    <!--
+    =======================  ABOUT  =======================
+    -->
+    <section class="about" id="about">
+        <div class="container text-center">
+            <h2 class="text-center">
+                About Us
+            </h2>
+            <p>
+                Rubik's<sup>3</sup> is meant to create a centralized community for speed cubers! We have created a user friendly interface that allows any member to create a competition. Each competition undergoes review by WCA delegates, who can contact
+                you to discuss your competition.
+            </p>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <i class="fa fa-cubes" style="font-size: 150px; width: 100%; text-align:center;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--
+    =====================  END-ABOUT  =====================
+    -->
+    <!--
+    ====================== FEATURES =======================
+    -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="text-center">
+                Features
+            </h2>
+
+            <div class="row">
+                <div class="feature-col col-lg-4 col-xs-12">
+                    <div class="card card-block text-center">
+                        <div>
+                            <div class="feature-icon">
+                                <span class="fa fa-comment"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>
+                                Messaging
+                            </h3>
+
+                            <p>
+                                Talk with your friends, or meet new cubers! This is a fast way to invite your friends to join your newly created competition
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-col col-lg-4 col-xs-12">
+                    <div class="card card-block text-center">
+                        <div>
+                            <div class="feature-icon">
+                                <img src="/static/img/WCA_logo.svg" width="30" height="30">
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>
+                                WCA Authorized
+                            </h3>
+                            <p>
+                                Log In with your WCA credentials
+                                <br>
+                                <br>
+                                <br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-col col-lg-4 col-xs-12">
+                    <div class="card card-block text-center">
+                        <div>
+                            <div class="feature-icon">
+                                <span class="fa fa-bell"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>
+                                blog
+                            </h3>
+
+                            <p>
+                                <br>
+                                <br>
+                                <br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="feature-col col-lg-4 col-xs-12">
+                    <div class="card card-block text-center">
+                        <div>
+                            <div class="feature-icon">
+                                <span class="fa fa-plus-circle"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>
+                                Create Competitions
+                            </h3>
+
+                            <p>
+                                When you sign-up/sign-in, you can create as many competitions as you want. All competitions are reviewed by WCA delegates
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-col col-lg-4 col-xs-12">
+                    <div class="card card-block text-center">
+                        <div>
+                            <div class="feature-icon">
+                                <span class="fa fa-pencil-square-o"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>
+                                Manage Competitions
+                            </h3>
+
+                            <p>
+                                You can customize the competition to include events you want! You can allow other users to volunteer and help organize events.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-col col-lg-4 col-xs-12">
+                    <div class="card card-block text-center">
+                        <div>
+                            <div class="feature-icon">
+                                <span class="fa fa-list"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>
+                                View Competitions
+                            </h3>
+
+                            <p>
+                                You can view all the competitions created, and narrow down your search to competitions in your area.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--
+    ===================== END-FEATURES =====================
+    -->
+    <!--
+    ==================== TEAM ======================     
+    -->
+    <section class="team" id="team">
+        <div class="container">
+            <h2 class="text-center">
+                Meet Tha Squad
+            </h2>
+
+            <div class="row">
+                <div class="col-sm-3 col-xs-6">
+                    <div class="card card-block">
+                        <a href="#"><img alt="" class="team-img" src="/static/img/Edwin.png">
+                            <div class="card-title-wrap">
+                                <span class="card-title">Edwin Zhao</span> <span class="card-text">Product Owner</span>
+                            </div>
+
+                            <div class="team-over">
+                                <h4 class="hidden-md-down">
+                                    Framework Pro
+                                </h4>
+
+                                <nav class="social-nav">
+                                    <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-linkedin"></i></a> <a href="#"><i class="fa fa-envelope"></i></a>
+                                </nav>
+
+                                <p>
+                                    Hello all I am the product owner for project Rubiks
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-xs-6">
+                    <div class="card card-block">
+                        <a href="#"><img alt="" class="team-img" src="/static/img/ArvisPeralta.png">
+                            <div class="card-title-wrap">
+                                <span class="card-title">Arvis Peralta</span> <span class="card-text">Scrum Master</span>
+                            </div>
+
+                            <div class="team-over">
+                                <h4 class="hidden-md-down">
+                                    Git Pro
+                                </h4>
+
+                                <nav class="social-nav">
+                                    <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-linkedin"></i></a> <a href="#"><i class="fa fa-envelope"></i></a>
+                                </nav>
+
+                                <p>
+                                    I'm Arvis Peralta in charge of keeping our repository organized
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-xs-6">
+                    <div class="card card-block">
+                        <a href="#"><img alt="" class="team-img" src="/static/img/Ichwan.jpeg">
+                            <div class="card-title-wrap">
+                                <span class="card-title">Ichwan Palongengi</span> <span class="card-text">Developer</span>
+                            </div>
+
+                            <div class="team-over">
+                                <h4 class="hidden-md-down">
+                                    Database Pro
+                                </h4>
+
+                                <nav class="social-nav">
+                                    <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-linkedin"></i></a> <a href="#"><i class="fa fa-envelope"></i></a>
+                                </nav>
+
+                                <p>
+                                    Hello People! I am the database master! Helped with all database related problems
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-xs-6">
+                    <div class="card card-block">
+                        <a href="#"><img alt="" class="team-img" src="/static/img/lenny.png">
+                            <div class="card-title-wrap">
+                                <span class="card-title"> Lenny Gonzalez </span> <span class="card-text"> Developer </span>
+                            </div>
+
+                            <div class="team-over">
+                                <h4 class="hidden-md-down">
+                                    Front-End Pro
+                                </h4>
+
+                                <nav class="social-nav">
+                                    <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-linkedin"></i></a> <a href="#"><i class="fa fa-envelope"></i></a>
+                                </nav>
+
+                                <p>
+                                    Nobody puts baby in a corner
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--
+    ==================== END TEAM ======================     
+    -->
+
+    <!--
+    ======================  FOOTER  ======================
+    -->
+    <footer class="site-footer">
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-xs-12 text-lg-left text-center">
+                        <p class="copyright-text">
+                            Web Site Design
+                        </p>
+                        <div class="credits">
+                            CSC 47300 - Project Rubiks
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-xs-12 text-lg-right text-center">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="{{ url_for('index') }}">Home</a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a href="#about">About Us</a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a href="#features">Features</a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a href="#team">Team</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--
+    ====================  END-FOOTER  ====================
+    -->
+
+    <!-- Arrow button that ends you back up -->
+    <a class="scrolltop" href="#"><span class="fa fa-angle-up"></span></a>
+
+    <!-- Required JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.hoverintent/1.9.0/jquery.hoverIntent.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.9/js/superfish.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.3/js/tether.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-base/0.7.6/stellar-base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sticky/1.0.4/jquery.sticky.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.js"></script>
+    <script src="/static/js/landing_page.js"></script>
+
+</body>
+
+</html>

@@ -23,7 +23,14 @@ def host():
             # datetime_object = datetime.strftime(form.date.data, '%Y/%m/%d')
             print(current_user.id)
 
-            newComp = Competition(current_user.id, form.name.data, form.location.data, form.date.data)
+            newComp = Competition(
+                organizer_id=current_user.id,
+                title=form.name.data,
+                address=form.address.data,
+                city=form.city.data,
+                state=form.state.data,
+                zipcode=form.zipcode.data,
+                date=form.date.data)
 
             db.session.add(newComp)
             db.session.commit()
@@ -33,4 +40,3 @@ def host():
         else:
             return render_template('host.html', form=form)
     return render_template('host.html', form=form)
-

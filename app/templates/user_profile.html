@@ -1,3 +1,99 @@
 {% extends "profile-layout.html" %}
 <p></p>
+{% block profile_content %}
+<style>
+    img {
+        display: block !important;
+        margin: auto !important;
+    }
+</style>
+
+<section class="main">
+    <div>
+        <h1 class="text-center"> {{ current_user.first_name }} {{ current_user.last_name}} </h1>
+
+        <img src=/static/img/user-placeholder.svg width="200px" height="200px">
+    </div>
+
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th> WCA ID </th>
+                    <th> Gender </th>
+                    <th> Competitions </th>
+                    <th> Completed Solves</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h3 class="text-center"> Current Personal Records </h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th> Event </th>
+                    <th> NR </th>
+                    <th> CR </th>
+                    <th> WR </th>
+                    <th> Single </th>
+                    <th> Average</th>
+                    <th> WR </th>
+                    <th> CR </th>
+                    <th> NR </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h3 class="text-center"> Medal Collection </h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th> WCA ID </th>
+                    <th> Gender </th>
+                    <th> Competitions </th>
+                    <th> Completed Solves</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h3 class="text-center"> Competition Results </h3>
+        <table class="table table-hover">
+
+        </table>
+    </div>
+</section>
+
+
 {% endblock %}

@@ -115,10 +115,13 @@ class Competition(db.Model):
     events = db.relationship('Event', secondary=competitions_events, order_by="Event.start_time")
     competitors = db.relationship('User', secondary=competitions_users)
 
-    def __init__(self, organizer_id, title, address, date):
+    def __init__(self, organizer_id, title, address, city, state, zipcode, date):
         self.organizer_id = organizer_id
         self.title = title
         self.address = address
+        self.city = city
+        self.state = state
+        self.zipcode = zipcode
         self.date = date
         self.approved = False
         self.active = False

@@ -25,13 +25,13 @@ def manage():
 @manage_blueprint.route('/manage/<comp_id>')
 @login_required
 def manage_comp(comp_id):
-    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    comp = Competition.query.filter_by(comp_id=comp_id).first() # filters competitions by competition id, returns first competitions
 
     if comp == None:
         flash('Competition is not found.')
         return redirect(url_for('index'))
 
-    return render_template('details.html', comp=comp)
+    return render_template('details.html', comp=comp) #left side is how we access through template, right side is what we wrote inside views function
 
 @manage_blueprint.route('/manage/<comp_id>/announcements', methods=['GET', 'POST'])
 @login_required
@@ -53,9 +53,6 @@ def announcements(comp_id):
         else:
             flash('Somethings not working')
             return render_template('announcements.html', form=form, comp=comp, announcements=announcements)
-
-
-
 
     return render_template('announcements.html', form=form, comp=comp, announcements=announcements)
 
@@ -205,3 +202,4 @@ def delete_event(comp_id):
     db.session.delete(delete_id)
     db.session.commit()
     return redirect(url_for('manage.schedule', comp_id=comp.comp_id))
+

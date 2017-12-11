@@ -8,15 +8,14 @@ db.session.add(User("firstname", "lastname", "em@il.com", "password"))
 session_user = User.query.filter_by(email="test@test.com").first()
 session_user2 = User.query.filter_by(email="em@il.com").first()
 
-<<<<<<< HEAD
 # Add competitions
 db.session.add(Competition(session_user.wca_id, "Rubik's Cube Day", "Cubicle", datetime.date(2017, 12, 31)))
 db.session.add(Competition(session_user2.wca_id, "City College Cube Day", "160 Convent Avenue", datetime.date(2017, 12, 31)))
-=======
+
 # Add competitionks
 db.session.add(Competition(session_user.id, "Rubik's Cube Day", "Cubicle", datetime.date(2017, 12, 31)))
 db.session.add(Competition(session_user2.id, "City College Cube Day", "160 Convent Avenue", datetime.date(2017, 12, 31)))
->>>>>>> 64bd84fb15bb4c38cc69375ae2fb7143da21f9b3
+
 session_comp = Competition.query.filter_by(comp_id=1).first()
 session_comp2 = Competition.query.filter_by(comp_id=2).first()
 

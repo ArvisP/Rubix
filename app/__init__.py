@@ -1,12 +1,12 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-<<<<<<< HEAD
+
 from flask_socketio import SocketIO, send, emit
-=======
+
 from flask_oauthlib.client import OAuth
 from flask_socketio import SocketIO, send
->>>>>>> 64bd84fb15bb4c38cc69375ae2fb7143da21f9b3
+
 
 app = Flask(__name__)
 lm = LoginManager()

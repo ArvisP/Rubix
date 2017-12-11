@@ -55,6 +55,8 @@ div.sent_msg_bbl {
 }
 
 .chatHistory{
+    border-radius: 10px;
+    border: 5px double #4b4f4b;
      height: 400px;
      width: 100%;
      overflow-y: scroll;

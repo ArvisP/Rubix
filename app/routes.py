@@ -55,12 +55,7 @@ def announcements():
     return render_template('announcements.html')
 
 
-<<<<<<< HEAD
-=======
-@app.route('/comp-competitors')
-def competitors():
-    return render_template('competitors.html')
->>>>>>> 64bd84fb15bb4c38cc69375ae2fb7143da21f9b3
+
 
 
 @app.route('/comp-schedule')

@@ -141,23 +141,21 @@ class Announcement(db.Model):
         self.author_id = author_id
         self.title = title
         self.body = body
-<<<<<<< HEAD
-        self.time_created = datetime.datetime.now()
+
+        self.time_created = datetime.now()
 
 class ChatHistory(db.Model):
     __tablename__ = "chat"
     comp_id = db.Column('comp_id', db.Integer, primary_key=True)
-    sender = db.Column('sender', db.String(15))
-    recipient = db.Column('recipient', db.String(15))
+    sender = db.Column('sender', db.String(20))
     message = db.Column('message', db.String(500))
 
-    def __init__(self, comp_id, sender, recipient, message):
-        self.chat_id = comp_id
+
+    def __init__(self, comp_id, sender, message):
+        self.comp_id = comp_id
         self.sender = sender
-        self.recipient = recipient
         self.message = message
-=======
-        self.time_created = datetime.now()
+
 
 class EventUserLink(db.Model):
     __tablename__ = 'events_users_link'
@@ -170,4 +168,3 @@ class EventUserLink(db.Model):
 
     user = db.relationship(User, backref=db.backref("user_assoc"))
     event = db.relationship(Event, backref=db.backref("event_assoc"))
->>>>>>> 64bd84fb15bb4c38cc69375ae2fb7143da21f9b3

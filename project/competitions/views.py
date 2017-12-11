@@ -1,15 +1,15 @@
 from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
-<<<<<<< HEAD
+
 from app import app, db, socketio
 from app.models import Competition, Announcement, Event, User, ChatHistory
 from app.forms import RegisterForm
-=======
+from datetime import datetime
 from app import app, db
 from app.models import Competition, Announcement, Event, User, EventUserLink
 from app.forms import RegisterForm, VolunteerForm
->>>>>>> 64bd84fb15bb4c38cc69375ae2fb7143da21f9b3
+
 from project.users.views import login_required
 
 competitions_blueprint = Blueprint(
@@ -114,8 +114,8 @@ def event_register(comp_id, event_id):
         flash('You have registered for this event!')
         return redirect(url_for('competitions.event', comp_id=comp_id, event_id=event_id))
 
-@competitions_blueprint.route('/competitions/<comp_id>/competitors/<event_id>')
-def competitors(comp_id, event_id):
+@competitions_blueprint.route('/competitors')
+def competitors():
     #comp = Competition.query.filter_by(comp_id=comp_id).first()
     msgs = ChatHistory.query.all()
     items = []
@@ -126,8 +126,7 @@ def competitors(comp_id, event_id):
 
 @socketio.on( 'message' )
 def handleMessage( msg ):
- # print( 'Received my event: ' + str( json ) )
-  toAdd = ChatHistory(0, "M3", "all", str(msg))
+  toAdd = ChatHistory(0, "M3", str(msg))
   db.session.add(toAdd)
   db.session.commit()
   socketio.emit( 'my_response', str(msg) )

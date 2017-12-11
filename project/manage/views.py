@@ -4,7 +4,7 @@ from flask_login import current_user
 from app import app, db
 from app.models import User, Competition, Announcement, Event, EventUserLink
 from project.users.views import login_required
-from app.forms import AnnouncementForm, ScheduleForm, EventTimeForm, StaffForm
+from app.forms import AnnouncementForm, ScheduleForm, EventTimeForm, StaffForm, VolunteerForm, RegisterForm
 
 manage_blueprint = Blueprint(
     'manage', __name__,
@@ -66,13 +66,6 @@ def delete_annc(comp_id):
     db.session.commit()
     return redirect(url_for('manage.announcements', comp_id=comp.comp_id))
 
-@manage_blueprint.route('/manage/<comp_id>/schedule')
-def schedule(comp_id):
-    comp = Competition.query.filter_by(comp_id=comp_id).first()
-
-    return render_template('schedule.html', comp=comp)
-
-
 @manage_blueprint.route('/manage/<comp_id>/newevent', methods=['GET', 'POST'])
 @login_required
 def newEvent(comp_id):
@@ -97,7 +90,8 @@ def newEvent(comp_id):
 @manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>', methods=['GET', 'POST'])
 @login_required
 def event(comp_id, event_id):
-
+    form_vol = VolunteerForm()
+    form_reg = RegisterForm()
     comp = Competition.query.filter_by(comp_id=comp_id).first()
 
     event = Event.query.filter_by(event_id=event_id).first()
@@ -113,7 +107,7 @@ def event(comp_id, event_id):
             event.start_time = form.start_time.data
             event.end_time = form.end_time.data
 
-    return render_template('event.html', comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
+    return render_template('event.html', form_vol=form_vol, form_reg=form_reg, comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
 
 @manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -203,3 +197,59 @@ def delete_event(comp_id):
     db.session.commit()
     return redirect(url_for('manage.schedule', comp_id=comp.comp_id))
 
+
+
+
+
+
+
+@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/register', methods=['GET', 'POST'])
+@login_required
+def event_register(comp_id, event_id):
+    form = RegisterForm()
+
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
+    event = Event.query.filter_by(event_id=event_id).first()
+
+
+    if form.validate_on_submit():
+        register_user = EventUserLink(user=user, event=event)
+        db.session.add(register_user)
+        db.session.commit()
+        flash('You have registered for this event!')
+        return redirect(url_for('manage.event', comp_id=comp_id, event_id=event_id))
+
+
+@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/volunteer', methods=['GET', 'POST'])
+@login_required
+def event_volunteer(comp_id, event_id):
+    form = VolunteerForm()
+
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
+    event = Event.query.filter_by(event_id=event_id).first()
+    volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
+
+    if form.validate_on_submit():
+        role = form.role.data
+
+        volunteer.volunteer_role = role
+        db.session.commit()
+
+        flash('You have requested to be a volunteer!')
+        return redirect(url_for('manage.event', comp_id=comp_id, event_id=event_id))
+
+@manage_blueprint.route('/manage/<comp_id>/register', methods=['GET', 'POST'])
+@login_required
+def register(comp_id):
+    form = RegisterForm()
+
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
+
+    comp.competitors.append(user)
+    db.session.commit()
+
+    flash('You have been registered to ' + comp.title + "!")
+    return render_template('details.html', comp=comp)

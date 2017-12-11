@@ -20,6 +20,8 @@
             </tbody>
 
         </table>
+        {% if current_user not in comp.competitors %}
+        <a href="{{ url_for('manage.register', comp_id=comp.comp_id) }}" class="btn btn-primary">Register</a> {% endif %}
 
     </div>
 </div>

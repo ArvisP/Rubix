@@ -29,8 +29,8 @@ class BaseTestCase(TestCase):
         user1 = User.query.filter_by(email="new@user.com").first()
         user2 = User.query.filter_by(email="comp@jones.com").first()
 
-        db.session.add(Competition(user.id, "Test name", "Test location", datetime.date(2017, 12, 31)))
-        db.session.add(Competition(20, "Cant view", "Cant view", datetime.date(2017, 12, 31)))
+        db.session.add(Competition(user.id, "Test name", "Test location", "Test City", "Test State", "10031", datetime.date(2017, 12, 31)))
+        db.session.add(Competition(20, "Cant view", "Cant view", "New York", "NY", "10031", datetime.date(2017, 12, 31)))
         comp = Competition.query.filter_by(comp_id=1).first()
         comp.approved = True
         comp20 = Competition.query.filter_by(organizer_id=20).first()

@@ -1,11 +1,55 @@
 {% extends 'competition_layout.html' %}
 {% block comp_content %}
-<div class="container-fluid card mt-4">
+<div class="container-fluid card">
     <div class="row my-4">
         <h3 class="mx-4">{{ event.event_name }}</h3>
         <h3 class="font-weight-normal">{{ event.event_round }}</h3>
         <h5 class=" mx-4 mt-2 font-weight-normal">{{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</h5>
     </div>
+
+    {% if volunteer.volunteer == False and not volunteer.volunteer_role %}
+    <form action="{{ url_for('manage.event_volunteer', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+        {{ form_vol.hidden_tag() }}
+        <div class="form-group">
+            {{ form_vol.role.label }}
+            {{ form_vol.role(class="form-control") }}
+
+            {% if form_vol.role.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form_vol.role.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+
+        {{ form_vol.submit(class="btn btn-primary")}}
+
+
+    </form>
+
+    <!-- If current user has requested to volunteer but has not been approved, show what current user has requested to volunteer as. -->
+    {% elif volunteer.volunteer_role and not volunteer.volunteer %}
+    <h5>You have requested to volunteer as a {{ volunteer.volunteer_role }}.</h5>
+
+    <!-- If current user has been approved to volunteer, show current user what their role is.  -->
+    {% elif volunteer.volunteer %}
+    <h5>You are volunteering in this event as a {{ volunteer.volunteer_role }}.</h2>
+    {% endif %}
+
+    <!-- Register button -->
+    {% if current_user not in event.users and current_user in comp.competitors %}
+        {% if event.event_round == 'Round 1' or event.event_round == 'Combined Final' %}
+        <form action="{{ url_for('manage.event_register', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+
+            {{ form_reg.hidden_tag() }}
+            {{ form_reg.submit(class="btn btn-primary")}}
+
+        </form>
+        {% endif %}
+    {% endif %}
+
 
     <div class="container-fluid col-6 float-left ml-0">
         <h5 class="mt-4">Competitors:</h5>

@@ -1,0 +1,19 @@
+{% include 'layout.html' %}
+{% include 'competition_navbar.html' %}
+{% block content %}
+{% endblock %}
+<div class="container-fluid row mt-4">
+    <div class="container col-2">
+        {% include 'schedule.html' %}
+    </div>
+
+    <div class="container col-6">
+    {% block comp_content %}
+    {% endblock %}
+    </div>
+
+    <div class="container col-4" style="width: 100%;background-color: red">
+        chat placeholder
+    </div>
+
+</div>

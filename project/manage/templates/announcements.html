@@ -1,6 +1,6 @@
-{% include 'competition.html' %}
-  <div class="container-fluid col-8">
-    <div class="card">
+{% extends 'competition_layout.html' %}
+{% block comp_content %}
+  <div class="container-fluid card">
 
     {% if comp.organizer_id == current_user.id %} <!-- Checks if user is the event organizer -->
 
@@ -52,6 +52,7 @@
         {% endfor %}
       </table>
     </div>
-    </div>
 
   </div>
+
+{% endblock %}

@@ -29,6 +29,8 @@ wca = oauth.remote_app('wca',
                        request_token_method='POST',
                        request_token_params={'scope': 'public email dob'}
                        )
+# SocketIO junk
+socketio = SocketIO(app)
 
 from flask_admin import Admin
 

@@ -1,34 +1,25 @@
-{% include 'competition.html' %}
-<div class="container-fluid col-8">
-    <div class="row">
-        <div class="col-3 mt-4">
-        <table style="width: 100%">
-            {% for event in comp.events %}
-            <tr class="card mt-0">
-                <td class="mx-2">
-                    <div class="container row mt-2 mb-0 pb-0" style="height:20px">
-                        <p class="mx-2"><span class="font-weight-bold">{{ event.event_name }}</span></p>
-                        <p>{{ event.event_round }}</p>
-                    </div>
-                    <p class="mx-2 my-0">{{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</p>
-                    <div class="container px-2">
-                        <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
-                        <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=event.event_id) }}">Edit</a>
-                        <form class="float-right" action="{{ url_for('manage.delete_event', comp_id=comp.comp_id) }}" method="POST">
-                            <input type="hidden" value="{{ event.event_id }}" name="post_to_delete"></input>
-                            <button type="submit" class="py-0 btn btn-danger">Delete</input>
-                        </form>
+<div class="container">
+<table style="width: 100%">
+    {% for event in comp.events %}
+    <tr class="card mt-0">
+        <td class="mx-2">
+            <div class="container row mt-2 mb-0 pb-0" style="height:20px">
+                <p class="mx-2"><span class="font-weight-bold">{{ event.event_name }}</span></p>
+                <p>{{ event.event_round }}</p>
+            </div>
+            <p class="mx-2 my-0">{{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</p>
+            <div class="container px-2">
+                <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
+                <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=event.event_id) }}">Edit</a>
+                <form class="float-right" action="{{ url_for('manage.delete_event', comp_id=comp.comp_id) }}" method="POST">
+                    <input type="hidden" value="{{ event.event_id }}" name="event_to_delete"></input>
+                    <button type="submit" class="py-0 btn btn-danger">Delete</input>
+                </form>
 
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        <a href="{{ url_for('manage.newEvent', comp_id=comp.comp_id) }}" class="btn btn-primary btn-block btn-light">New Event</a>
-        </div>
-        <div class="col-9">
-        {% block content %}
-        {% endblock %}
-        </div>
-    </div>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('manage.newEvent', comp_id=comp.comp_id) }}" class="btn btn-primary btn-block btn-light">New Event</a>
 </div>

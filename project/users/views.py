@@ -43,13 +43,15 @@ def login():
 
             user = User.query.filter_by(email=email).first()
 
-            if user is not None and user.oauth is True:
+            if user is not None and user.oauth is True: # checks to see if user is WCA member, if they are do this
                 flash('You are registered using your WCA ID. Please login using your WCA ID.')
                 return redirect(url_for('users.login'))
-            elif user is not None and user.verify_password(password):
+
+            elif user is not None and user.verify_password(password): #if they are not do this
                 login_user(user)
                 flash('Logged in')
                 return redirect(url_for('profile'))
+
             else:
                 flash('Invalid Login')
                 return render_template('login.html', form=form)

@@ -39,7 +39,10 @@ class MultiCheckboxField(SelectMultipleField):
 
 class CompetitionForm(FlaskForm):
     name = StringField('Competition Name', validators=[DataRequired("Please enter a name for your competition")])
-    location = TextAreaField('Location')
+    address = StringField('Address')
+    city = StringField('City')
+    state = StringField('State')
+    zipcode = StringField('Zipcode')
     date = DateField('Date', format="%Y-%m-%d")
     submit = SubmitField('Create competition')
 
@@ -79,10 +82,10 @@ class ScheduleForm(FlaskForm):
     submit = SubmitField('Create competition')
 
 
-class EventForm(FlaskForm):
+class EventTimeForm(FlaskForm):
     start_time = TimeField('Start time', format='%H:%M')
     end_time = TimeField('End time', format='%H:%M')
-    submit = SubmitField('Edit Time')
+    submit_time = SubmitField('Edit Time')
 
 
 class RegisterForm(FlaskForm):
@@ -117,3 +120,11 @@ class VolunteerForm(FlaskForm):
                        default='',
                        validators=[DataRequired('Please select a role')])
     submit = SubmitField('Request to Volunteer')
+
+class StaffForm(FlaskForm):
+    role = SelectField('Role', choices=[('', '---'),
+                                        ('Scrambler', 'Scrambler'),
+                                        ('Runner', 'Runner'),
+                                        ('Judge', 'Judge')],
+                                        default='', validators=[DataRequired('Please select a role')])
+    submit = SubmitField('Change Role')

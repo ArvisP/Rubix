@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    {% if current_user.credentials==1 %}
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <a class="navbar-brand" href="{{ url_for('index') }}">
             <img src="/static/img/solved-cube.png" width="30" height="30" class="d-inline-block align-top" alt=""> Rubik's<sup>3</sup>
@@ -45,6 +46,42 @@
                 </a>
             </li>
         </ul>
+        {% else %}
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <img src="/static/img/solved-cube.png" width="30" height="30" class="d-inline-block align-top" alt=""> Rubik's<sup>3</sup>
+            </a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('profile') }}">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i> Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('host.host') }}">
+                        <i class="fa fa-plus-circle"></i> KILL THE Competition
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('manage.manage') }}">
+                        <i class="fa fa-pencil-square-o"></i> Manage Competitions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('competitions.competitions') }}">
+                        <i class="fa fa-list" aria-hidden="true"></i> View THE DAMN Competitions
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item mx-2">
+                    <a href="{{ url_for('users.logout') }}" class="btn btn-dark">
+                        <span class="fa fa-sign-out" aria-hidden="true" class="btn btn-dark"> Log out</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
     </nav>
 
     <p></p>

@@ -271,4 +271,4 @@ def register(comp_id):
     db.session.commit()
 
     flash('You have been registered to ' + comp.title + "!")
-    return redirect(url_for('manage.event', comp_id=comp_id, event_id=event_id))
+    return redirect(url_for('manage.event', comp_id=comp_id))

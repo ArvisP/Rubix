@@ -25,11 +25,45 @@ h6{
 }
 
 .chatTable {
-  width:100%;
-  border: 1px solid #4b4f4b;
+  width: 100%;
+  border-radius: 10px;
+  border: 5px double #4b4f4b;
+
 }
 
 .chatCells{
   text-align: center;
-  border: 1px solid #4b4f4b;
+  border-radius: 10px;
+  border: 5px double #4b4f4b;
+
+}
+
+div.rcv_msg_bbl {
+  text-align: "left";
+  background-color: #ddd;
+  padding: 1px 1px;
+  border-radius: 20px;
+  color: #555;
+  margin-bottom: 5px;
+  overflow:hidden;
+}
+
+div.sent_msg_bbl {
+  text-align: "left";
+  background-color: #4286f4;
+  padding: 1px 1px;
+  border-radius: 20px;
+  color: #4286f4;
+  margin-bottom: 5px;
+  align: "right";
+  overflow:hidden;
+}
+
+.chatHistory{
+  border-radius: 10px;
+  border: 5px double #4b4f4b;
+  height: 400px;
+  width: 100%;
+  overflow-y: scroll;
+
 }

@@ -1,8 +1,12 @@
 from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
-from app import app, db
+from app import app, db, socketio
+
+from app.models import Competition, Announcement, Event, ChatHistory
+
 from app.models import User, Competition, Announcement, Event, EventUserLink
+
 from project.users.views import login_required
 from app.forms import AnnouncementForm, ScheduleForm, EventTimeForm, StaffForm, VolunteerForm, RegisterForm
 
@@ -270,5 +274,20 @@ def register(comp_id):
     comp.competitors.append(user)
     db.session.commit()
 
-    flash('You have been registered to ' + comp.title + "!")
-    return redirect(url_for('manage.event', comp_id=comp_id))
+@socketio.on('load')
+def competitors(comp_id): #comp_id
+    msgs = ChatHistory.query.filter_by(comp_id=comp_id).all()
+    items = []
+    for item in msgs:
+        items+=[(item.sender, item.message)]
+    socketio.emit( 'chat_history', items )
+
+
+@socketio.on( 'message' )
+def handleMessage(comp_id, msg):
+    name = current_user.first_name + " " +current_user.last_name
+    count = ChatHistory.query.count()+1
+    toAdd = ChatHistory(table_id=count, comp_id=comp_id, sender=name, message=msg)
+    db.session.add(toAdd)
+    db.session.commit()
+    socketio.emit( 'my_response', [name, msg] )

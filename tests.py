@@ -40,7 +40,7 @@ class BaseTestCase(TestCase):
         db.session.add(announce1)
         db.session.add(announce2)
 
-        event1 = Event('Rubik\'s Cube', 'Round 1', datetime.time(11, 0, 0), datetime.time(12, 0, 0))
+        event1 = Event('4x4x4 Cube', 'Round 1', datetime.time(11, 0, 0), datetime.time(12, 0, 0))
         db.session.add(event1)
         comp.comp_events.append(event1)
         comp.competitors.append(user)
@@ -64,6 +64,15 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    def login(self, email, password):
+        return self.client.post('/login', data=dict(
+            email=email,
+            password=password
+        ), follow_redirects=True)
+
+    def logout(self):
+        return self.app.get('/logout', follow_redirects=True)
 
 class TestBasic(BaseTestCase):
     '''Ensure that flask was set up correctly'''
@@ -104,11 +113,7 @@ class TestUser(BaseTestCase):
 
     def test_login(self):
         with self.client:
-            response = self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            response = self.login('test@test.com', 'test123')
             # self.assertIn(b'Logged in', response.data)
             self.assertTrue(current_user.email == "test@test.com")
 
@@ -124,11 +129,7 @@ class TestUser(BaseTestCase):
 
     def test_logout(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.get('/logout', follow_redirects=True)
             self.assertIn(b'You have been logged out!', response.data)
             self.assertFalse(current_user.is_active)
@@ -140,11 +141,7 @@ class TestUser(BaseTestCase):
 
     def test_get_by_id(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password='test123'),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             self.assertTrue(current_user.id == 1)
             self.assertFalse(current_user.id == 20)
 
@@ -161,11 +158,7 @@ class TestHost(BaseTestCase):
 
     def test_host_submission(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.post(
                 '/host',
                 data=dict(
@@ -178,15 +171,10 @@ class TestHost(BaseTestCase):
             )
             comp = Competition.query.filter_by(title="Cube Day").first()
             self.assertTrue(comp)
-            self.assertIn(b'Cube Day has been created!', response.data)
 
     def test_submission_on_manage(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             self.client.post(
                 '/host',
                 data=dict(
@@ -198,7 +186,6 @@ class TestHost(BaseTestCase):
             )
             response = self.client.get('/manage', content_type='html/text')
             self.assertIn(b'Cube Day', response.data)
-            self.assertIn(b'Cubicle', response.data)
             self.assertIn(b'2018-05-13', response.data)
             self.assertIn(b'Manage', response.data)
 
@@ -206,11 +193,7 @@ class TestHost(BaseTestCase):
 
     def test_submission_matches_user(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.post(
                 '/host',
                 data=dict(
@@ -232,11 +215,7 @@ class TestManage(BaseTestCase):
 
     def test_manage_displays_competition(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.get('/manage', content_type='html/text')
             self.assertIn(b'Test name', response.data)
             self.assertIn(b'Test location', response.data)
@@ -245,26 +224,41 @@ class TestManage(BaseTestCase):
 
     def test_manage_only_displays_currentuser_comps(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.get('/manage', content_type='html/text')
             self.assertIn(b'Test name', response.data)
             self.assertFalse(b'Cant view' in response.data)
 
 
-    def test_manage_info_competitors(self):
+    def test_manage_competitors_and_schedule(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
-        response = self.client.get('/manage/1', content_type='html/text')
-        self.assertIn(b'Firstname', response.data)
-        self.assertIn(b'Competitor', response.data)
+            self.login('test@test.com', 'test123')
+            response = self.client.get('/manage/1', content_type='html/text')
+            self.assertIn(b'Firstname', response.data)
+            self.assertIn(b'Competitor', response.data)
+            self.assertIn(b'4x4x4 Cube', response.data)
+
+    def test_manage_shows_organizer_edit_buttons(self):
+        with self.client:
+            self.login('test@test.com', 'test123')
+            response = self.client.get('/manage/1', content_type='html/text')
+            self.assertIn(b'New Event', response.data)
+            self.assertIn(b'Edit', response.data)
+            self.assertIn(b'Delete', response.data)
+
+    def test_manage_event_shows_info(self):
+        with self.client:
+            self.login('test@test.com', 'test123')
+            response = self.client.get('/manage/1/schedule/1', content_type='html/text')
+            self.assertIn(b'11:00 AM - 12:00 PM', response.data)
+            self.assertIn(b'Volunteers:', response.data)
+            self.assertIn(b'Staff:', response.data)
+
+    def test_manage_edit_event_displays_correctly(self):
+        with self.client:
+            self.login('test@test.com', 'test123')
+            response = self.client.get('/manage/1/schedule/1/edit', content_type='html/text')
+            self.assertIn(b'Change Role', response.data)
 
 class TestAnnouncement(BaseTestCase):
     def test_announcements_exist(self):
@@ -280,22 +274,14 @@ class TestAnnouncement(BaseTestCase):
 
     def test_comp_owner_can_post_announcement(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.get('/manage/1/announcements', content_type='html/text')
             self.assertIn(b'Title', response.data)
             self.assertIn(b'Body', response.data)
 
     def test_announcement_gets_posted(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             self.client.post(
                 '/manage/1/announcements',
                 data=dict(title="new post", body="new body"),
@@ -307,11 +293,7 @@ class TestAnnouncement(BaseTestCase):
 
     def test_incorrect_announcement_gets_posted(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.post(
                 '/manage/1/announcements',
                 data=dict(title="", body=""),
@@ -323,33 +305,25 @@ class TestAnnouncement(BaseTestCase):
 class TestSchedule(BaseTestCase):
     def test_event_exist(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
 
-            response = self.client.get('/manage/1/schedule', content_type='html/text')
-            self.assertIn(b'Rubik\'s Cube', response.data)
+            response = self.client.get('/manage/1', content_type='html/text')
+            self.assertIn(b'4x4x4 Cube', response.data)
 
     def test_event_is_created(self):
         with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
+            self.login('test@test.com', 'test123')
             response = self.client.post(
                 '/manage/1/newevent',
                 data=dict(
-                    event="4x4x4 Cube",
+                    event="5x5x5 Cube",
                     event_round="Round 1",
                     start_time="11:00 AM",
                     end_time="12:00 PM"
                 ),
                 follow_redirects=True
             )
-            self.assertIn(b'4x4x4 Cube', response.data)
+            self.assertIn(b'5x5x5 Cube', response.data)
             self.assertIn(b'Round 1', response.data)
 
 if __name__ == '__main__':

@@ -2,13 +2,13 @@
 {% block comp_content %}
 <div class="container-fluid card">
     <div class="row my-4">
-        <h3 class="mx-4">{{ event.event_name }}</h3>
-        <h3 class="font-weight-normal">{{ event.event_round }}</h3>
-        <h5 class=" mx-4 mt-2 font-weight-normal">{{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</h5>
+        <h3 class="mx-4">{{ current_event.event_name }}</h3>
+        <h3 class="font-weight-normal">{{ current_event.event_round }}</h3>
+        <h5 class=" mx-4 mt-2 font-weight-normal">{{ current_event.start_time.strftime('%I:%M %p') }} - {{ current_event.end_time.strftime('%I:%M %p') }}</h5>
     </div>
 
     {% if volunteer.volunteer == False and not volunteer.volunteer_role and volunteer.staff == False %}
-    <form action="{{ url_for('manage.event_volunteer', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+    <form action="{{ url_for('manage.event_volunteer', comp_id=comp.comp_id, event_id=current_event.event_id) }}" method="POST">
         {{ form_vol.hidden_tag() }}
         <div class="form-group">
             {{ form_vol.role.label }}
@@ -39,9 +39,9 @@
     {% endif %}
 
     <!-- Register button -->
-    {% if current_user not in event.users and current_user in comp.competitors %}
-        {% if event.event_round == 'Round 1' or event.event_round == 'Combined Final' %}
-        <form action="{{ url_for('manage.event_register', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+    {% if current_user not in current_event.users and current_user in comp.competitors %}
+        {% if current_event.event_round == 'Round 1' or current_event.event_round == 'Combined Final' %}
+        <form action="{{ url_for('manage.event_register', comp_id=comp.comp_id, event_id=current_event.event_id) }}" method="POST">
 
             {{ form_reg.hidden_tag() }}
             {{ form_reg.submit(class="btn btn-primary")}}
@@ -103,7 +103,7 @@
                 <th scope="col">Last Name</th>
             </thead>
             <tbody>
-            {% for user in event.users %}
+            {% for user in current_event.users %}
                 <tr>
                     <td>{{ user.first_name }}</td>
                     <td>{{ user.last_name }}</td>

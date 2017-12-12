@@ -110,6 +110,7 @@ class Competition(db.Model):
 
     approved = db.Column(db.Boolean)
     active = db.Column(db.Boolean)
+    pending = db.Column(db.Boolean)
 
     organizerRel = db.relationship('User', backref='competitionRel')
     events = db.relationship('Event', secondary=competitions_events, order_by="Event.start_time")

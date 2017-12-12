@@ -12,7 +12,7 @@ app = Flask(__name__)
 lm = LoginManager()
 lm.init_app(app)
 # app.config['SECRET_KEY'] = 'uh23jl13o2j3'
-app.config.from_object('config.BaseConfig') #HerokuDeploy
+app.config.from_object('config.HerokuDeployConfig') #HerokuDeploy
 db = SQLAlchemy(app)
 socketio = SocketIO(app)
 

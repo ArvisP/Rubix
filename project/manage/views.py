@@ -211,7 +211,6 @@ def delete_event(comp_id):
 
 @socketio.on('load')
 def competitors(comp_id): #comp_id
-    print('HERE IS THE COMP ID: '+ str(comp_id))
     msgs = ChatHistory.query.filter_by(comp_id=comp_id).all()
     items = []
     for item in msgs:
@@ -222,10 +221,8 @@ def competitors(comp_id): #comp_id
 @socketio.on( 'message' )
 def handleMessage(comp_id, msg):
     name = current_user.first_name + " " +current_user.last_name
-    print(name)
-    print("COMP_ID::::: "+str(comp_id))
-    print("MESSAGE::::: "+str(msg))
-    toAdd = ChatHistory(comp_id, name, msg)
+    count = ChatHistory.query.count()+1
+    toAdd = ChatHistory(table_id=count, comp_id=comp_id, sender=name, message=msg)
     db.session.add(toAdd)
     db.session.commit()
     socketio.emit( 'my_response', [name, msg] )

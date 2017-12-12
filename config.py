@@ -19,5 +19,5 @@ class TestConfig(BaseConfig):
 
 class HerokuDeployConfig(object):
     SECRET_KEY = 'thisPasswordIsSoDarnAmazinglyStrong123!'
-    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+#    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = False

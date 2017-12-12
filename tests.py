@@ -77,6 +77,338 @@ class TestBasic(BaseTestCase):
         response = self.client.get('/login', content_type='html/text')
         self.assertEqual(response.status_code, 200)
 
+class TestUnitApp(BaseTestCase):
+    def test_check_routes_file(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          '__init__.py'))
+        self.assertTrue(file_exits)
+
+    def test_check_routes(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'routes.py'))
+        self.assertTrue(file_exits)
+    
+    def test_check_models(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'models.py'))
+        self.assertTrue(file_exits)
+    
+    def test_check_forms(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'forms.py'))
+        self.assertTrue(file_exits)
+    
+    def test_check_chat(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'chat.py'))
+        self.assertTrue(file_exits)
+    # this is the checks for the profile layout, this layout is used by both regular users and delegates
+    def test_check_profile_layout(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'profile-layout.html'))
+        self.assertTrue(file_exits)
+    
+    def test_check_profile_page(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'user_profile.html'))
+        self.assertTrue(file_exits)
+    
+    def test_check_delegate_page(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'delegate_profile.html'))
+        self.assertTrue(file_exits)
+    
+    def test_check_landing_page(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'landing_page.html'))
+        self.assertTrue(file_exits)
+
+    def test_check_layout(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'layout.html'))
+        self.assertTrue(file_exits)
+
+    def test_check_404(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          '404.html'))
+        self.assertTrue(file_exits)
+
+class TestUnitProject(BaseTestCase):
+    # this __init__.py file is for the entire projects folder
+    def test_check_init(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          '__init__.py'
+                          ))
+        self.assertTrue(file_exits)
+    # this __init__.py file is for the directory: competitions
+    def test_check_competitions_init(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          '__init__.py'
+                          ))
+        self.assertTrue(file_exits)
+    
+    def test_check_competitions_views(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'views.py'
+                          ))
+        self.assertTrue(file_exits)
+
+    def test_check_competitions_announcements(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'templates',
+                          'comp_announcements.html'))
+        self.assertTrue(file_exits)
+    
+    def test_check_competitions_event(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'templates',
+                          'comp_event.html'
+                          ))
+        self.assertTrue(file_exits)
+
+    def test_check_competitions_info(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'templates',
+                          'comp_info.html'
+                          ))
+        self.assertTrue(file_exits)
+    
+    def test_check_competitions_nav(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'templates',
+                          'comp_nav.html'
+                          ))
+        self.assertTrue(file_exits)
+
+    def test_check_competitions_register(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'templates',
+                          'comp_register.html'
+                          ))
+        self.assertTrue(file_exits)
+
+    def test_check_competitions_schedule(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'templates',
+                          'comp_schedule.html'
+                          ))
+        self.assertTrue(file_exits)
+
+    def test_check_competitions_file(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'competitions',
+                          'templates',
+                          'competitions.html'
+                          ))
+        self.assertTrue(file_exits)
+    # HOST directory
+    def test_check_host_init(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'host',
+                          '__init__.py'))
+        self.assertTrue(file_exits)
+
+    def test_check_host_view(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'host',
+                          'views.py'))
+        self.assertTrue(file_exits)
+
+    def test_check_host_file(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'project',
+                          'host',
+                          'templates'
+                          'host.html'))
+        self.assertTrue(file_exits)
+    #manage directory
+    def test_check_manage_init(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            '__init__.py'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_view(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'views.py'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_announcements(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'announcements.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_competition_layout(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'competition_layout.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_compnavbar(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'competition_navbar.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_competition(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'competition.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_competitors(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'competitors.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_details(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'details.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_edit(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'edit.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_event(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'event.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_file(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'manage.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_newevent(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'newevent.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_schedule(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'manage',
+                            'templates',
+                            'schedule.html'))
+        self.assertTrue(file_exists)
+    # User directory
+    def test_check_manage_init(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'users',
+                            '__init__.py'))
+        self.assertTrue(file_exists)
+
+    def test_check_manage_views(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'users',
+                            'views.py'))
+        self.assertTrue(file_exists)
+
+    def test_check_user_login(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'users',
+                            'templates',
+                            'login.html'))
+        self.assertTrue(file_exists)
+
+    def test_check_user_signup(self):
+        file_exists = op.exists(op.join(self.dir,
+                            'project',
+                            'users',
+                            'templates',
+                            'signup.html'))
+        self.assertTrue(file_exists)
+
+class TestUnitRubix(BaseTestCase):
+    def test_check_rubix_config(self):
+        file_exists = op.exists(op.join(self.dir,'config.py'))
+        self.assertTrue(file_exists)
+
+    def test_check_rubix_createdata(self):
+        file_exists = op.exists(op.join(self.dir,'db_create_data.py'))
+        self.assertTrue(file_exists)
+
+    def test_check_rubix_createdb(self):
+        file_exists = op.exists(op.join(self.dir,'db_create.py'))
+        self.assertTrue(file_exists)
+
+    def test_check_rubix_run(self):
+        file_exists = op.exists(op.join(self.dir,'run.py'))
+        self.assertTrue(file_exists)
+
+
 class TestUser(BaseTestCase):
     def test_user_signup(self):
         with self.client:
@@ -494,61 +826,6 @@ class TestCompetitionsView(BaseTestCase):
             self.assertIn(b'Scrambler', response.data)
             # self.assertFalse(b'Competitor' in response.data)
             # self.assertFalse(b'Jones' in response.data)
-
-class TestUnitRubix(BaseTestCase):
-    def test_check_routes_file(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          '__init__.py'))
-        self.assertTrue(file_exits)
-
-    def test_check_routes(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'routes.py'))
-        self.assertTrue(file_exits)
-    
-    def test_check_models(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'models.py'))
-        self.assertTrue(file_exits)
-    
-    def test_check_forms(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'forms.py'))
-        self.assertTrue(file_exits)
-    
-    def test_check_chat(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'chat.py'))
-        self.assertTrue(file_exits)
-    # this is the checks for the profile layout, this layout is used by both regular users and delegates
-    def test_check_profile_layout(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'templates',
-                          'profile-layout.html'))
-        self.assertTrue(file_exits)
-    
-    def test_check_profile_page(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'templates',
-                          'user_profile'))
-        self.assertTrue(file_exits)
-    
-    def test_check_landing_page(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'templates',
-                          'landing_page.html'))
-        self.assertTrue(file_exits)
-
-#class TestUnitDelegate(unittest.TestCase):
-#    def setup(self):    
 
 if __name__ == '__main__':
     unittest.main()

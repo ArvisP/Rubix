@@ -5,7 +5,7 @@ from flask import render_template, redirect, url_for
 from flask_admin.contrib.sqla import ModelView
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, admin
-from .models import User, Competition, Event, EventUserLink
+from .models import User, Competition, Event, EventUserLink, ChatHistory
 from sqlalchemy import update
 
 
@@ -13,6 +13,7 @@ from sqlalchemy import update
 from project.users.views import users_blueprint, login_required
 from project.host.views import host_blueprint
 from project.manage.views import manage_blueprint
+
 
 class AdminView(ModelView):
     column_display_pk = True
@@ -23,6 +24,7 @@ admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Competition, db.session))
 admin.add_view(ModelView(Event, db.session))
 admin.add_view(ModelView(EventUserLink, db.session))
+admin.add_view(ModelView(ChatHistory, db.session))
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(host_blueprint)
@@ -56,9 +58,7 @@ def announcements():
     return render_template('announcements.html')
 
 
-@app.route('/comp-competitors')
-def competitors():
-    return render_template('competitors.html')
+
 
 
 @app.route('/comp-schedule')

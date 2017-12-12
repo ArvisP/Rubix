@@ -284,7 +284,7 @@ class TestManage(BaseTestCase):
             self.assertIn(b'11:00 AM - 12:00 PM', response.data)
             self.assertIn(b'Volunteers:', response.data)
             self.assertIn(b'Staff:', response.data)
-    
+
     def test_manage_accept_competition(self):
         with self.client:
             self.client
@@ -360,8 +360,6 @@ class TestSchedule(BaseTestCase):
             )
             self.assertIn(b'5x5x5 Cube', response.data)
             self.assertIn(b'Round 1', response.data)
-
-<<<<<<< HEAD
 
 class TestCompetitionsView(BaseTestCase):
     def test_comp_info_correctly_displays(self):
@@ -506,7 +504,7 @@ class TestCompetitionsView(BaseTestCase):
 #             )
 #             response = self.client.get('/profile', content_type='html/text')
 #             self.client.assertEqual("current_user.first_name current_user.last_name",self.soup.h1.text.strip())
-    
+
 class TestUnitApp(BaseTestCase):
     def test_check_routes_file(self):
         file_exits = op.exists(op.join(self.dir,
@@ -519,19 +517,19 @@ class TestUnitApp(BaseTestCase):
                           'app',
                           'routes.py'))
         self.assertTrue(file_exits)
-    
+
     def test_check_models(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'models.py'))
         self.assertTrue(file_exits)
-    
+
     def test_check_forms(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'forms.py'))
         self.assertTrue(file_exits)
-    
+
     def test_check_chat(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
@@ -544,21 +542,21 @@ class TestUnitApp(BaseTestCase):
                           'templates',
                           'profile-layout.html'))
         self.assertTrue(file_exits)
-    
+
     def test_check_profile_page(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'templates',
                           'user_profile.html'))
         self.assertTrue(file_exits)
-    
+
     def test_check_delegate_page(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'templates',
                           'delegate_profile.html'))
         self.assertTrue(file_exits)
-    
+
     def test_check_landing_page(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
@@ -596,7 +594,7 @@ class TestUnitProject(BaseTestCase):
                           '__init__.py'
                           ))
         self.assertTrue(file_exits)
-    
+
     def test_check_competitions_views(self):
         file_exits = op.exists(op.join(self.dir,
                           'project',
@@ -612,7 +610,7 @@ class TestUnitProject(BaseTestCase):
                           'templates',
                           'comp_announcements.html'))
         self.assertTrue(file_exits)
-    
+
     def test_check_competitions_event(self):
         file_exits = op.exists(op.join(self.dir,
                           'project',
@@ -630,7 +628,7 @@ class TestUnitProject(BaseTestCase):
                           'comp_info.html'
                           ))
         self.assertTrue(file_exits)
-    
+
     def test_check_competitions_nav(self):
         file_exits = op.exists(op.join(self.dir,
                           'project',
@@ -821,7 +819,6 @@ class TestUnitProject(BaseTestCase):
                             'signup.html'))
         self.assertTrue(file_exists)
 
-=======
->>>>>>> 393958f65e2a51a22ca01535cd2379ca9defa292
+
 if __name__ == '__main__':
     unittest.main()

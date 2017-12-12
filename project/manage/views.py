@@ -362,6 +362,12 @@ def register(comp_id):
     flash('You have been registered to ' + comp.title + "!")
     return redirect(url_for('manage.manage_comp', comp_id=comp_id))
 
+@manage_blueprint.route('/manage/<comp_id>/chat', methods=['GET', 'POST'])
+@login_required
+def chat(comp_id):
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    return render_template('chat_view.html', comp=comp, comp_id=comp_id)
+
 @socketio.on('load')
 def competitors(comp_id): #comp_id
     msgs = ChatHistory.query.filter_by(comp_id=comp_id).all()

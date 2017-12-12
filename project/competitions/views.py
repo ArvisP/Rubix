@@ -1,9 +1,15 @@
 from flask import render_template, redirect, flash, session, url_for, Blueprint
 from flask import request
 from flask_login import current_user
+
+from app import app, db, socketio
+from app.models import Competition, Announcement, Event, User, ChatHistory
+from app.forms import RegisterForm
+from datetime import datetime
 from app import app, db
 from app.models import Competition, Announcement, Event, User, EventUserLink
 from app.forms import RegisterForm, VolunteerForm
+
 from project.users.views import login_required
 
 competitions_blueprint = Blueprint(
@@ -107,6 +113,7 @@ def event_register(comp_id, event_id):
         db.session.commit()
         flash('You have registered for this event!')
         return redirect(url_for('competitions.event', comp_id=comp_id, event_id=event_id))
+
 
 @competitions_blueprint.route('/competitions/<comp_id>/register', methods=['GET', 'POST'])
 @login_required

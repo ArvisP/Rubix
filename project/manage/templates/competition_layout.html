@@ -1,4 +1,4 @@
-{% include 'layout.html' %}
+{% include 'profile-layout.html' %}
 {% include 'competition_navbar.html' %}
 {% block content %}
 {% endblock %}
@@ -12,8 +12,8 @@
     {% endblock %}
     </div>
 
-    <div class="container col-4" style="width: 100%;background-color: red">
-        chat placeholder
+    <div class="container col-4" style="width: 100%">
+        {% include 'chat.html'%}
     </div>
 
 </div>

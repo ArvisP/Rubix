@@ -1,25 +1,26 @@
-<div class="container">
 <table style="width: 100%">
-    {% for event in comp.events %}
-    <tr class="card mt-0">
-        <td class="mx-2">
+    {% for e in comp.events %}
+    <tr class="card {% if event %}{% if e.event_id == event.event_id %}bg-light{% endif %}{% endif %} mt-0">
+        <td>
             <div class="container row mt-2 mb-0 pb-0" style="height:20px">
-                <p class="mx-2"><span class="font-weight-bold">{{ event.event_name }}</span></p>
-                <p>{{ event.event_round }}</p>
+                <p class="mx-2"><span class="font-weight-bold">{{ e.event_name }}</span></p>
+                <p>{{ e.event_round }}</p>
             </div>
-            <p class="mx-2 my-0">{{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</p>
+            <p class="mx-2 my-0">{{ e.start_time.strftime('%I:%M %p') }} - {{ e.end_time.strftime('%I:%M %p') }}</p>
             <div class="container px-2">
-                <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id) }}">View</a>
-                <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=event.event_id) }}">Edit</a>
+                <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.event', comp_id=comp.comp_id, event_id=e.event_id) }}">View</a>
+                {% if comp.organizer_id == current_user.id %}
+                <a class="mb-2 py-0 btn btn-primary" href="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id=e.event_id) }}">Edit</a>
                 <form class="float-right" action="{{ url_for('manage.delete_event', comp_id=comp.comp_id) }}" method="POST">
-                    <input type="hidden" value="{{ event.event_id }}" name="event_to_delete"></input>
+                    <input type="hidden" value="{{ e.event_id }}" name="event_to_delete"></input>
                     <button type="submit" class="py-0 btn btn-danger">Delete</input>
                 </form>
-
+                {% endif %}
             </div>
         </td>
     </tr>
     {% endfor %}
 </table>
+{% if comp.organizer_id == current_user.id %}
 <a href="{{ url_for('manage.newEvent', comp_id=comp.comp_id) }}" class="btn btn-primary btn-block btn-light">New Event</a>
-</div>
+{% endif %}

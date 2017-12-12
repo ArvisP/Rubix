@@ -27,7 +27,7 @@ class BaseTestCase(TestCase):
         self.dir = os.path.dirname(
             os.path.abspath(__file__))
         #self.app = rubix.app.test_client()
-        self.response = self.client.app.get("/")
+        self.response = self.client.get("/")
         self.soup = BeautifulSoup(self.response.data,
                                   'html.parser')
 
@@ -284,7 +284,7 @@ class TestManage(BaseTestCase):
             self.assertIn(b'11:00 AM - 12:00 PM', response.data)
             self.assertIn(b'Volunteers:', response.data)
             self.assertIn(b'Staff:', response.data)
-    
+
     def test_manage_accept_competition(self):
         with self.client:
             self.client
@@ -361,129 +361,6 @@ class TestSchedule(BaseTestCase):
             self.assertIn(b'5x5x5 Cube', response.data)
             self.assertIn(b'Round 1', response.data)
 
-<<<<<<< HEAD
-
-class TestCompetitionsView(BaseTestCase):
-    def test_comp_info_correctly_displays(self):
-        response = self.client.get('/competitions/1', content_type='html/text')
-        self.assertIn(b'Test name', response.data)
-        self.assertIn(b'Firstname', response.data)
-        self.assertIn(b'Competitor', response.data)
-
-
-    def test_comp_announcements(self):
-        response = self.client.get('/competitions/1/announcements', content_type='html/text')
-        self.assertIn(b'Test announcement', response.data)
-
-
-    def test_comp_schedule(self):
-        response = self.client.get('/competitions/1/schedule', content_type='html/text')
-        self.assertIn(b'Rubik\'s Cube', response.data)
-        self.assertIn(b'Round 1', response.data)
-
-    def test_unregistered_user_can_register(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="mock@user.com", password="mock123"),
-                follow_redirects=True
-            )
-
-            response = self.client.get('/competitions/1', content_type='html/text')
-            self.assertIn(b'Register', response.data)
-
-    def test_registered_user_cannot_register(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1', content_type='html/text')
-            self.assertFalse(b'Register' in response.data)
-
-
-    def test_event_can_be_registered(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="mock@user.com", password="mock123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
-            self.assertIn(b'Register Event', response.data)
-
-
-    def test_cannot_volunteer_unless_registered(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="mock@user.com", password="mock123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
-            self.assertFalse(b'Request to Volunteer' in response.data)
-
-    def test_user_can_volunteer_if_registered(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="new@user.com", password="new123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
-            self.assertIn(b'Request to Volunteer', response.data)
-
-    def test_user_is_volunteering(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="comp@jones.com", password="comp123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
-            self.assertIn(b'You are volunteering in this event as a Judge', response.data)
-
-    def test_comp_shows_vol_staff(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
-            self.assertIn(b'Volunteers:', response.data)
-            self.assertIn(b'Staff:', response.data)
-
-    def test_volunteer_approved_exists(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
-            self.assertIn(b'Competitor', response.data)
-            self.assertIn(b'Jones', response.data)
-            self.assertIn(b'Judge', response.data)
-            # self.assertFalse(b'new' in response.data)
-            # self.assertFalse(b'User' in response.data)
-
-
-    def test_staff_approved_exists(self):
-        with self.client:
-            self.client.post(
-                '/login',
-                data=dict(email="test@test.com", password="test123"),
-                follow_redirects=True
-            )
-            response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
-            self.assertIn(b'New', response.data)
-            self.assertIn(b'User', response.data)
-            self.assertIn(b'Scrambler', response.data)
-            # self.assertFalse(b'Competitor' in response.data)
-            # self.assertFalse(b'Jones' in response.data)
-
 # class TestUserProfile(BaseTestCase):
 #     # this tests to check that the name in the tab is the same as the one we said so here, which it is....but not working
 #     # error: AttributeError: 'Flask' object has no attribute 'get'
@@ -506,7 +383,7 @@ class TestCompetitionsView(BaseTestCase):
 #             )
 #             response = self.client.get('/profile', content_type='html/text')
 #             self.client.assertEqual("current_user.first_name current_user.last_name",self.soup.h1.text.strip())
-    
+
 class TestUnitApp(BaseTestCase):
     def test_check_routes_file(self):
         file_exits = op.exists(op.join(self.dir,
@@ -519,24 +396,19 @@ class TestUnitApp(BaseTestCase):
                           'app',
                           'routes.py'))
         self.assertTrue(file_exits)
-    
+
     def test_check_models(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'models.py'))
         self.assertTrue(file_exits)
-    
+
     def test_check_forms(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'forms.py'))
         self.assertTrue(file_exits)
-    
-    def test_check_chat(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'app',
-                          'chat.py'))
-        self.assertTrue(file_exits)
+
     # this is the checks for the profile layout, this layout is used by both regular users and delegates
     def test_check_profile_layout(self):
         file_exits = op.exists(op.join(self.dir,
@@ -544,21 +416,21 @@ class TestUnitApp(BaseTestCase):
                           'templates',
                           'profile-layout.html'))
         self.assertTrue(file_exits)
-    
+
     def test_check_profile_page(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'templates',
                           'user_profile.html'))
         self.assertTrue(file_exits)
-    
+
     def test_check_delegate_page(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'templates',
                           'delegate_profile.html'))
         self.assertTrue(file_exits)
-    
+
     def test_check_landing_page(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
@@ -589,83 +461,6 @@ class TestUnitProject(BaseTestCase):
                           ))
         self.assertTrue(file_exits)
     # this __init__.py file is for the directory: competitions
-    def test_check_competitions_init(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          '__init__.py'
-                          ))
-        self.assertTrue(file_exits)
-    
-    def test_check_competitions_views(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'views.py'
-                          ))
-        self.assertTrue(file_exits)
-
-    def test_check_competitions_announcements(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'templates',
-                          'comp_announcements.html'))
-        self.assertTrue(file_exits)
-    
-    def test_check_competitions_event(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'templates',
-                          'comp_event.html'
-                          ))
-        self.assertTrue(file_exits)
-
-    def test_check_competitions_info(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'templates',
-                          'comp_info.html'
-                          ))
-        self.assertTrue(file_exits)
-    
-    def test_check_competitions_nav(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'templates',
-                          'comp_nav.html'
-                          ))
-        self.assertTrue(file_exits)
-
-    def test_check_competitions_register(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'templates',
-                          'comp_register.html'
-                          ))
-        self.assertTrue(file_exits)
-
-    def test_check_competitions_schedule(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'templates',
-                          'comp_schedule.html'
-                          ))
-        self.assertTrue(file_exits)
-
-    def test_check_competitions_file(self):
-        file_exits = op.exists(op.join(self.dir,
-                          'project',
-                          'competitions',
-                          'templates',
-                          'competitions.html'
-                          ))
-        self.assertTrue(file_exits)
     # HOST directory
     def test_check_host_init(self):
         file_exits = op.exists(op.join(self.dir,
@@ -685,7 +480,7 @@ class TestUnitProject(BaseTestCase):
         file_exits = op.exists(op.join(self.dir,
                           'project',
                           'host',
-                          'templates'
+                          'templates',
                           'host.html'))
         self.assertTrue(file_exits)
     #manage directory
@@ -725,22 +520,6 @@ class TestUnitProject(BaseTestCase):
                             'manage',
                             'templates',
                             'competition_navbar.html'))
-        self.assertTrue(file_exists)
-
-    def test_check_manage_competition(self):
-        file_exists = op.exists(op.join(self.dir,
-                            'project',
-                            'manage',
-                            'templates',
-                            'competition.html'))
-        self.assertTrue(file_exists)
-
-    def test_check_manage_competitors(self):
-        file_exists = op.exists(op.join(self.dir,
-                            'project',
-                            'manage',
-                            'templates',
-                            'competitors.html'))
         self.assertTrue(file_exists)
 
     def test_check_manage_details(self):
@@ -821,7 +600,5 @@ class TestUnitProject(BaseTestCase):
                             'signup.html'))
         self.assertTrue(file_exists)
 
-=======
->>>>>>> 393958f65e2a51a22ca01535cd2379ca9defa292
 if __name__ == '__main__':
     unittest.main()

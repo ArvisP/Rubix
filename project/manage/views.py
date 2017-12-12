@@ -26,12 +26,12 @@ def manage():
 @login_required
 def manage_comp(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first() # filters competitions by competition id, returns first competitions
-
+    organizer = User.query.filter_by(id=comp.organizer_id).first()
     if comp == None:
         flash('Competition is not found.')
         return redirect(url_for('index'))
 
-    return render_template('details.html', comp=comp) #left side is how we access through template, right side is what we wrote inside views function
+    return render_template('details.html', comp=comp, organizer=organizer) #left side is how we access through template, right side is what we wrote inside views function
 
 @manage_blueprint.route('/manage/<comp_id>/announcements', methods=['GET', 'POST'])
 @login_required
@@ -80,7 +80,7 @@ def newEvent(comp_id):
             db.session.commit()
 
             flash(form.event.data + " event created!")
-            return redirect(url_for('manage.schedule', comp_id=comp.comp_id))
+            return redirect(url_for('manage.event', comp_id=comp.comp_id, event_id=newEvent.event_id))
         else:
             flash('Somethings not working!')
             return render_template('newevent.html', form=form, comp=comp)
@@ -118,6 +118,8 @@ def editEvent(comp_id, event_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
     event = Event.query.filter_by(event_id=event_id).first()
 
+    event_users = EventUserLink.query.filter_by(event_id=event_id).all()
+
     volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=current_user.id).first()
     event_volunteers = EventUserLink.query.filter_by(event_id=event_id).all()
 
@@ -135,15 +137,26 @@ def editEvent(comp_id, event_id):
         flash(event.event_name + " updated!")
         return redirect(url_for('manage.event', comp_id=comp.comp_id, event_id=event.event_id, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff))
 
-    return render_template('edit.html', form_staff=form_staff, form_time=form_time, comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
+    return render_template('edit.html', form_staff=form_staff, form_time=form_time, event_users=event_users, comp=comp, event=event, volunteer=volunteer, event_volunteers=event_volunteers, staff=staff, event_staff=event_staff)
 
-@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/edit/volunteer', methods=['POST'])
+@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/edit/add_volunteer', methods=['POST'])
 @login_required
 def approveVolunteer(comp_id, event_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
     volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=request.form['volunteer_to_add']).first()
 
     volunteer.volunteer = True
+    db.session.commit()
+
+    return redirect(url_for('manage.editEvent', comp_id=comp_id, event_id=event_id))
+
+@manage_blueprint.route('/manage/<comp_id>/schedule/<event_id>/edit/delete_volunteer', methods=['POST'])
+@login_required
+def deleteVolunteer(comp_id, event_id):
+    comp = Competition.query.filter_by(comp_id=comp_id).first()
+    volunteer = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=request.form['volunteer_to_delete']).first()
+
+    volunteer.volunteer = False
     db.session.commit()
 
     return redirect(url_for('manage.editEvent', comp_id=comp_id, event_id=event_id))
@@ -157,16 +170,17 @@ def addStaff(comp_id, event_id):
     event = Event.query.filter_by(event_id=event_id).first()
     # Check if user is already in event_user_link
     staff_exists = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=staff.id).first()
+
     if (staff_exists):
         staff_exists.staff = True
     else:
         # Must add the user to event_user_link db first
-
         register_staff = EventUserLink(user=staff, event=event)
         # Then we append the user to the event and vice versa.
         db.session.add(register_staff)
         # And set their staff to true.
         register_staff.staff = True
+
     db.session.commit()
 
     return redirect(url_for('manage.editEvent', comp_id=comp_id, event_id=event_id))
@@ -181,7 +195,11 @@ def changeStaff(comp_id, event_id):
     staff = EventUserLink.query.filter_by(event_id=event_id).filter_by(user_id=request.form['staff_to_change']).first()
 
     # And set their staff to true.
-    staff.staff_role = form.role.data
+    if form.role.data:
+        staff.staff_role = form.role.data
+    else:
+        staff.staff = False
+
     db.session.commit()
 
     return redirect(url_for('manage.editEvent', form=form, comp_id=comp_id, event_id=event_id))
@@ -191,14 +209,15 @@ def changeStaff(comp_id, event_id):
 @login_required
 def delete_event(comp_id):
     comp = Competition.query.filter_by(comp_id=comp_id).first()
+    delete_link = EventUserLink.query.filter_by(event_id=request.form['event_to_delete']).all()
     delete_id = Event.query.filter_by(event_id=request.form['event_to_delete']).first()
+
+    for link in delete_link:
+        db.session.delete(link)
 
     db.session.delete(delete_id)
     db.session.commit()
-    return redirect(url_for('manage.schedule', comp_id=comp.comp_id))
-
-
-
+    return redirect(url_for('manage.manage_comp', comp_id=comp.comp_id))
 
 
 
@@ -252,4 +271,4 @@ def register(comp_id):
     db.session.commit()
 
     flash('You have been registered to ' + comp.title + "!")
-    return render_template('details.html', comp=comp)
+    return redirect(url_for('manage.event', comp_id=comp_id, event_id=event_id))

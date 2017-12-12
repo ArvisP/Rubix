@@ -1,8 +1,9 @@
 {% extends 'profile-layout.html' %}
-{% block manage_competition %}
+<p></p>
+{% block view_competition %}
 <main class="container-fluid">
     <div class="col-8 offset-2">
-        <h2 class="my-4">Manage Competitions</h2>
+        <h2 class="my-4">Find Competitions</h2>
         <table class="table">
             <thead>
                 <th scope="col">Name</th>
@@ -15,7 +16,7 @@
                     <td>{{ comp.title }}</td>
                     <td>{{ comp.address }}</td>
                     <td>{{ comp.date }}</td>
-                    <td><a href="{{ url_for('manage.manage') }}/{{comp.comp_id}}" class="btn btn-primary">Manage</a></td>
+                    <td><a href="{{ url_for('manage.manage_comp', comp_id=comp.comp_id) }}" class="btn btn-primary">View</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

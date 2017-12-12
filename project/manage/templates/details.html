@@ -1,9 +1,16 @@
 {% extends 'competition_layout.html' %}
 {% block comp_content %}
-<div class="container">
-    <h2>{{ comp.title }}</h2>
-    <h2 class="font-weight-normal">{{ comp.address }}</h2>
-    <div class="container-fluid col-6 float-left">
+<div class="container-fluid card">
+    <div class="container col-6">
+        <dl>
+            <dt class="col-4 text-align-right">Date:</dt>
+            <dd class="col-8">{{ comp.date }}</dd>
+            <dt class="col-4 text-align-right">Address:</dt>
+            <dd class="col-8">{{ comp.address }}</dd>
+        </dl>
+    </div>
+
+    <div class="container-fluid col-6 ml-0">
         <h5 class="mt-5">Competitors:</h5>
         <table class="table table-hover">
             <thead>
@@ -21,7 +28,8 @@
 
         </table>
         {% if current_user not in comp.competitors %}
-        <a href="{{ url_for('manage.register', comp_id=comp.comp_id) }}" class="btn btn-primary">Register</a> {% endif %}
+        <a href="{{ url_for('manage.register', comp_id=comp.comp_id) }}" class="btn btn-primary">Register</a>
+        {% endif %}
 
     </div>
 </div>

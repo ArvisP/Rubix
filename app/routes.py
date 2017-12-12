@@ -36,6 +36,10 @@ def index():
     '''
     return render_template('landing_page.html')
 
+@app.route('/competitions')
+def competitions():
+    competitions = Competition.query.filter_by(approved=True).all()
+    return render_template('competitions.html', competitions=competitions)
 
 # Route to the profile page
 @app.route('/profile')
@@ -66,7 +70,6 @@ def schedule():
 def accept_competition(comp_id):
     accept_comp = Competition.query.filter_by(comp_id=comp_id).first()
     accept_comp.approved = True
-    db.session.add(accept_comp)
     db.session.commit()
     return redirect(url_for('profile'))
 

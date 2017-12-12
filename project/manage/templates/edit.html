@@ -2,9 +2,9 @@
 {% block comp_content %}
 <div class="container-fluid card">
     <div class="row my-4">
-        <h3 class="mx-4">{{ event.event_name }}</h3>
-        <h3 class="font-weight-normal">{{ event.event_round }}</h3>
-        <form class="mx-4" action="{{ url_for('manage.editEvent', comp_id=comp.comp_id, event_id = event.event_id) }}" method="POST">
+        <h3 class="mx-4">{{ current_event.event_name }}</h3>
+        <h3 class="font-weight-normal">{{ current_event.event_round }}</h3>
+        <form class="mx-4" action="{{ url_for('manage.edit_event', comp_id=comp.comp_id, event_id = current_event.event_id) }}" method="POST">
         {{ form_time.hidden_tag() }}
             <div class="row mx-2" style="height:40px">
                 <div class="form-group">
@@ -38,7 +38,7 @@
                     <td>{{ vol.user.last_name }}</td>
                     <td>{{ vol.volunteer_role }}</td>
                     <td>
-                        <form action="{{ url_for('manage.deleteVolunteer', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+                        <form action="{{ url_for('manage.delete_volunteer', comp_id=comp.comp_id, event_id=current_event.event_id) }}" method="POST">
                             <input type="hidden" value="{{ vol.user.id }}" name="volunteer_to_delete"></input>
                             <button type="submit" class="py-0 btn btn-danger">Remove</input>
                         </form>
@@ -59,7 +59,7 @@
                     <td>{{ vol.user.last_name }}</td>
                     <td>{{ vol.volunteer_role }}</td>
                     <td>
-                        <form action="{{ url_for('manage.approveVolunteer', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+                        <form action="{{ url_for('manage.approve_volunteer', comp_id=comp.comp_id, event_id=current_event.event_id) }}" method="POST">
                             <input type="hidden" value="{{ vol.user.id }}" name="volunteer_to_add"></input>
                             <button type="submit" class="py-0 btn btn-success">Approve</input>
                         </form>
@@ -89,7 +89,7 @@
                     <td>{{ staff.user.last_name }}</td>
                     <td>{{ staff.staff_role }}</td>
                     <td class="my-1 py-1">
-                        <form action="{{ url_for('manage.changeStaff', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+                        <form action="{{ url_for('manage.change_staff', comp_id=comp.comp_id, event_id=current_event.event_id) }}" method="POST">
                         {{ form_staff.hidden_tag() }}
                         <div class="row">
                             {{ form_staff.role(class="form-control col-6") }}
@@ -122,7 +122,7 @@
                     <td>{{ user.user.last_name }}</td>
                     {% if user.staff == False and user.volunteer == False %}
                     <td>
-                        <form action="{{ url_for('manage.addStaff', comp_id=comp.comp_id, event_id=event.event_id) }}" method="POST">
+                        <form action="{{ url_for('manage.add_staff', comp_id=comp.comp_id, event_id=current_event.event_id) }}" method="POST">
                             <input type="hidden" value="{{ user.user.id }}" name="staff_to_add"></input>
                             <button type="submit" class="py-0 btn btn-success">Add as Staff</input>
                         </form>

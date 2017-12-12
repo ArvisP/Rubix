@@ -1,9 +1,0 @@
-{% include 'comp_nav.html' %}
-<div class="container-fluid col-8">
-<form action="{{ url_for('manage.register', comp_id=comp.comp_id) }}" method="POST">
-    {{ form.hidden_tag() }}
-    {{ form.submit(class="btn btn-primary") }}
-
-
-</form>
-</div>

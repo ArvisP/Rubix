@@ -96,6 +96,28 @@
 
         </table>
     </div>
+    <div class="col-8" style="margin: 0 auto;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th> Competition Name </th>
+                    <th> Competition Status </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for competition in competitions %}
+                <tr>
+                    <td> {{ competition.title }} </td>
+                    {% if competition.approved %}
+                    <td> Approved </td>
+                    {% else %}
+                    <td> Rejected </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </section>
 
 

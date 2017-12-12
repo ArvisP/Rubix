@@ -1,7 +1,7 @@
 '''
 Routing to general front page things.
 '''
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_admin.contrib.sqla import ModelView
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, admin
@@ -44,9 +44,11 @@ def index():
 @login_required
 def profile():
     if current_user.credentials == 1:
-        return render_template('user_profile.html')
+        approve_competitions = Competition.query.filter_by(organizer_id=current_user.id).all() #approved=False
+        return render_template('user_profile.html', competitions=approve_competitions)
+
     elif current_user.credentials == 2:
-        approve_competitions = Competition.query.filter_by(approved=False).all() # returns all competitions who's approve value is false
+        approve_competitions = Competition.query.filter_by(approved=False, rejected=False).all() # returns all competitions who's approve value is false and reject value is false.
         return render_template('delegate_profile.html', competitions=approve_competitions) #left side is how we access through template, right side is what we wrote inside views function
 
 @app.route('/announcements')
@@ -63,22 +65,20 @@ def competitors():
 def schedule():
     return render_template('schedule.html')
 
-@app.route('/profile/<comp_id>')
+@app.route('/profile/<comp_id>', methods=['GET','POST'])
 @login_required
 def accept_competition(comp_id):
     accept_comp = Competition.query.filter_by(comp_id=comp_id).first()
-    accept_comp.approved = True
-    db.session.add(accept_comp)
-    db.session.commit()
+    if request.method =='POST':
+        if request.form['decision']=="approve":
+            accept_comp.approved = True
+               
+        elif request.form['decision']=="reject":
+            accept_comp.rejected = True
+
+        db.session.add(accept_comp)
+        db.session.commit()
     return redirect(url_for('profile'))
-
-@app.route('/profile/<reject_comp>')
-@login_required
-def reject_competition(comp_id):
-
-    return render_template('delegate_profile.html')
-
-
 
 # 404 Error handler
 @app.route('/404')

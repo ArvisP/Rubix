@@ -109,7 +109,7 @@ class Competition(db.Model):
     zipcode = db.Column(db.String(10))
 
     approved = db.Column(db.Boolean)
-    active = db.Column(db.Boolean)
+    rejected = db.Column(db.Boolean)
 
     organizerRel = db.relationship('User', backref='competitionRel')
     events = db.relationship('Event', secondary=competitions_events, order_by="Event.start_time")
@@ -124,8 +124,8 @@ class Competition(db.Model):
         self.zipcode = zipcode
         self.date = date
         self.approved = False
-        self.active = False
-
+        self.rejected = False
+        
 
 class Announcement(db.Model):
     __tablename__ = 'announcements'

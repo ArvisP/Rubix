@@ -4,10 +4,13 @@ from werkzeug.security import check_password_hash
 
 import unittest
 import datetime
+import os
+import os.path as op
 
 from flask_testing import TestCase
 from flask_login import current_user
 from app.models import User, Competition, Announcement, Event, EventUserLink
+from bs4 import BeautifulSoup
 
 class BaseTestCase(TestCase):
     '''
@@ -20,6 +23,9 @@ class BaseTestCase(TestCase):
     Creates the database and adds data to the database
     '''
     def setUp(self):
+        self.dir = os.path.dirname(
+            os.path.abspath(__file__))
+
         db.create_all()
         db.session.add(User("Firstname", "Lastname", "test@test.com", "test123"))
         db.session.add(User("Mock", "User", "mock@user.com", "mock123"))
@@ -29,8 +35,8 @@ class BaseTestCase(TestCase):
         user1 = User.query.filter_by(email="new@user.com").first()
         user2 = User.query.filter_by(email="comp@jones.com").first()
 
-        db.session.add(Competition(user.id, "Test name", "Test location", datetime.date(2017, 12, 31)))
-        db.session.add(Competition(20, "Cant view", "Cant view", datetime.date(2017, 12, 31)))
+        db.session.add(Competition(user.id, "Test name", "Test location", "state" , "city", "zipcode", datetime.date(2017, 12, 31)))
+        db.session.add(Competition(20, "Cant view", "Cant view", "state" , "city", "zipcode", datetime.date(2017, 12, 31)))
         comp = Competition.query.filter_by(comp_id=1).first()
         comp.approved = True
         comp20 = Competition.query.filter_by(organizer_id=20).first()
@@ -276,6 +282,10 @@ class TestManage(BaseTestCase):
             response = self.client.get('/competitions/1/schedule/1', content_type='html/text')
             self.assertIn(b'Volunteers:', response.data)
             self.assertIn(b'Staff:', response.data)
+    
+    def test_manage_accept_competition(self):
+        with self.client:
+            self.client
 
 class TestAnnouncement(BaseTestCase):
     def test_announcements_exist(self):
@@ -484,6 +494,61 @@ class TestCompetitionsView(BaseTestCase):
             self.assertIn(b'Scrambler', response.data)
             # self.assertFalse(b'Competitor' in response.data)
             # self.assertFalse(b'Jones' in response.data)
+
+class TestUnitRubix(BaseTestCase):
+    def test_check_routes_file(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          '__init__.py'))
+        self.assertTrue(file_exits)
+
+    def test_check_routes(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'routes.py'))
+        self.assertTrue(file_exits)
+    
+    def test_check_models(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'models.py'))
+        self.assertTrue(file_exits)
+    
+    def test_check_forms(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'forms.py'))
+        self.assertTrue(file_exits)
+    
+    def test_check_chat(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'chat.py'))
+        self.assertTrue(file_exits)
+    # this is the checks for the profile layout, this layout is used by both regular users and delegates
+    def test_check_profile_layout(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'profile-layout.html'))
+        self.assertTrue(file_exits)
+    
+    def test_check_profile_page(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'user_profile'))
+        self.assertTrue(file_exits)
+    
+    def test_check_landing_page(self):
+        file_exits = op.exists(op.join(self.dir,
+                          'app',
+                          'templates',
+                          'landing_page.html'))
+        self.assertTrue(file_exits)
+
+#class TestUnitDelegate(unittest.TestCase):
+#    def setup(self):    
 
 if __name__ == '__main__':
     unittest.main()

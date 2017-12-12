@@ -33,17 +33,19 @@
                     <td> {{ competition.title }} </td>
                     <td> {{ competition.date }} </td>
                     <td> {{ competition.address }} </td>
-                    <td>
-                        <form action="/profile/{{ competition.comp_id }}">
-                            <input class="btn btn-success" type="submit" value=" approve ">
-                        </form>
-                    </td>
-                    <td> <button type="button"> decline </button></td>
+
+                    <form action="/profile/{{ competition.comp_id }}" method="POST">
+                        <td>
+                            <input class="btn btn-success" type="submit" name="decision" value="approve">
+                        </td>
+                        <td>
+                            <input class="btn btn-danger" type="submit" name="decision" value="reject">
+                        </td>
+                    </form>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </section>
-
 {% endblock%}

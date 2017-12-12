@@ -31,30 +31,59 @@
     $(document).ready(function(){
 
       var socket = io.connect('http://' + document.domain + ':' + location.port);
+      var comp_id = {{ comp.comp_id }};
+      var firstName = "{{ current_user.first_name }}";
+      var lastName = "{{ current_user.last_name }}";
+      var name = firstName+' '+lastName;
+
+      console.log(firstName)
+      console.log(lastName)
+      console.log(name)
+      socket.emit('load', comp_id);
+
       socket.on( 'connect', function() {
-    //  socket.emit( 'my event', {
-    //    data: 'User Connected'
-    //  } )
       var form = $( 'form' ).on( 'submit', function( e ) {
         e.preventDefault()
-        let user_name = null
         let user_input = $( '#text' ).val()
         if(user_input != ""){
-          socket.emit( 'message',
-          //  user_name : user_name,
-              user_input
-          )
+          socket.emit( 'message', comp_id, user_input)
           // empty the input field
           $( '#text' ).val( '' ).focus()
         }
       } )
     } )
-    // capture message
-    socket.on( 'my_response', function( msg ) {
-      console.log( msg )
-      if( typeof msg !== 'undefined' ) {
+
+    // Load chat chat_history
+    socket.on( 'chat_history', function( msgs ) {
+      if( msgs.length > 0 ) {
         $( 'h4' ).remove()
-        $( 'div.message_holder' ).append( '<div class="sent_msg_bbl"><b style="color: #000">'+msg+'</div>' )
+        for (i = 0; i < msgs.length; i++){
+          if(msgs[i][0] == name){
+            $( 'div.message_holder' ).append( '<div class="sent_msg_bbl"><b style="color: #000">'+
+                    msgs[i][0]+':  </b>'+'<h6 style="color:#FFF">'+msgs[i][1]+'</h6></div>' )
+
+          }
+          else{
+            $( 'div.message_holder' ).append( '<div class="rcv_msg_bbl"><b style="color: #000">'+
+                    msgs[i][0]+':  </b>'+'<h6 style="color:#FFF">'+msgs[i][1]+'</h6></div>' )
+          }
+          $("#history").scrollTop($("#history")[0].scrollHeight);
+        }
+      }
+    } )
+
+    // capture message
+    socket.on( 'my_response', function( info ) {
+      if( typeof info[0] !== 'undefined' ) {
+        $( 'h4' ).remove()
+        if(info[0] == name){
+          $( 'div.message_holder' ).append( '<div class="sent_msg_bbl"><b style="color: #000">'+
+                  info[0]+':  </b>'+'<h6 style="color:#FFF">'+info[1]+'</h6></div>' )
+        }
+        else{
+          $( 'div.message_holder' ).append( '<div class="rcv_msg_bbl"><b style="color: #000">'+
+                  info[0]+':  </b>'+'<h6 style="color:#FFF">'+info[1]+'</h6></div>' )
+        }
         $("#history").scrollTop($("#history")[0].scrollHeight);
       }
     } )

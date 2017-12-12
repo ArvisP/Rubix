@@ -209,19 +209,23 @@ def delete_event(comp_id):
 
 
 
-@competitions_blueprint.route('/competitors')
-def competitors():
-    #comp = Competition.query.filter_by(comp_id=comp_id).first()
-    msgs = ChatHistory.query.all()
+@socketio.on('load')
+def competitors(comp_id): #comp_id
+    print('HERE IS THE COMP ID: '+ str(comp_id))
+    msgs = ChatHistory.query.filter_by(comp_id=comp_id).all()
     items = []
     for item in msgs:
-        items+=[(item.sender,item.message)]
-    return render_template('chat.html', messages = items)
+        items+=[(item.sender, item.message)]
+    socketio.emit( 'chat_history', items )
 
 
 @socketio.on( 'message' )
-def handleMessage( msg ):
-  toAdd = ChatHistory(0, "M3", str(msg))
-  db.session.add(toAdd)
-  db.session.commit()
-  socketio.emit( 'my_response', str(msg) )
+def handleMessage(comp_id, msg):
+    name = current_user.first_name + " " +current_user.last_name
+    print(name)
+    print("COMP_ID::::: "+str(comp_id))
+    print("MESSAGE::::: "+str(msg))
+    toAdd = ChatHistory(comp_id, name, msg)
+    db.session.add(toAdd)
+    db.session.commit()
+    socketio.emit( 'my_response', [name, msg] )

@@ -39,22 +39,24 @@ h6{
 }
 
 div.rcv_msg_bbl {
-        background-color: #ddd;
-        padding: 5px 10px;
-        border-radius: 10px;
-        color: #555;
-        margin-bottom: 5px;
-        width: 40%;
+  text-align: "left";
+  background-color: #ddd;
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: #555;
+  margin-bottom: 5px;
+  overflow:hidden;
 }
 
 div.sent_msg_bbl {
-        background-color: #4286f4;
-        padding: 5px 10px;
-        border-radius: 10px;
-        color: #4286f4;
-        margin-bottom: 5px;
-        width: 40%;
-        align: "right";
+  text-align: "left";
+  background-color: #4286f4;
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: #4286f4;
+  margin-bottom: 5px;
+  align: "right";
+  overflow:hidden;
 }
 
 .chatHistory{

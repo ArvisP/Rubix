@@ -114,23 +114,6 @@ def event_register(comp_id, event_id):
         flash('You have registered for this event!')
         return redirect(url_for('competitions.event', comp_id=comp_id, event_id=event_id))
 
-@competitions_blueprint.route('/competitors')
-def competitors():
-    #comp = Competition.query.filter_by(comp_id=comp_id).first()
-    msgs = ChatHistory.query.all()
-    items = []
-    for item in msgs:
-        items+=[(item.sender,item.message)]
-    return render_template('chat.html', messages = items)
-
-
-@socketio.on( 'message' )
-def handleMessage( msg ):
-  toAdd = ChatHistory(0, "M3", str(msg))
-  db.session.add(toAdd)
-  db.session.commit()
-  socketio.emit( 'my_response', str(msg) )
-
 
 @competitions_blueprint.route('/competitions/<comp_id>/register', methods=['GET', 'POST'])
 @login_required

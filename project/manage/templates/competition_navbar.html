@@ -2,19 +2,19 @@
     <div class="container-fluid my-4 row">
         <h1 class="col-10">{{ comp.title }}</h1>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav" style="background-color: #373D42; color:white;">
         <div class="container">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"> Menu <i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase mr-auto">
-                    <li class="nav-item">
-                        <a href="{{ url_for('manage.manage_comp', comp_id=comp.comp_id) }}" class="nav-link text-dark ">Details</a>
+                    <li class="nav-item" style="color:white;">
+                        <a href="{{ url_for('manage.manage_comp', comp_id=comp.comp_id) }}" class="nav-link text-white ">Details</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('manage.announcements', comp_id=comp.comp_id) }}" class="nav-link text-dark">Announcements</a>
+                    <li class="nav-item" style="color:white;">
+                        <a href="{{ url_for('manage.announcements', comp_id=comp.comp_id) }}" class="nav-link text-white">Announcements</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('manage.chat', comp_id=comp.comp_id) }}" class="nav-link text-dark">Chat</a>
+                    <li class="nav-item" style="color:white;">
+                        <a href="{{ url_for('manage.chat', comp_id=comp.comp_id) }}" class="nav-link text-white">Chat</a>
                     </li>
                 </ul>
             </div>

@@ -1,17 +1,14 @@
-{% include 'profile-layout.html' %}
-{% include 'competition_navbar.html' %}
-{% block content %}
-{% endblock %}
-<div class="container-fluid row mt-4">
-    <div class="container col-2">
-        {% include 'schedule.html' %}
+{% include 'profile-layout.html' %} {% include 'competition_navbar.html' %} {% block content %} {% endblock %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            {% include 'schedule.html' %}
+        </div>
+
+        <div class="col-md-4">
+            {% block comp_content %} {% endblock %}
+        </div>
+        <div class="col-md-2"></div>
     </div>
-
-    <div class="container col-10">
-    {% block comp_content %}
-    {% endblock %}
-    </div>
-
-
-
 </div>

@@ -4,16 +4,16 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # This association table is used to store the many-to-many relationship between competitions and users
-competitions_users = db.Table('competitionsUsers',
-                              db.Model.metadata,
-                              db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-                              db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')))
+competitions_users = db.Table('competitionsUsers' ,
+                              db.Model.metadata ,
+                              db.Column('user_id' , db.Integer, db.ForeignKey('users.id')) ,
+                              db.Column('comp_id' , db.Integer, db.ForeignKey('competitions.comp_id')))
 
 # This association table is used to store the many-to-many relationship between competitions and events
-competitions_events = db.Table('competitionsEvents',
-                               db.Model.metadata,
-                               db.Column('comp_id', db.Integer, db.ForeignKey('competitions.comp_id')),
-                               db.Column('event_id', db.Integer, db.ForeignKey('events.event_id')))
+competitions_events = db.Table('competitionsEvents' ,
+                               db.Model.metadata ,
+                               db.Column('comp_id' , db.Integer, db.ForeignKey('competitions.comp_id')) ,
+                               db.Column('event_id' , db.Integer, db.ForeignKey('events.event_id')))
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -125,7 +125,7 @@ class Competition(db.Model):
         self.date = date
         self.approved = False
         self.rejected = False
-        
+
 
 class Announcement(db.Model):
     __tablename__ = 'announcements'
@@ -144,7 +144,6 @@ class Announcement(db.Model):
         self.author_id = author_id
         self.title = title
         self.body = body
-
         self.time_created = datetime.now()
 
 class ChatHistory(db.Model):
@@ -169,6 +168,5 @@ class EventUserLink(db.Model):
     volunteer_role = db.Column(db.String(20))
     staff = db.Column(db.Boolean, default=False)
     staff_role = db.Column(db.String(20))
-
     user = db.relationship(User, backref=db.backref("user_assoc"))
     event = db.relationship(Event, backref=db.backref("event_assoc"))

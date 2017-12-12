@@ -27,7 +27,7 @@ class BaseTestCase(TestCase):
         self.dir = os.path.dirname(
             os.path.abspath(__file__))
         #self.app = rubix.app.test_client()
-        self.response = self.client.app.get("/")
+        self.response = self.client.get("/")
         self.soup = BeautifulSoup(self.response.data,
                                   'html.parser')
 
@@ -530,11 +530,14 @@ class TestUnitApp(BaseTestCase):
                           'forms.py'))
         self.assertTrue(file_exits)
 
+<<<<<<< HEAD
     def test_check_chat(self):
         file_exits = op.exists(op.join(self.dir,
                           'app',
                           'chat.py'))
         self.assertTrue(file_exits)
+=======
+>>>>>>> d86927e29d4d5fd3ced29a1b016d0ce4a4fc3afc
     # this is the checks for the profile layout, this layout is used by both regular users and delegates
     def test_check_profile_layout(self):
         file_exits = op.exists(op.join(self.dir,
@@ -587,6 +590,7 @@ class TestUnitProject(BaseTestCase):
                           ))
         self.assertTrue(file_exits)
     # this __init__.py file is for the directory: competitions
+<<<<<<< HEAD
     def test_check_competitions_init(self):
         file_exits = op.exists(op.join(self.dir,
                           'project',
@@ -664,6 +668,8 @@ class TestUnitProject(BaseTestCase):
                           'competitions.html'
                           ))
         self.assertTrue(file_exits)
+=======
+>>>>>>> d86927e29d4d5fd3ced29a1b016d0ce4a4fc3afc
     # HOST directory
     def test_check_host_init(self):
         file_exits = op.exists(op.join(self.dir,
@@ -683,7 +689,7 @@ class TestUnitProject(BaseTestCase):
         file_exits = op.exists(op.join(self.dir,
                           'project',
                           'host',
-                          'templates'
+                          'templates',
                           'host.html'))
         self.assertTrue(file_exits)
     #manage directory
@@ -723,22 +729,6 @@ class TestUnitProject(BaseTestCase):
                             'manage',
                             'templates',
                             'competition_navbar.html'))
-        self.assertTrue(file_exists)
-
-    def test_check_manage_competition(self):
-        file_exists = op.exists(op.join(self.dir,
-                            'project',
-                            'manage',
-                            'templates',
-                            'competition.html'))
-        self.assertTrue(file_exists)
-
-    def test_check_manage_competitors(self):
-        file_exists = op.exists(op.join(self.dir,
-                            'project',
-                            'manage',
-                            'templates',
-                            'competitors.html'))
         self.assertTrue(file_exists)
 
     def test_check_manage_details(self):
@@ -819,6 +809,9 @@ class TestUnitProject(BaseTestCase):
                             'signup.html'))
         self.assertTrue(file_exists)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d86927e29d4d5fd3ced29a1b016d0ce4a4fc3afc
 if __name__ == '__main__':
     unittest.main()

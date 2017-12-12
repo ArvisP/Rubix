@@ -1,9 +1,13 @@
+'''
+Routing for user views, login and signup
+'''
+from functools import wraps
+
 from flask import render_template, flash, redirect, request, session, url_for, Blueprint
 from flask_login import login_user, logout_user, current_user
 from app import db, wca
 from app.forms import LoginForm, SignupForm
 from app.models import User
-from functools import wraps
 from wtforms import ValidationError
 
 
@@ -14,8 +18,14 @@ users_blueprint = Blueprint(
 
 
 def login_required(test):
+    '''
+    Custom login required decorator
+    '''
     @wraps(test)
     def wrap(*args, **kwargs):
+        '''
+        Wrapper
+        '''
         if current_user.is_authenticated:
             return test(*args, **kwargs)
         else:
@@ -26,6 +36,9 @@ def login_required(test):
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+    '''
+    Allows user to login
+    '''
     # Disable access to login page if user is already logged in.
     if current_user.is_authenticated:
         flash("You are already logged in!")
@@ -43,7 +56,8 @@ def login():
 
             user = User.query.filter_by(email=email).first()
 
-            if user is not None and user.oauth is True: # checks to see if user is WCA member, if they are do this
+            # checks to see if user is WCA member, if they are do this
+            if user is not None and user.oauth is True:
                 flash('You are registered using your WCA ID. Please login using your WCA ID.')
                 return redirect(url_for('users.login'))
 
@@ -59,14 +73,20 @@ def login():
     return render_template('login.html', form=form)
 
 
-@users_blueprint.route('/wca_login') # logic for WCA Login
+@users_blueprint.route('/wca_login')
 def wca_login():
+    '''
+    logic for WCA Login
+    '''
     return wca.authorize(callback=url_for('users.authorized', _external=True))
 
 
 @users_blueprint.route('/logout')
 @login_required
 def logout():
+    '''
+    Logout functionality
+    '''
     if get_wca_oauth_token() is not None:
         del session['wca_token']
 
@@ -75,12 +95,15 @@ def logout():
     return redirect(url_for('index'))
 
 
-@users_blueprint.route('/signup', methods=['GET', 'POST']) # we should also make it so that people can't make another account with the same email
+@users_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
+    '''
+    Allow visitor to signup
+    '''
     # # Disable access to login page if user is already logged in.
     if current_user.is_authenticated:
-            flash("You are already signed up!")
-            return redirect(url_for('index'))
+        flash("You are already signed up!")
+        return redirect(url_for('index'))
     form = SignupForm() # created an instance of SignupForm() and called it "form"
     # Check if email was used for another account
 
@@ -102,7 +125,7 @@ def signup():
                 dob=None
                 )
             new_user.credentials = 1
-            
+
             db.session.add(new_user)
             db.session.commit()
 
@@ -159,7 +182,7 @@ def authorized():
             wca_id=new_user_data['wca_id'],
             dob=new_user_data['dob']
         )
-        
+
         if new_user_data['is_delegate']:
             new_user.credentials = 2
         else:

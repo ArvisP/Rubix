@@ -59,10 +59,6 @@ def profile():
 def announcements():
     return render_template('announcements.html')
 
-
-
-
-
 @app.route('/comp-schedule')
 def schedule():
     return render_template('schedule.html')

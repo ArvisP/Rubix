@@ -1,19 +1,19 @@
 {% extends 'competition_layout.html' %}
 {% block comp_content %}
 <div class="container mx-0 row card">
-    <div class="container col-5 mx-0">
+    <div class="container col-8 mx-0">
         <dl class="row my-2">
-            <dt class="col-4 text-right">Date:</dt>
-            <dd class="col-8">{{ comp.date }}</dd>
-            <dt class="col-4 text-right">Address:</dt>
-            <dd class="col-8">
+            <dt class="col-6 text-right">Date:</dt>
+            <dd class="col-6">{{ comp.date }}</dd>
+            <dt class="col-6 text-right">Address:</dt>
+            <dd class="col-6">
                 <p class="my-0">
                     {{ comp.address }}
                 </p>
                 <p class="my-0">{{comp.city}}, {{comp.state}}, {{comp.zipcode}}</p>
             </dd>
-            <dt class="col-4 text-right">Organizer:</dt>
-            <dd class="col-8">{{organizer.first_name}} {{organizer.last_name}}</dd>
+            <dt class="col-6 text-right">Organizer:</dt>
+            <dd class="col-6">{{organizer.first_name}} {{organizer.last_name}}</dd>
         </dl>
     </div>
 

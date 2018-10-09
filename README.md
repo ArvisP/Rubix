@@ -1,4 +1,12 @@
 # Rubix
+Web Development project to create a hub for Rubik's Cube enthusiasts. 
+
+The technology used in this project are: 
+- Python 3.0+
+- Flask
+- OAuth
+- Heroku
+- Bootstrap
 
 # Deployed using Heroku:
 > https://gentle-beyond-16492.herokuapp.com/

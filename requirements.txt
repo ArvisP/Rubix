@@ -54,7 +54,7 @@ psycopg2==2.7.3.2
 ptyprocess==0.5.2
 pycparser==2.18
 pycryptodome==3.4.7
-Pygments==2.2.0
+Pygments==2.7.4
 python-engineio==1.7.0
 python-socketio==1.8.1
 requests==2.18.4
